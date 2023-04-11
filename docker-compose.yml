@@ -1,0 +1,6 @@
+version: '3'
+services:
+  meyer-mind-studio-frontend:
+    build: .
+    ports:
+      - "12401:80"
