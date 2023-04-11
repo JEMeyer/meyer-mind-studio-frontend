@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { credentialsState } from '../state/userState';
 import { useSetRecoilState } from 'recoil';
 import { GoogleLogin} from '@react-oauth/google';
-import jwt from 'jsonwebtoken';
+import jwt_decode from "jwt-decode";
+import styled from 'styled-components';
 
 interface Profile {
     picture?: string;
@@ -20,22 +21,15 @@ const GoogleAuth: React.FC = () => {
     return (
         <div>
             {profile ? (
-                <div>
-                    <img src={profile.picture} alt="user" />
-                    <h3>User Logged in</h3>
-                    <p>Name: {profile.name}</p>
-                    <p>Email Address: {profile.email}</p>
-                    <br />
-                    <br />
-                    <button onClick={() => {
+                    <LogoutButton onClick={() => {
                         setCredentials(null);
                         setProfile(null);
-                    }}>Log out</button>
-                </div>
+                    }}>Log out</LogoutButton>
             ) : (
                 <GoogleLogin
                     onSuccess={(credentialResponse: any) => {
-                        console.log(setProfile(jwt.decode(credentialResponse) as Profile));
+                        setCredentials(credentialResponse.credential);
+                        setProfile(jwt_decode(credentialResponse.credential) as Profile);
                     }}
                     onError={() => {
                         console.log('Login Failed');
@@ -47,3 +41,13 @@ const GoogleAuth: React.FC = () => {
 };
 
 export default GoogleAuth;
+
+const LogoutButton = styled.button`
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+`;
