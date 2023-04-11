@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { tabState } from '../state/appState';
 import UserMenu from './molecules/userMenu';
-import FlexDiv from './atoms/flexDiv';
+import { credentialsState } from '../state/userState';
 
 export const TabList = [
     { id: 1, name: 'Home' },
@@ -13,6 +13,7 @@ export const TabList = [
 
 const Header: React.FC = () => {
     const [activeTab, setActiveTab] = useRecoilState(tabState);
+    const credentials = useRecoilValue(credentialsState);
 
     const handleTabClick = (tabId: number) => {
         setActiveTab(tabId);
@@ -27,6 +28,7 @@ const Header: React.FC = () => {
                         key={tab.id}
                         onClick={() => handleTabClick(tab.id)}
                         isActive={tab.id === activeTab}
+                        isHidden={tab.id != 1 && !credentials}
                     >
                         {tab.name}
                     </Tab>
@@ -55,8 +57,9 @@ const TabContainer = styled.div`
   list-style-type: none;
 `;
 
-const Tab = styled.button<{ isActive?: boolean }>`
+const Tab = styled.button<{ isActive?: boolean,  isHidden?: boolean }>`
 background-color: ${({ isActive }) => (isActive ? '#ff9900' : 'transparent')};
+display: ${({ isHidden }) => (isHidden ? 'none': 'block')};
 color: ${({ isActive }) => (isActive ? '#fff' : '#ccc')};
   border: none;
   padding: 12px 24px;

@@ -40,6 +40,7 @@ const StoryboardGenerator: React.FC = () => {
             toast.error(`Failed :( ${error}`, {
                 position: "top-center", theme: 'dark'
             })
+            setLoading(false);
             console.error('Failed to call API:', error);
         }
     };
