@@ -28,7 +28,6 @@ const StoryboardGenerator: React.FC = () => {
                 },
                 responseType: 'arraybuffer',
             });
-            console.log('API response:', response.data);
             setLoading(false);
 
             const blob = new Blob([response.data], { type: 'video/mp4' });
@@ -48,11 +47,12 @@ const StoryboardGenerator: React.FC = () => {
     return (
         <FlexDiv flexDirection='column'>
             {imageDataUrl ? <CentralVideo src={imageDataUrl} controls/> : <CentralImage src={placeholderImage2} alt="Generated image" />}
-            <FlexDiv width='512px' justifyContent='space-between'>
+            <FlexDiv width='512px'justifyContent='flex-end' flexWrap='wrap'>
                 <StyledTextarea
                     value={inputValue}
                     onChange={handleTextareaChange}
                 />
+                <FlexDiv height='5px' width='100%' />
                 <StyledButton onClick={handleButtonClick}>Submit</StyledButton>
             </FlexDiv>
             {loading && (
@@ -71,10 +71,12 @@ const CentralVideo = styled.video`
   width: 512px;
   height: 512px;
   object-fit: cover;
+  margin-bottom: 10px;
 `;
 
 const CentralImage = styled.img`
   width: 512px;
   height: 512px;
   object-fit: cover;
+  margin-bottom: 10px;
 `;

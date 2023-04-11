@@ -5,6 +5,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import jwt_decode from "jwt-decode";
 import StyledButton from '../atoms/button';
 import styled from 'styled-components';
+import { toast } from 'react-toastify';
 
 interface Profile {
     picture?: string;
@@ -38,7 +39,7 @@ const UserMenu: React.FC = () => {
                         setProfile(jwt_decode(credentialResponse.credential) as Profile);
                     }}
                     onError={() => {
-                        console.log('Login Failed');
+                        toast.error('Login Failed');
                     }}
                 />
             )}

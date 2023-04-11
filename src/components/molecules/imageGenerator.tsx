@@ -8,10 +8,12 @@ import CustomInput from '../atoms/input';
 import FlexDiv from '../atoms/flexDiv';
 import { placeholderImage1 } from '../../utils/globals';
 import { Spinner, LoadingOverlay } from './loadingOverlay';
+import StyledToggle from '../atoms/toggle';
 
 const ImageGenerator: React.FC = () => {
     const [inputValue, setInputValue] = useState('');
     const [imageDataUrl, setImageDataUrl] = useState('');
+    const [upscalePrompt, setUpscalePrompt] = useState(true);
     const [loading, setLoading] = useState(false);
     const api = useApi();
 
@@ -19,17 +21,28 @@ const ImageGenerator: React.FC = () => {
         setInputValue(event.target.value);
     };
 
+    const handleCheckboxChange = (newValue: boolean) => {
+        setUpscalePrompt(newValue);
+    };
+
     const handleButtonClick = async () => {
         try {
             setLoading(true);
-            const response = await api.post('/promptToImage', { prompt: inputValue }, {
+            let finalPrompt = inputValue;
+            if (upscalePrompt) {
+                finalPrompt = (await api.post('promptToImagePrompt', { prompt: inputValue }, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })).data;
+            }
+            const response = await api.post('/promptToImage', { prompt: finalPrompt }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 responseType: 'arraybuffer',
             });
             setLoading(false);
-            console.log('API response:', response.data);
 
             const blob = new Blob([response.data], { type: 'image/png' });
             const reader = new FileReader();
@@ -48,12 +61,18 @@ const ImageGenerator: React.FC = () => {
     return (
         <FlexDiv flexDirection='column'>
             <CentralImage src={imageDataUrl || placeholderImage1} alt="Generated image" />
-            <FlexDiv width='512px' justifyContent='space-between'>
+            <FlexDiv width='512px' justifyContent='flex-end' flexWrap='wrap'>
                 <CustomInput
                     value={inputValue}
                     onChange={handleInputChange}
                     width='100%'
                 />
+                <FlexDiv height='40px'>
+                    <span>Prompt Enhancement</span>
+                    <FlexDiv width='5px' />
+                    <StyledToggle enabled={upscalePrompt} onChange={handleCheckboxChange} />
+                </FlexDiv>
+                <FlexDiv width='100%' />
                 <StyledButton onClick={handleButtonClick}>Submit</StyledButton>
             </FlexDiv>
             {loading && (
@@ -71,4 +90,5 @@ const CentralImage = styled.img`
   width: 512px;
   height: 512px;
   object-fit: cover;
+  margin-bottom: 10px;
 `;

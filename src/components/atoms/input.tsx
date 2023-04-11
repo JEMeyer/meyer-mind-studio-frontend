@@ -23,7 +23,6 @@ interface InputWrapperProps {
   width?: string;
 }
 
-
 const InputWrapper = styled.div<InputWrapperProps>`
   display: inline-block;
   background-color: #fff;
