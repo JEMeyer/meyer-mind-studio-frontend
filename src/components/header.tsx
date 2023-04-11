@@ -3,11 +3,12 @@ import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { tabState } from '../state/appState';
 import UserMenu from './molecules/userMenu';
+import FlexDiv from './atoms/flexDiv';
 
 export const TabList = [
     { id: 1, name: 'Home' },
-    { id: 2, name: 'Storyboard Creation' },
-    { id: 3, name: 'Image Generation' },
+    { id: 2, name: 'Storyboard' },
+    { id: 3, name: 'Image' },
 ];
 
 const Header: React.FC = () => {
@@ -70,6 +71,6 @@ color: ${({ isActive }) => (isActive ? '#fff' : '#ccc')};
 `;
 
 const AppName = styled.h1`
-color: white;
-font-size: 24px;
+    color: white;
+    font-size: 24px;
 `;
