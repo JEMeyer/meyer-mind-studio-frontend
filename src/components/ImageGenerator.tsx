@@ -1,6 +1,7 @@
 // src/ExampleComponent.tsx
 import React, { useState } from 'react';
 import { useApi } from '../services/backend';
+import styled from 'styled-components';
 
 const ImageGenerator: React.FC = () => {
     const [inputValue, setInputValue] = useState('');
@@ -46,3 +47,20 @@ const ImageGenerator: React.FC = () => {
 };
 
 export default ImageGenerator;
+const CentralImageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const CentralImage = styled.img`
+  width: 512px;
+  height: 512px;
+  object-fit: cover;
+`;
+
+const TextBox = styled.div`
+  margin-top: 20px;
+  text-align: center;
+  width: 512px;
+`;
