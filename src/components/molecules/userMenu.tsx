@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { credentialsState } from '../state/userState';
+import { credentialsState } from '../../state/userState';
 import { useSetRecoilState } from 'recoil';
 import { GoogleLogin } from '@react-oauth/google';
 import jwt_decode from "jwt-decode";
-import StyledButton from '../components/atoms/button';
+import StyledButton from '../atoms/button';
+import styled from 'styled-components';
 
 interface Profile {
     picture?: string;
@@ -14,17 +15,22 @@ interface Profile {
     email_verified?: boolean;
 }
 
-const GoogleAuth: React.FC = () => {
+const UserMenu: React.FC = () => {
     const [profile, setProfile] = useState<Profile | null>(null);
     const setCredentials = useSetRecoilState(credentialsState);
 
     return (
         <div>
             {profile ? (
+                <UserMenuWrapper>
+                    <UserAvatar src={profile.picture} alt={profile.picture} />
+                    <UserName>{profile.name}</UserName>
                     <StyledButton onClick={() => {
                         setCredentials(null);
                         setProfile(null);
                     }}>Log out</StyledButton>
+                </UserMenuWrapper>
+
             ) : (
                 <GoogleLogin
                     onSuccess={(credentialResponse: any) => {
@@ -40,4 +46,22 @@ const GoogleAuth: React.FC = () => {
     );
 };
 
-export default GoogleAuth;
+export default UserMenu;
+
+const UserMenuWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 8px;
+`;
+
+const UserAvatar = styled.img`
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+`;
+
+const UserName = styled.span`
+    font-size: 16px;
+    font-weight: 500;
+    color: #fff;
+`;

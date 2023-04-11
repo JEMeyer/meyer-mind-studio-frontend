@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import GoogleAuth from '../auth/GoogleAuth';
 import { useRecoilState } from 'recoil';
 import { tabState } from '../state/appState';
+import UserMenu from './molecules/userMenu';
 
 export const TabList = [
     { id: 1, name: 'Home' },
@@ -31,7 +31,7 @@ const Header: React.FC = () => {
                     </Tab>
                 ))}
             </TabContainer>
-            <GoogleAuth />
+            <UserMenu />
         </HeaderWrapper>
     );
 };
