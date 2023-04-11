@@ -1,22 +1,17 @@
 import styled from 'styled-components';
-import GoogleAuth from './auth/GoogleAuth';
-import ImageGenerator from './components/ImageGenerator';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Header from './components/header';
+import Page from './components/page';
 
 function App() {
   return (
     <div className="App">
       <Container>
-        <Banner>
-          <AppName>Meyer Mind Studio</AppName>
-          <GoogleAuth />
-        </Banner>
-        <Main>
-          {/* <Carousel /> */}
-          <ImageGenerator /> 
-        </Main>
+        <Header />
+        <Page />
       </Container>
-      {/* 
-      */}
+      <ToastContainer />
     </div>
   );
 }
@@ -29,25 +24,3 @@ const Container = styled.div`
   flex-direction: column;
   height: 100vh;
 `;
-
-const Banner = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  background-color: #1e1e1e;
-`;
-
-const AppName = styled.h1`
-  color: white;
-  font-size: 24px;
-`;
-
-const Main = styled.main`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-`;
-

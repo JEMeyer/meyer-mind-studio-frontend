@@ -1,0 +1,2 @@
+export const placeholderImage1 = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP._F7NJ7dQhywctycKwCBjJgHaHa%26pid%3DApi&f=1&ipt=301a25ba7679031a9be9245cfa5659717b0c3dded591df9461ecc72d4d8c89fc&ipo=images';
+export const placeholderImage2 = 'https://upload.wikimedia.org/wikipedia/commons/3/32/A_photograph_of_an_astronaut_riding_a_horse_2022-08-28.png'

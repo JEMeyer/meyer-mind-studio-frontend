@@ -1,11 +1,18 @@
 // src/ExampleComponent.tsx
 import React, { useState } from 'react';
-import { useApi } from '../services/backend';
+import { useApi } from '../../services/backend';
 import styled from 'styled-components';
+import { toast } from 'react-toastify';
+import StyledButton from '../atoms/button';
+import CustomInput from '../atoms/input';
+import FlexDiv from '../atoms/flexDiv';
+import { placeholderImage1 } from '../../utils/globals';
+import { Spinner, LoadingOverlay } from './loadingOverlay';
 
 const ImageGenerator: React.FC = () => {
     const [inputValue, setInputValue] = useState('');
-    const [imageDataUrl, setImageDataUrl] = useState("");
+    const [imageDataUrl, setImageDataUrl] = useState('');
+    const [loading, setLoading] = useState(false);
     const api = useApi();
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -14,12 +21,14 @@ const ImageGenerator: React.FC = () => {
 
     const handleButtonClick = async () => {
         try {
+            setLoading(true);
             const response = await api.post('/promptToImage', { prompt: inputValue }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 responseType: 'arraybuffer',
             });
+            setLoading(false);
             console.log('API response:', response.data);
 
             const blob = new Blob([response.data], { type: 'image/png' });
@@ -29,38 +38,37 @@ const ImageGenerator: React.FC = () => {
             };
             reader.readAsDataURL(blob);
         } catch (error) {
+            toast.error(`Failed :( ${error}`, {
+                position: "top-center", theme: 'dark'
+            })
             console.error('Failed to call API:', error);
         }
     };
 
     return (
-        <div>
-            <input
-                type="text"
-                value={inputValue}
-                onChange={handleInputChange}
-            />
-            <button onClick={handleButtonClick}>Submit</button>
-            {imageDataUrl && <img src={imageDataUrl} alt="Generated image" />}
-        </div>
+        <FlexDiv flexDirection='column'>
+            <CentralImage src={imageDataUrl || placeholderImage1} alt="Generated image" />
+            <FlexDiv width='512px' justifyContent='space-between'>
+                <CustomInput
+                    value={inputValue}
+                    onChange={handleInputChange}
+                    width='100%'
+                />
+                <StyledButton onClick={handleButtonClick}>Submit</StyledButton>
+            </FlexDiv>
+            {loading && (
+                <LoadingOverlay>
+                    <Spinner />
+                </LoadingOverlay>
+            )}
+        </FlexDiv>
     );
 };
 
 export default ImageGenerator;
-const CentralImageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
 
 const CentralImage = styled.img`
   width: 512px;
   height: 512px;
   object-fit: cover;
-`;
-
-const TextBox = styled.div`
-  margin-top: 20px;
-  text-align: center;
-  width: 512px;
 `;

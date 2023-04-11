@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { credentialsState } from '../state/userState';
 import { useSetRecoilState } from 'recoil';
-import { GoogleLogin} from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
 import jwt_decode from "jwt-decode";
-import styled from 'styled-components';
+import StyledButton from '../components/atoms/button';
 
 interface Profile {
     picture?: string;
@@ -21,10 +21,10 @@ const GoogleAuth: React.FC = () => {
     return (
         <div>
             {profile ? (
-                    <LogoutButton onClick={() => {
+                    <StyledButton onClick={() => {
                         setCredentials(null);
                         setProfile(null);
-                    }}>Log out</LogoutButton>
+                    }}>Log out</StyledButton>
             ) : (
                 <GoogleLogin
                     onSuccess={(credentialResponse: any) => {
@@ -41,13 +41,3 @@ const GoogleAuth: React.FC = () => {
 };
 
 export default GoogleAuth;
-
-const LogoutButton = styled.button`
-  background-color: #007bff;
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 4px;
-`;
