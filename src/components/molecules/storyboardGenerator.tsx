@@ -41,8 +41,8 @@ const StoryboardGenerator: React.FC = () => {
 
     return (
         <FlexDiv flexDirection='column'>
-            {imageDataUrl ? <CentralVideo src={imageDataUrl} controls/> : <CentralImage src={placeholderImage2} alt="Generated image" />}
-            <FlexDiv width='512px'justifyContent='flex-end' flexWrap='wrap'>
+            {imageDataUrl ? <CentralVideo src={imageDataUrl} controls/> : <CentralImage src={placeholderImage2} />}
+            <FlexDiv justifyContent='flex-end' flexWrap='wrap'>
                 <StyledTextarea
                     value={inputValue}
                     onChange={handleTextareaChange}
@@ -61,17 +61,14 @@ const StoryboardGenerator: React.FC = () => {
 
 export default StoryboardGenerator;
 
-
 const CentralVideo = styled.video`
-  width: 512px;
-  height: 512px;
-  object-fit: cover;
+  max-width: 100%;
+  height: auto;
   margin-bottom: 10px;
 `;
 
 const CentralImage = styled.img`
-  width: 512px;
-  height: 512px;
-  object-fit: cover;
+  max-width: 100%;
+  height: auto;
   margin-bottom: 10px;
 `;

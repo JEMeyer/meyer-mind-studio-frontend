@@ -61,8 +61,8 @@ const ImageGenerator: React.FC = () => {
 
     return (
         <FlexDiv flexDirection='column'>
-            <CentralImage src={imageDataUrl || placeholderImage1} alt="Generated image" />
-            <FlexDiv width='512px' justifyContent='flex-end' flexWrap='wrap'>
+            <CentralImage src={imageDataUrl || placeholderImage1} />
+            <FlexDiv justifyContent='flex-end' flexWrap='wrap'>
                 <CustomInput
                     value={inputValue}
                     onChange={handleInputChange}
@@ -88,8 +88,7 @@ const ImageGenerator: React.FC = () => {
 export default ImageGenerator;
 
 const CentralImage = styled.img`
-  width: 512px;
-  height: 512px;
-  object-fit: cover;
+  max-width: 100%;
+  height: auto;
   margin-bottom: 10px;
 `;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { credentialsState } from '../../state/userState';
 import { useSetRecoilState } from 'recoil';
-import { GoogleLogin } from '@react-oauth/google';
+import { GoogleLogin, googleLogout } from '@react-oauth/google';
 import jwt_decode from "jwt-decode";
 import StyledButton from '../atoms/button';
 import styled from 'styled-components';
@@ -20,32 +20,30 @@ const UserMenu: React.FC = () => {
     const [profile, setProfile] = useState<Profile | null>(null);
     const setCredentials = useSetRecoilState(credentialsState);
 
-    return (
-        <div>
-            {profile ? (
-                <UserMenuWrapper>
-                    <UserAvatar src={profile.picture} alt={profile.picture} />
-                    <UserName>{profile.name}</UserName>
-                    <StyledButton onClick={() => {
-                        setCredentials(null);
-                        setProfile(null);
-                    }}>Log out</StyledButton>
-                </UserMenuWrapper>
-
-            ) : (
-                <GoogleLogin
-                    onSuccess={(credentialResponse: any) => {
-                        setCredentials(credentialResponse.credential);
-                        setProfile(jwt_decode(credentialResponse.credential) as Profile);
-                    }}
-                    onError={() => {
-                        toast.error('Login Failed');
-                    }}
-                    useOneTap
-                />
-            )}
-        </div>
-    );
+    return profile ?
+        (<UserMenuWrapper>
+            <UserAvatar src={profile.picture} alt={profile.picture} />
+            <UserName>{profile.name}</UserName>
+            <StyledButton onClick={() => {
+                setCredentials(null);
+                setProfile(null);
+                googleLogout();
+            }}>Log out</StyledButton>
+        </UserMenuWrapper>
+        )
+        : (
+            <GoogleContainer><GoogleLogin
+                onSuccess={(credentialResponse: any) => {
+                    setCredentials(credentialResponse.credential);
+                    setProfile(jwt_decode(credentialResponse.credential) as Profile);
+                }}
+                onError={() => {
+                    toast.error('Login Failed');
+                }}
+                useOneTap
+                auto_select
+            /></GoogleContainer>
+        )
 };
 
 export default UserMenu;
@@ -66,4 +64,8 @@ const UserName = styled.span`
     font-size: 16px;
     font-weight: 500;
     color: #fff;
+`;
+
+const GoogleContainer = styled.div`
+    display: flex;
 `;

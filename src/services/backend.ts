@@ -17,7 +17,7 @@ export const useApi = () => {
         });
 
         return axiosInstance;
-    }, [credentials]);
+    }, [credentials, apiKey]);
 
     return instance;
 };
