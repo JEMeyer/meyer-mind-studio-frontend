@@ -1,4 +1,3 @@
-// src/ExampleComponent.tsx
 import React, { useState } from 'react';
 import { useApi } from '../../services/backend';
 import styled from 'styled-components';
@@ -7,8 +6,8 @@ import StyledButton from '../atoms/button';
 import FlexDiv from '../atoms/flexDiv';
 import { StyledTextarea } from '../atoms/textarea';
 import { placeholderImage2 } from '../../utils/globals';
-import { LoadingOverlay, Spinner } from './loadingOverlay';
-import ShareLinks from './shareLinks';
+import { LoadingOverlay, Spinner } from '../molecules/loadingOverlay';
+import ShareLinks from '../molecules/shareLinks';
 
 const StoryboardGenerator: React.FC = () => {
     const [inputValue, setInputValue] = useState('');

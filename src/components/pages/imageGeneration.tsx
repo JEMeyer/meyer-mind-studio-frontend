@@ -1,5 +1,5 @@
 import React from 'react';
-import ImageGenerator from '../molecules/imageGenerator';
+import ImageGenerator from '../generators/imageGenerator';
 import StyledHeading from '../atoms/heading';
 
 const ImageGeneration: React.FC = () => {

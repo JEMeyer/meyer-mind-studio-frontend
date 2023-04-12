@@ -1,34 +1,37 @@
 import React from 'react';
 import FlexDiv from '../atoms/flexDiv';
-import { FacebookIcon, FacebookShareButton, LinkedinIcon, LinkedinShareButton, RedditIcon, RedditShareButton, TelegramIcon, TelegramShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton, } from 'react-share';
+import { FacebookIcon, FacebookShareButton, RedditIcon, RedditShareButton, TelegramIcon, TelegramShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton, } from 'react-share';
 import styled from 'styled-components';
 import ClipboardCopy from './clipboardCopy';
 
 interface ShareLinksProps {
     file: string;
+    includeSocials?: boolean;
 }
-const ShareLinks: React.FC<ShareLinksProps> = ({ file }) => {
+const ShareLinks: React.FC<ShareLinksProps> = ({ file, includeSocials = true }) => {
     const iconProps = { size: 32, round: true };
     return (
         <ShareLinksWrapper width='100%' justifyContent='flex-end'>
             <FlexDiv alignItems='center'>
-                <ShareInstructions>Copy video link or share to networks:</ShareInstructions>
+                <ShareInstructions>{`Copy link${includeSocials ? ' or share to networks' : ''}:`}</ShareInstructions>
                 <ClipboardCopy text={file} />
-                <TwitterShareButton url={file}>
-                    <TwitterIcon  {...iconProps} />
-                </TwitterShareButton>
-                <FacebookShareButton url={file}>
-                    <FacebookIcon {...iconProps} />
-                </FacebookShareButton>
-                <WhatsappShareButton url={file}>
-                    <WhatsappIcon {...iconProps} />
-                </WhatsappShareButton>
-                <RedditShareButton url={file}>
-                    <RedditIcon {...iconProps} />
-                </RedditShareButton >
-                <TelegramShareButton url={file}>
-                    <TelegramIcon {...iconProps} />
-                </TelegramShareButton>
+                {includeSocials && <>
+                    <TwitterShareButton url={file}>
+                        <TwitterIcon  {...iconProps} />
+                    </TwitterShareButton>
+                    <FacebookShareButton url={file}>
+                        <FacebookIcon {...iconProps} />
+                    </FacebookShareButton>
+                    <WhatsappShareButton url={file}>
+                        <WhatsappIcon {...iconProps} />
+                    </WhatsappShareButton>
+                    <RedditShareButton url={file}>
+                        <RedditIcon {...iconProps} />
+                    </RedditShareButton >
+                    <TelegramShareButton url={file}>
+                        <TelegramIcon {...iconProps} />
+                    </TelegramShareButton>
+                </>}
             </FlexDiv>
         </ShareLinksWrapper>
     )

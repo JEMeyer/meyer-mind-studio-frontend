@@ -1,4 +1,3 @@
-// src/ExampleComponent.tsx
 import React, { useState } from 'react';
 import { useApi } from '../../services/backend';
 import styled from 'styled-components';
@@ -7,7 +6,7 @@ import StyledButton from '../atoms/button';
 import CustomInput from '../atoms/input';
 import FlexDiv from '../atoms/flexDiv';
 import { placeholderImage1 } from '../../utils/globals';
-import { Spinner, LoadingOverlay } from './loadingOverlay';
+import { Spinner, LoadingOverlay } from '../molecules/loadingOverlay';
 import StyledToggle from '../atoms/toggle';
 
 const ImageGenerator: React.FC = () => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import StoryboardGenerator from '../molecules/storyboardGenerator';
+import StoryboardGenerator from '../generators/storyboardGenerator';
 import StyledHeading from '../atoms/heading';
 
 const StoryboardGeneration: React.FC = () => {
