@@ -7,7 +7,7 @@ interface NavigationTabsProps {
     handleTabClick: (tabId: number) => void,
     activeTab: number
 }
-export const NavigationTabs: React.FC<NavigationTabsProps> = ({ isAuthed, handleTabClick, activeTab }) => {
+const NavigationTabs: React.FC<NavigationTabsProps> = ({ isAuthed, handleTabClick, activeTab }) => {
     return (<TabContainer isAuthed={isAuthed}>
         {TabList.map((tab) => (
             <Tab

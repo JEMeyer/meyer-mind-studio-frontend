@@ -8,6 +8,7 @@ import FlexDiv from '../atoms/flexDiv';
 import { StyledTextarea } from '../atoms/textarea';
 import { placeholderImage2 } from '../../utils/globals';
 import { LoadingOverlay, Spinner } from './loadingOverlay';
+import ShareLinks from './shareLinks';
 
 const StoryboardGenerator: React.FC = () => {
     const [inputValue, setInputValue] = useState('');
@@ -42,7 +43,8 @@ const StoryboardGenerator: React.FC = () => {
     return (
         <FlexDiv flexDirection='column'>
             {imageDataUrl ? <CentralVideo src={imageDataUrl} controls/> : <CentralImage src={placeholderImage2} />}
-            <FlexDiv justifyContent='flex-end' flexWrap='wrap'>
+            {imageDataUrl && <ShareLinks file={imageDataUrl} />}
+            <FlexDiv justifyContent='flex-end' flexWrap='wrap' width='100%'>
                 <StyledTextarea
                     value={inputValue}
                     onChange={handleTextareaChange}
