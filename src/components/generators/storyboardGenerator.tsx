@@ -43,7 +43,7 @@ const StoryboardGenerator: React.FC = () => {
     return (
         <FlexDiv flexDirection='column'>
             {imageDataUrl ? <CentralVideo src={imageDataUrl} controls/> : <CentralImage src={placeholderImage2} />}
-            {imageDataUrl && <ShareLinks file={imageDataUrl} />}
+            {imageDataUrl && <ShareLinks file={encodeURI(imageDataUrl)} />}
             <FlexDiv justifyContent='flex-end' flexWrap='wrap' width='100%'>
                 <StyledTextarea
                     value={inputValue}
