@@ -1,7 +1,7 @@
 import React, { ChangeEvent }  from 'react';
 import styled from 'styled-components';
 
-interface CustomInputProps {
+interface CustomInputProps extends React.HTMLAttributes<HTMLInputElement> {
   type?: string;
   value: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -9,10 +9,10 @@ interface CustomInputProps {
   width?: string;
 }
 
-const CustomInput: React.FC<CustomInputProps> = ({ type = 'text', value, onChange, placeholder, width }) => {
+const CustomInput: React.FC<CustomInputProps> = ({ type = 'text', value, onChange, placeholder, width, ...props }) => {
   return (
     <InputWrapper width={width}>
-      <StyledInput type={type} value={value} onChange={onChange} placeholder={placeholder} />
+      <StyledInput type={type} value={value} onChange={onChange} placeholder={placeholder} {...props} />
     </InputWrapper>
   );
 };

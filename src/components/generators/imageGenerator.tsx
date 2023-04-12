@@ -8,6 +8,7 @@ import FlexDiv from '../atoms/flexDiv';
 import { placeholderImage1 } from '../../utils/globals';
 import { Spinner, LoadingOverlay } from '../molecules/loadingOverlay';
 import StyledToggle from '../atoms/toggle';
+import { executeOnEnter } from '../../utils/utilities';
 
 const ImageGenerator: React.FC = () => {
     const [inputValue, setInputValue] = useState('');
@@ -66,6 +67,7 @@ const ImageGenerator: React.FC = () => {
                     value={inputValue}
                     onChange={handleInputChange}
                     width='100%'
+                    onKeyDown={(event) => executeOnEnter(event, handleButtonClick)}
                 />
                 <FlexDiv height='40px'>
                     <span>Prompt Enhancement</span>

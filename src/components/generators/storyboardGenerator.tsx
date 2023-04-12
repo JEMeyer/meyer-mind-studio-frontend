@@ -8,6 +8,7 @@ import { StyledTextarea } from '../atoms/textarea';
 import { placeholderImage2 } from '../../utils/globals';
 import { LoadingOverlay, Spinner } from '../molecules/loadingOverlay';
 import ShareLinks from '../molecules/shareLinks';
+import { executeOnEnter } from '../../utils/utilities';
 
 const StoryboardGenerator: React.FC = () => {
     const [inputValue, setInputValue] = useState('');
@@ -47,6 +48,7 @@ const StoryboardGenerator: React.FC = () => {
                 <StyledTextarea
                     value={inputValue}
                     onChange={handleTextareaChange}
+                    onKeyDown={(event) => executeOnEnter(event, handleButtonClick)}
                 />
                 <FlexDiv height='5px' width='100%' />
                 <StyledButton onClick={handleButtonClick}>Submit</StyledButton>
