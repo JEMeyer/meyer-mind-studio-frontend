@@ -40,7 +40,7 @@ const Header: React.FC = () => {
             <AppName>Meyer Mind Studio</AppName>
             {isMobile && <Menu open={open} setOpen={setOpen} activeTab={activeTab} isAuthed={isAuthed} onLinkClick={handleLinkClick}/>}
             {!isMobile && <NavigationTabs activeTab={activeTab} handleTabClick={handleButtonClick} isAuthed={isAuthed} />}
-            <UserMenu />
+            <UserMenu setActiveTab={setActiveTab} />
         </HeaderWrapper>
     );
 };

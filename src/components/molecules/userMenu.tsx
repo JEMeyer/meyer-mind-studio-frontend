@@ -16,7 +16,11 @@ interface Profile {
     email_verified?: boolean;
 }
 
-const UserMenu: React.FC = () => {
+interface UserMenuProps {
+    setActiveTab: (tabId: number) => void
+}
+
+const UserMenu: React.FC<UserMenuProps> = ({setActiveTab}) => {
     const [profile, setProfile] = useState<Profile | null>(null);
     const setCredentials = useSetRecoilState(credentialsState);
 
@@ -28,6 +32,7 @@ const UserMenu: React.FC = () => {
                 setCredentials(null);
                 setProfile(null);
                 googleLogout();
+                setActiveTab(1);
             }}>Log out</StyledButton>
         </UserMenuWrapper>
         )
