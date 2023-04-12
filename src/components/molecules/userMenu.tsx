@@ -41,6 +41,7 @@ const UserMenu: React.FC = () => {
                     onError={() => {
                         toast.error('Login Failed');
                     }}
+                    useOneTap
                 />
             )}
         </div>

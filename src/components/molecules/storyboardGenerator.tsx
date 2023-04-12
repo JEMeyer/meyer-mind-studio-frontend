@@ -26,16 +26,10 @@ const StoryboardGenerator: React.FC = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                responseType: 'arraybuffer',
             });
             setLoading(false);
 
-            const blob = new Blob([response.data], { type: 'video/mp4' });
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                setImageDataUrl(event.target?.result as string);
-            };
-            reader.readAsDataURL(blob);
+            setImageDataUrl(`${process.env.REACT_APP_MEYER_MIND_BACKEND_URL}${response.data.filePath}`)
         } catch (error) {
             toast.error(`Failed :( ${error}`, {
                 position: "top-center", theme: 'dark'
