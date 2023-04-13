@@ -89,7 +89,12 @@ const ImageGenerator: React.FC = () => {
 export default ImageGenerator;
 
 const CentralImage = styled.img`
-  max-width: 100%;
-  height: auto;
-  margin-bottom: 10px;
+    height: auto;
+    margin-bottom: 10px;
+    display: block;
+
+    // You can customize the responsive breakpoints here
+    @media (max-width: 640px) {
+        width: 100%;
+    }
 `;

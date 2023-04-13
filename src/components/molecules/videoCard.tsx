@@ -46,7 +46,7 @@ const ExpandableContent = styled.div`
   margin-top: 15px;
 `;
 
-const DynamicVideo = styled.video`
+export const DynamicVideo = styled.video`
   height: auto;
   margin-bottom: 10px;
   display: block;

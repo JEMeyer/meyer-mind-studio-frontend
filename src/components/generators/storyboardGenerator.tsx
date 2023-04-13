@@ -11,6 +11,7 @@ import { executeOnEnter } from '../../utils/utilities';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { lastGenerateStoryboardUrlState, tabState } from '../../state/appState';
 import { getVideoURLFromFilename } from '../../state/videoState';
+import { DynamicVideo } from '../molecules/videoCard';
 
 const StoryboardGenerator: React.FC = () => {
     const [inputValue, setInputValue] = useState('');
@@ -23,7 +24,7 @@ const StoryboardGenerator: React.FC = () => {
     };
 
     const handleButtonClick = async () => {
-        const processingToast = toast('Processing your storyboard. Feel free to browse, I will notify you wwhen I\'m done.', {
+        const processingToast = toast('Processing your storyboard. Feel free to browse, I will notify you when I\'m done.', {
             position: 'top-right',
             autoClose: false,
             closeOnClick: false,
@@ -65,7 +66,7 @@ const StoryboardGenerator: React.FC = () => {
 
     return (
         <FlexDiv flexDirection='column'>
-            {imageDataUrl ? <CentralVideo src={imageDataUrl} controls /> : <CentralImage src={placeholderImage2} />}
+            {imageDataUrl ? <DynamicVideo src={imageDataUrl} controls /> : <CentralImage src={placeholderImage2} />}
             {imageDataUrl && <ShareLinks file={encodeURI(imageDataUrl)} />}
             <FlexDiv justifyContent='flex-end' flexWrap='wrap' width='100%'>
                 <StyledTextarea
@@ -82,14 +83,13 @@ const StoryboardGenerator: React.FC = () => {
 
 export default StoryboardGenerator;
 
-const CentralVideo = styled.video`
-        max - width: 100 %;
-        height: auto;
-        margin - bottom: 10px;
-        `;
-
 const CentralImage = styled.img`
-        max - width: 100 %;
-        height: auto;
-        margin - bottom: 10px;
-        `;
+    height: auto;
+    margin-bottom: 10px;
+    display: block;
+
+    // You can customize the responsive breakpoints here
+    @media (max-width: 640px) {
+        width: 100%;
+    }
+`;
