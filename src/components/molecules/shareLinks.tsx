@@ -13,7 +13,7 @@ const ShareLinks: React.FC<ShareLinksProps> = ({ file, includeSocials = true }) 
     return (
         <ShareLinksWrapper width='100%' justifyContent='flex-end'>
             <FlexDiv alignItems='center'>
-                <ShareInstructions>{`Copy link${includeSocials ? ' or share to networks' : ''}:`}</ShareInstructions>
+                <ShareInstructions>{'Click the share icon to copy link:'}</ShareInstructions>
                 <ClipboardCopy text={file} />
                 {includeSocials && <>
                     <TwitterShareButton url={file}>

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import CustomButton from '../atoms/button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShareFromSquare } from '@fortawesome/free-solid-svg-icons';
+import styled from 'styled-components';
 
 interface ClipboardCopyProps {
     text: string;
@@ -33,12 +35,14 @@ const ClipboardCopy: React.FC<ClipboardCopyProps> = ({ text }) => {
     }
 
     return (
-        <div>
-            <CustomButton onClick={handleCopyClick} small margin="5px 5px 9px 5px">
-                <span>{isCopied ? 'Copied!' : 'Copy'}</span>
-            </CustomButton>
-        </div>
-    );
+        <CopyWrapper>
+            <FontAwesomeIcon style={{ fontSize: '1.5rem' }} icon={faShareFromSquare} onClick={handleCopyClick} color={isCopied ? 'blue' : 'black'} />
+        </CopyWrapper>);
 }
 
 export default ClipboardCopy;
+
+const CopyWrapper = styled.div`
+    padding: 3px;
+    margin-bottom: 3px;
+`;

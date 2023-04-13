@@ -8,7 +8,7 @@ interface NavigationTabsProps {
     activeTab: number
 }
 const NavigationTabs: React.FC<NavigationTabsProps> = ({ isAuthed, handleTabClick, activeTab }) => {
-    return (<TabContainer isAuthed={isAuthed}>
+    return (<TabContainer>
         {TabList.map((tab) => (
             <Tab
                 key={tab.id}
@@ -24,11 +24,7 @@ const NavigationTabs: React.FC<NavigationTabsProps> = ({ isAuthed, handleTabClic
 
 export default NavigationTabs
 
-interface TabContainerProps {
-    isAuthed: boolean
-}
-
-const TabContainer = styled.div<TabContainerProps>`
+const TabContainer = styled.div`
   display: flex;
   align-items: center;
   padding: 0;

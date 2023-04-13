@@ -19,3 +19,5 @@ export const formatDate = (dateString:string) => {
     timeZoneName: 'short',
   });
 };
+
+export  const getVideoURLFromFilename = (filename: string) =>  `${process.env.REACT_APP_MEYER_MIND_BACKEND_URL}${filename}`;

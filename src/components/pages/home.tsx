@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import StyledHeading from '../atoms/heading';
-import { useFetchVideos } from '../../state/videoState';
 import VideoArray from '../molecules/videoArray';
+import useFetchVideos from '../../hooks/useFetchVideos';
 
 const Home: React.FC = () => {
     const { fetchVideos } = useFetchVideos();

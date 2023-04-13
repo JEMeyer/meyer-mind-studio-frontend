@@ -1,15 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 
-interface CustomButtonProps {
+interface CustomButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   onClick?: () => void;
   children: React.ReactNode;
   small?: boolean;
   margin?: string;
 }
 
-const CustomButton: React.FC<CustomButtonProps> = ({ onClick, children, small, margin }) => {
-  return <StyledButton onClick={onClick} small={small} margin={margin}>{children}</StyledButton>;
+const CustomButton: React.FC<CustomButtonProps> = ({ onClick, children, small, margin, ...props }) => {
+  return <StyledButton onClick={onClick} small={small} margin={margin} {...props}>{children}</StyledButton>;
 };
 
 export default CustomButton;
@@ -30,12 +30,16 @@ const StyledButton = styled.button<StyledButtonProps>`
   cursor: pointer;
   outline: none;
   transition: background-color 0.3s ease;
-  &:hover {
-    background-color: #0056b3;
+  
+  &:not(:disabled) {
+    &:hover {
+      background-color: #0056b3;
+    }
+    &:active {
+      background-color: #004499;
+    }
   }
-  &:active {
-    background-color: #004499;
-  }
+
   &:disabled {
     background-color: #999;
     cursor: not-allowed;

@@ -5,14 +5,29 @@ import App from './App';
 import reportWebVitals from './utils/reportWebVitals';
 import { RecoilRoot } from 'recoil';
 
+// import your fontawesome library
+import './fontawesome';
+import { createGlobalStyle } from 'styled-components';
+import CredentialsProvider from './context/credentialsProviter';
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+const GlobalStyles = createGlobalStyle`
+.svg-inline--fa {
+  cursor: pointer;
+}
+`
+
 root.render(
   <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID as string}>
     <React.StrictMode>
       <RecoilRoot>
-        <App />
+        <CredentialsProvider>
+          <GlobalStyles />
+          <App />
+        </CredentialsProvider>
       </RecoilRoot>
     </React.StrictMode>
   </GoogleOAuthProvider >

@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { credentialsState } from '../../state/userState';
-import { useRecoilState } from 'recoil';
+import React from 'react';
 import { GoogleLogin, googleLogout } from '@react-oauth/google';
 import jwt_decode from "jwt-decode";
 import StyledButton from '../atoms/button';
 import styled from 'styled-components';
 import { toast } from 'react-toastify';
+import useFetchVideos from '../../hooks/useFetchVideos';
+import { useCredentials } from '../../hooks/useCredentials';
 
 interface Profile {
     picture?: string;
@@ -21,22 +21,16 @@ interface UserMenuProps {
 }
 
 const UserMenu: React.FC<UserMenuProps> = ({setActiveTab}) => {
-    const [profile, setProfile] = useState<Profile | null>(null);
-    const [credentials, setCredentials] = useRecoilState(credentialsState);
-
-    useEffect(() => {
-        if (credentials == null && profile != null) {
-            setProfile(null);
-        }
-    }, [credentials, setProfile, profile]);
+    const [credentials, setCredentials] = useCredentials();
+    const { fetchVideos } = useFetchVideos();
+    const profile = credentials ? jwt_decode(credentials) as Profile : null;
 
     return profile ?
         (<UserMenuWrapper>
-            <UserAvatar src={profile.picture} alt={profile.picture} />
+            <UserAvatar src={profile.picture} referrerPolicy='no-referrer' />
             <UserName>{profile.name}</UserName>
             <StyledButton onClick={() => {
                 setCredentials(null);
-                setProfile(null);
                 googleLogout();
                 setActiveTab(1);
             }}>Log out</StyledButton>
@@ -46,7 +40,7 @@ const UserMenu: React.FC<UserMenuProps> = ({setActiveTab}) => {
             <GoogleContainer><GoogleLogin
                 onSuccess={(credentialResponse: any) => {
                     setCredentials(credentialResponse.credential);
-                    setProfile(jwt_decode(credentialResponse.credential) as Profile);
+                    fetchVideos();
                 }}
                 onError={() => {
                     toast.error('Login Failed');

@@ -1,16 +1,15 @@
 import React from 'react';
-import { useRecoilValue } from 'recoil';
-import { tabState } from '../state/appState';
 import Home from './pages/home';
 import ImageGeneration from './pages/imageGeneration';
 import StoryboardGeneration from './pages/storyboardGeneration';
 import styled from 'styled-components';
 import FlexDiv from './atoms/flexDiv';
+import useAppState from '../hooks/useAppState';
 
 const Page: React.FC = () => {
-    const activePage = useRecoilValue(tabState);
+    const {tab} = useAppState();
 
-    switch (activePage) {
+    switch (tab) {
         case 1:
             return <Main><Home /></Main>
         case 2:

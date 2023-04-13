@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import VideoDetails from './videoDetails';
-import { Video, getVideoURLFromFilename } from '../../state/videoState';
+import Upvote from './upvote';
+import FlexDiv from '../atoms/flexDiv';
+import StyledHeading from '../atoms/heading';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { Video } from '../../hooks/useFetchVideos';
+import { getVideoURLFromFilename } from '../../utils/helpers';
 
 interface VideoCardProps {
   video: Video
@@ -15,8 +21,22 @@ const VideoCard = ({ video }: VideoCardProps) => {
   };
 
   return (
-    <VideoCardContainer onClick={toggleExpand}>
+    <VideoCardContainer>
       <DynamicVideo src={`${getVideoURLFromFilename(video.public_path)}`} controls />
+      <VideoMetadataContainer justifyContent='flex-start' alignItems='center'>
+        <Upvote video={video} />
+        <FlexDiv width='15px' />
+        <StyledHeading level='h2' text={video.name} marginBottom='0' />
+        <FlexDiv flexGrow={1} justifyContent='flex-end'>
+          <StyledIcon 
+            icon={faChevronDown} 
+            onClick={toggleExpand}
+            style={{
+              transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
+            }} 
+          />
+        </FlexDiv>
+      </VideoMetadataContainer>
       {isExpanded && (
         <ExpandableContent>
           <VideoDetails video={video} />
@@ -34,7 +54,6 @@ const VideoCardContainer = styled.div`
   border-radius: 5px;
   padding: 15px;
   margin-bottom: 15px;
-  cursor: pointer;
   transition: background-color 0.2s;
 
   &:hover {
@@ -44,6 +63,12 @@ const VideoCardContainer = styled.div`
 
 const ExpandableContent = styled.div`
   margin-top: 15px;
+  max-width: 512px;
+
+  // You can customize the responsive breakpoints here
+  @media (max-width: 640px) {
+    max-width: 100%;
+  }
 `;
 
 export const DynamicVideo = styled.video`
@@ -54,5 +79,18 @@ export const DynamicVideo = styled.video`
   // You can customize the responsive breakpoints here
   @media (max-width: 640px) {
     width: 100%;
+  }
+`;
+
+const StyledIcon = styled(FontAwesomeIcon)`
+  transition: transform 0.3s ease;
+`;
+
+const VideoMetadataContainer = styled(FlexDiv)`
+  max-width: 512px;
+
+  // You can customize the responsive breakpoints here
+  @media (max-width: 640px) {
+    max-width: 100%;
   }
 `;

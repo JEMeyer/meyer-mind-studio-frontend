@@ -7,16 +7,13 @@ import FlexDiv from '../atoms/flexDiv';
 import { StyledTextarea } from '../atoms/textarea';
 import { placeholderImage2 } from '../../utils/globals';
 import ShareLinks from '../molecules/shareLinks';
-import { executeOnEnter } from '../../utils/utilities';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { lastGenerateStoryboardUrlState, tabState } from '../../state/appState';
-import { getVideoURLFromFilename } from '../../state/videoState';
+import { executeOnEnter, getVideoURLFromFilename } from '../../utils/helpers';
+import useAppState from '../../hooks/useAppState';
 import { DynamicVideo } from '../molecules/videoCard';
 
 const StoryboardGenerator: React.FC = () => {
     const [inputValue, setInputValue] = useState('');
-    const [imageDataUrl, setImageDataUrl] = useRecoilState(lastGenerateStoryboardUrlState);
-    const setActiveTab = useSetRecoilState(tabState);
+    const {lastGeneratedStoryboardUrl, setLastGeneratedStoryboardUrl, setTab} = useAppState();
     const api = useApi();
 
     const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -46,11 +43,11 @@ const StoryboardGenerator: React.FC = () => {
                 closeButton: true,
                 closeOnClick: true,
                 onClick: () => {
-                    setActiveTab(2);
+                    setTab(2);
                 },
             });
 
-            setImageDataUrl(`${getVideoURLFromFilename(response.data.filePath)}`)
+            setLastGeneratedStoryboardUrl(`${getVideoURLFromFilename(response.data.filePath)}`)
         } catch (error) {
             // Update the toast to error
             toast.update(processingToast, {
@@ -66,8 +63,8 @@ const StoryboardGenerator: React.FC = () => {
 
     return (
         <FlexDiv flexDirection='column'>
-            {imageDataUrl ? <DynamicVideo src={imageDataUrl} controls /> : <CentralImage src={placeholderImage2} />}
-            {imageDataUrl && <ShareLinks file={encodeURI(imageDataUrl)} />}
+            {lastGeneratedStoryboardUrl ? <DynamicVideo src={lastGeneratedStoryboardUrl} controls /> : <CentralImage src={placeholderImage2} />}
+            {lastGeneratedStoryboardUrl && <ShareLinks file={encodeURI(lastGeneratedStoryboardUrl)} />}
             <FlexDiv justifyContent='flex-end' flexWrap='wrap' width='100%'>
                 <StyledTextarea
                     value={inputValue}

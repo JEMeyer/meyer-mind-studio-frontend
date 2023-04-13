@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { tabState } from '../state/appState';
 import UserMenu from './molecules/userMenu';
-import { credentialsState } from '../state/userState';
 import Burger from './molecules/burger';
 import Menu from './molecules/menu';
 import NavigationTabs from './molecules/navigationTabs';
 import { useMediaQuery } from 'react-responsive';
+import useAppState from '../hooks/useAppState';
+import { useGetCredentials } from '../hooks/useCredentials';
 
 export const TabList = [
     { id: 1, name: 'Home' },
@@ -17,12 +16,12 @@ export const TabList = [
 
 const Header: React.FC = () => {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
-    const [activeTab, setActiveTab] = useRecoilState(tabState);
-    const credentials = useRecoilValue(credentialsState);
+    const {tab, setTab} = useAppState();
+    const credentials = useGetCredentials();
     const [open, setOpen] = useState(false);
 
     const handleButtonClick = (tabId: number) => {
-        setActiveTab(tabId);
+        setTab(tabId);
         setOpen(false);
     };
 
@@ -32,15 +31,13 @@ const Header: React.FC = () => {
         handleButtonClick(tab);
     }
 
-    const isAuthed = !!credentials || !!process.env.REACT_APP_BACKEND_API_KEY;
-
     return (
         <HeaderWrapper>
             {isMobile && <Burger open={open} setOpen={setOpen} />}
             <AppName>Meyer Mind Studio</AppName>
-            {isMobile && <Menu open={open} setOpen={setOpen} activeTab={activeTab} isAuthed={isAuthed} onLinkClick={handleLinkClick}/>}
-            {!isMobile && <NavigationTabs activeTab={activeTab} handleTabClick={handleButtonClick} isAuthed={isAuthed} />}
-            <UserMenu setActiveTab={setActiveTab} />
+            {isMobile && <Menu open={open} setOpen={setOpen} activeTab={tab} isAuthed={!!credentials} onLinkClick={handleLinkClick}/>}
+            {!isMobile && <NavigationTabs activeTab={tab} handleTabClick={handleButtonClick} isAuthed={!!credentials} />}
+            <UserMenu setActiveTab={setTab} />
         </HeaderWrapper>
     );
 };

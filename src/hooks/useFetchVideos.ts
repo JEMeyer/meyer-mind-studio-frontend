@@ -1,6 +1,7 @@
 import { atom, useRecoilState } from 'recoil';
 import { useApi } from '../services/backend';
 import { useCallback } from 'react';
+import { useGetCredentials } from './useCredentials';
 
 export interface Video {
   id: string;
@@ -9,6 +10,7 @@ export interface Video {
   prompt: string;
   total_votes: number;
   created_at: string;
+  user_vote: number | null;
 }
 
 export const videoListState = atom<Video[]>({
@@ -16,9 +18,10 @@ export const videoListState = atom<Video[]>({
   default: [],
 });
 
-export const useFetchVideos = () => {
+const useFetchVideos = () => {
     const [videos, setVideos] = useRecoilState(videoListState);
-    const api = useApi();
+    const credentials = useGetCredentials();
+    const api = useApi(!!credentials);
   
     const fetchVideos = useCallback(async () => {
       try {
@@ -33,4 +36,4 @@ export const useFetchVideos = () => {
     return { videos, fetchVideos };
   };
 
-  export  const getVideoURLFromFilename = (filename: string) =>  `${process.env.REACT_APP_MEYER_MIND_BACKEND_URL}${filename}`;
+export default useFetchVideos;

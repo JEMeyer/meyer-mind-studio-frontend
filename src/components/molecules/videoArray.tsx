@@ -1,11 +1,10 @@
 import React from 'react';
-import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { videoListState } from '../../state/videoState';
 import VideoCard from './videoCard';
+import useFetchVideos from '../../hooks/useFetchVideos';
 
 const VideoArray: React.FC = () => {
-    const videos = useRecoilValue(videoListState);
+    const { videos } = useFetchVideos();
     return (
         <GridContainer>
             {videos.map((item) => (
