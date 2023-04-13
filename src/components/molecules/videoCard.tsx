@@ -27,15 +27,14 @@ const VideoCard = ({ video }: VideoCardProps) => {
         <Upvote video={video} />
         <FlexDiv width='15px' />
         <StyledHeading level='h2' text={video.name} marginBottom='0' />
-        <FlexDiv flexGrow={1} justifyContent='flex-end'>
+        <IconWrapper flexGrow={1} justifyContent='flex-end' onClick={toggleExpand} height='100%'>
           <StyledIcon 
             icon={faChevronDown} 
-            onClick={toggleExpand}
             style={{
               transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
             }} 
           />
-        </FlexDiv>
+        </IconWrapper>
       </VideoMetadataContainer>
       {isExpanded && (
         <ExpandableContent>
@@ -84,6 +83,10 @@ export const DynamicVideo = styled.video`
 
 const StyledIcon = styled(FontAwesomeIcon)`
   transition: transform 0.3s ease;
+`;
+
+const IconWrapper = styled(FlexDiv)`
+  cursor: pointer;
 `;
 
 const VideoMetadataContainer = styled(FlexDiv)`
