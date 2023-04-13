@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { credentialsState } from '../../state/userState';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { GoogleLogin, googleLogout } from '@react-oauth/google';
 import jwt_decode from "jwt-decode";
 import StyledButton from '../atoms/button';
@@ -22,7 +22,13 @@ interface UserMenuProps {
 
 const UserMenu: React.FC<UserMenuProps> = ({setActiveTab}) => {
     const [profile, setProfile] = useState<Profile | null>(null);
-    const setCredentials = useSetRecoilState(credentialsState);
+    const [credentials, setCredentials] = useRecoilState(credentialsState);
+
+    useEffect(() => {
+        if (credentials == null && profile != null) {
+            setProfile(null);
+        }
+    }, [credentials, setProfile, profile]);
 
     return profile ?
         (<UserMenuWrapper>

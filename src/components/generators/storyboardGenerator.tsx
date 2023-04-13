@@ -6,14 +6,16 @@ import StyledButton from '../atoms/button';
 import FlexDiv from '../atoms/flexDiv';
 import { StyledTextarea } from '../atoms/textarea';
 import { placeholderImage2 } from '../../utils/globals';
-import { LoadingOverlay, Spinner } from '../molecules/loadingOverlay';
 import ShareLinks from '../molecules/shareLinks';
 import { executeOnEnter } from '../../utils/utilities';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { lastGenerateStoryboardUrlState, tabState } from '../../state/appState';
+import { getVideoURLFromFilename } from '../../state/videoState';
 
 const StoryboardGenerator: React.FC = () => {
     const [inputValue, setInputValue] = useState('');
-    const [imageDataUrl, setImageDataUrl] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [imageDataUrl, setImageDataUrl] = useRecoilState(lastGenerateStoryboardUrlState);
+    const setActiveTab = useSetRecoilState(tabState);
     const api = useApi();
 
     const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -21,28 +23,49 @@ const StoryboardGenerator: React.FC = () => {
     };
 
     const handleButtonClick = async () => {
+        const processingToast = toast('Processing your storyboard. Feel free to browse, I will notify you wwhen I\'m done.', {
+            position: 'top-right',
+            autoClose: false,
+            closeOnClick: false,
+            closeButton: false,
+            draggable: false,
+        });
         try {
-            setLoading(true);
             const response = await api.post('/promptToStoryboard', { prompt: inputValue }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
-            setLoading(false);
 
-            setImageDataUrl(`${process.env.REACT_APP_MEYER_MIND_BACKEND_URL}${response.data.filePath}`)
+            // Update the toast to success
+            toast.update(processingToast, {
+                render: 'Success! Click to view your new storyboard.',
+                type: toast.TYPE.SUCCESS,
+                autoClose: 5000,
+                closeButton: true,
+                closeOnClick: true,
+                onClick: () => {
+                    setActiveTab(2);
+                },
+            });
+
+            setImageDataUrl(`${getVideoURLFromFilename(response.data.filePath)}`)
         } catch (error) {
-            toast.error(`Failed :( ${error}`, {
-                position: "top-center", theme: 'dark'
-            })
-            setLoading(false);
+            // Update the toast to error
+            toast.update(processingToast, {
+                render: 'Error! Please try again',
+                type: toast.TYPE.ERROR,
+                autoClose: 5000,
+                closeButton: true,
+                closeOnClick: true,
+            });
             console.error('Failed to call API:', error);
         }
     };
 
     return (
         <FlexDiv flexDirection='column'>
-            {imageDataUrl ? <CentralVideo src={imageDataUrl} controls/> : <CentralImage src={placeholderImage2} />}
+            {imageDataUrl ? <CentralVideo src={imageDataUrl} controls /> : <CentralImage src={placeholderImage2} />}
             {imageDataUrl && <ShareLinks file={encodeURI(imageDataUrl)} />}
             <FlexDiv justifyContent='flex-end' flexWrap='wrap' width='100%'>
                 <StyledTextarea
@@ -53,11 +76,6 @@ const StoryboardGenerator: React.FC = () => {
                 <FlexDiv height='5px' width='100%' />
                 <StyledButton onClick={handleButtonClick}>Submit</StyledButton>
             </FlexDiv>
-            {loading && (
-                <LoadingOverlay>
-                    <Spinner />
-                </LoadingOverlay>
-            )}
         </FlexDiv>
     );
 };
@@ -65,13 +83,13 @@ const StoryboardGenerator: React.FC = () => {
 export default StoryboardGenerator;
 
 const CentralVideo = styled.video`
-  max-width: 100%;
-  height: auto;
-  margin-bottom: 10px;
-`;
+        max - width: 100 %;
+        height: auto;
+        margin - bottom: 10px;
+        `;
 
 const CentralImage = styled.img`
-  max-width: 100%;
-  height: auto;
-  margin-bottom: 10px;
-`;
+        max - width: 100 %;
+        height: auto;
+        margin - bottom: 10px;
+        `;
