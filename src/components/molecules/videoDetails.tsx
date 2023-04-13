@@ -51,6 +51,7 @@ const VideoDetails = ({video}: VideoDetailsProps  ) => {
     <div>
       <h3>{video.name}</h3>
       <MetadataContainer>
+        <MetadataItem>Prompt: {video.prompt}</MetadataItem>
         <MetadataItem>Link: <a href={encodeURI(getVideoURLFromFilename(video.public_path))}>{video.name}</a></MetadataItem>
         <MetadataItem>Created on: {formatDate(video.created_at)}</MetadataItem>
       </MetadataContainer>
