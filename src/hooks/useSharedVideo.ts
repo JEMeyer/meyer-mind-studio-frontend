@@ -21,7 +21,7 @@ const useSharedVideo = () => {
       } catch (error) {
         console.error('Error fetching 1 video: ', error);
       }
-    }, [api]);
+    }, [api, setSharedVideo]);
   
     return { sharedVideo, fetchSharedVideo };
   };
