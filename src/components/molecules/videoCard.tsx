@@ -26,15 +26,17 @@ const VideoCard = ({ video }: VideoCardProps) => {
       <VideoMetadataContainer justifyContent='flex-start' alignItems='center'>
         <Upvote video={video} />
         <FlexDiv width='15px' />
-        <StyledHeading level='h2' text={video.name} marginBottom='0' />
-        <IconWrapper flexGrow={1} justifyContent='flex-end' onClick={toggleExpand} height='100%'>
-          <StyledIcon 
-            icon={faChevronDown} 
-            style={{
-              transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
-            }} 
-          />
-        </IconWrapper>
+        <ClickableArea onClick={toggleExpand} >
+          <StyledHeading level='h2' text={video.name} marginBottom='0' />
+          <FlexDiv flexGrow={1} justifyContent='flex-end' height='100%'>
+            <StyledIcon
+              icon={faChevronDown}
+              style={{
+                transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
+              }}
+            />
+          </FlexDiv>
+        </ClickableArea>
       </VideoMetadataContainer>
       {isExpanded && (
         <ExpandableContent>
@@ -85,10 +87,6 @@ const StyledIcon = styled(FontAwesomeIcon)`
   transition: transform 0.3s ease;
 `;
 
-const IconWrapper = styled(FlexDiv)`
-  cursor: pointer;
-`;
-
 const VideoMetadataContainer = styled(FlexDiv)`
   max-width: 512px;
 
@@ -96,4 +94,9 @@ const VideoMetadataContainer = styled(FlexDiv)`
   @media (max-width: 640px) {
     max-width: 100%;
   }
+`;
+
+const ClickableArea = styled(FlexDiv)`
+  cursor: pointer;
+  width: 100%;
 `;
