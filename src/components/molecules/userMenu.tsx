@@ -4,7 +4,6 @@ import jwt_decode from "jwt-decode";
 import StyledButton from '../atoms/button';
 import styled from 'styled-components';
 import { toast } from 'react-toastify';
-import useFetchVideos from '../../hooks/useFetchVideos';
 import { useCredentials } from '../../hooks/useCredentials';
 
 interface Profile {
@@ -16,13 +15,9 @@ interface Profile {
     email_verified?: boolean;
 }
 
-interface UserMenuProps {
-    setActiveTab: (tabId: number) => void
-}
 
-const UserMenu: React.FC<UserMenuProps> = ({setActiveTab}) => {
+const UserMenu: React.FC = () => {
     const [credentials, setCredentials] = useCredentials();
-    const { fetchVideos } = useFetchVideos();
     const profile = credentials ? jwt_decode(credentials) as Profile : null;
 
     return profile ?
@@ -32,7 +27,7 @@ const UserMenu: React.FC<UserMenuProps> = ({setActiveTab}) => {
             <StyledButton onClick={() => {
                 setCredentials(null);
                 googleLogout();
-                setActiveTab(1);
+                window.location.reload();
             }}>Log out</StyledButton>
         </UserMenuWrapper>
         )
@@ -40,7 +35,7 @@ const UserMenu: React.FC<UserMenuProps> = ({setActiveTab}) => {
             <GoogleContainer><GoogleLogin
                 onSuccess={(credentialResponse: any) => {
                     setCredentials(credentialResponse.credential);
-                    fetchVideos('top', 'week');
+                    window.location.reload();
                 }}
                 onError={() => {
                     toast.error('Login Failed');

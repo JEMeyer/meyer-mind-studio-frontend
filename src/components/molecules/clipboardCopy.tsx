@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShareFromSquare } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
+import { toast } from 'react-toastify';
 
 interface ClipboardCopyProps {
     text: string;
@@ -24,6 +25,7 @@ const ClipboardCopy: React.FC<ClipboardCopyProps> = ({ text }) => {
         copyTextToClipboard(text)
             .then(() => {
                 // If successful, update the isCopied state value
+                toast('Link copied to clipboard.');
                 setIsCopied(true);
                 setTimeout(() => {
                     setIsCopied(false);
@@ -45,4 +47,5 @@ export default ClipboardCopy;
 const CopyWrapper = styled.div`
     padding: 3px;
     margin-bottom: 3px;
+    display: inline;
 `;

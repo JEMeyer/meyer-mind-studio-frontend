@@ -1,4 +1,4 @@
-import { useState, useEffect, FC } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 import CredentialsContext from './credentialsContext';
 
 interface CredentialsProviderProps {

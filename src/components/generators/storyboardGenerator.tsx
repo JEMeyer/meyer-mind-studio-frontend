@@ -23,13 +23,7 @@ const StoryboardGenerator: React.FC = () => {
     };
 
     const handleButtonClick = async () => {
-        const processingToast = toast('Processing your storyboard. Feel free to browse, I will notify you when I\'m done.', {
-            position: 'top-right',
-            autoClose: false,
-            closeOnClick: false,
-            closeButton: true,
-            draggable: false,
-        });
+        toast('Processing your storyboard. Feel free to browse, I will notify you when I\'m done.');
         try {
             const response = await api.post('/promptToStoryboard', { prompt: inputValue }, {
                 headers: {
@@ -38,12 +32,8 @@ const StoryboardGenerator: React.FC = () => {
             });
 
             // Update the toast to success
-            toast.update(processingToast, {
-                render: 'Success! Click to view your new storyboard.',
-                type: toast.TYPE.SUCCESS,
-                autoClose: 5000,
-                closeButton: true,
-                closeOnClick: true,
+            toast.success('Success! Click to view your new storyboard.', 
+            {
                 onClick: () => {
                     setTab(2);
                 },
@@ -52,13 +42,7 @@ const StoryboardGenerator: React.FC = () => {
             setLastGeneratedStoryboardUrl(`${getVideoURLFromFilename(response.data.filePath)}`);
         } catch (error) {
             // Update the toast to error
-            toast.update(processingToast, {
-                render: 'Error! Please try again',
-                type: toast.TYPE.ERROR,
-                autoClose: 5000,
-                closeButton: true,
-                closeOnClick: true,
-            });
+            toast.error('Error! Please try again');
             console.error('Failed to call API:', error);
         }
     };

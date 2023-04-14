@@ -32,3 +32,19 @@ export const useLastSubmittedStoryboardPromptState = () => {
   const [lastSubmittedStoryboardPrompt, setLastSubmittedStoryboardPrompt] = useRecoilState(lastSubmittedStoryboardPromptState);
   return { lastSubmittedStoryboardPrompt, setLastSubmittedStoryboardPrompt };
 };
+
+interface VideosRequestParams {
+  sorting: string,
+  timeframe: string,
+  page: number,
+}
+
+export const videosRequestState = atom<VideosRequestParams>({
+  key: 'videosRequestState',
+  default: {sorting: 'top', timeframe: 'week', page: 1}
+})
+
+export const useVideosRequestState = () => {
+  const [videosRequestParams, setVideosRequesetParams] = useRecoilState(videosRequestState)
+  return { videosRequestParams, setVideosRequesetParams }
+}

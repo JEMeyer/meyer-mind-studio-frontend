@@ -23,17 +23,27 @@ const useFetchVideos = () => {
     const credentials = useGetCredentials();
     const api = useApi(!!credentials);
   
-    const fetchVideos = useCallback(async (sorting: string, timeframe: string) => {
+    const fetchVideos = useCallback(async (sorting: string, timeframe: string, page: number) => {
       try {
-        const response = (await api.get(`/videos?sorting=${sorting}&timeframe=${timeframe}`));
+        const response = (await api.get(`/videos?sorting=${sorting}&timeframe=${timeframe}&page=${page}`));
+        const data: Video[] = await response.data;
+        return data;
+      } catch (error) {
+        console.error('Error fetching videos:', error);
+      }
+    }, [api]);
+
+    const fetchVideosAndSetState = useCallback(async (sorting: string, timeframe: string, page: number) => {
+      try {
+        const response = (await api.get(`/videos?sorting=${sorting}&timeframe=${timeframe}&page=${page}`));
         const data: Video[] = await response.data;
         setVideos(data);
       } catch (error) {
         console.error('Error fetching videos:', error);
       }
-    }, [api,  setVideos]);
+    }, [api, setVideos]);
   
-    return { videos, fetchVideos };
+    return { videos, setVideos, fetchVideos, fetchVideosAndSetState };
   };
 
 export default useFetchVideos;
