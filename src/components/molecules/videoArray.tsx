@@ -47,6 +47,7 @@ const GridContainer = styled.div`
   flex-wrap: wrap;
   width: 100%;
   overflow-x: auto;
+  justify-content: center;
 `;
 
 // Styled-components wrapper for individual items in the grid
