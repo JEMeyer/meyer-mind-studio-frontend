@@ -5,7 +5,6 @@ import VideoCard from '../molecules/videoCard';
 
 const SharedVideo: React.FC = () => {
     const {sharedVideo} = useSharedVideo();
-    console.log(sharedVideo);
     if (sharedVideo == null) {
         return <></>;
     }
