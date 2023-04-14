@@ -49,7 +49,7 @@ const StoryboardGenerator: React.FC = () => {
 
     return (
         <FlexDiv flexDirection='column'>
-            {lastGeneratedStoryboardUrl ? <DynamicVideo src={lastGeneratedStoryboardUrl} controls /> : <CentralImage src={placeholderImage2} />}
+            {lastGeneratedStoryboardUrl ? <DynamicVideo src={lastGeneratedStoryboardUrl} controls playsInline /> : <CentralImage src={placeholderImage2} />}
             {lastGeneratedStoryboardUrl && <ShareLinks file={encodeURI(lastGeneratedStoryboardUrl)} />}
             <FlexDiv justifyContent='flex-end' flexWrap='wrap' width='100%'>
                 <StyledTextarea

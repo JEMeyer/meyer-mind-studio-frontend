@@ -22,7 +22,7 @@ const VideoCard = ({ video }: VideoCardProps) => {
 
   return (
     <VideoCardContainer>
-      <DynamicVideo src={`${getVideoURLFromFilename(video.public_path)}`} controls />
+      <DynamicVideo src={`${getVideoURLFromFilename(video.public_path)}`} controls playsInline />
       <VideoMetadataContainer justifyContent='flex-start' alignItems='center'>
         <Upvote video={video} />
         <FlexDiv width='15px' />
@@ -80,6 +80,14 @@ export const DynamicVideo = styled.video`
   // You can customize the responsive breakpoints here
   @media (max-width: 640px) {
     width: 100%;
+  }
+
+  &::-webkit-media-controls {
+    display: none;
+  }
+
+  &:hover::-webkit-media-controls {
+    display: inline-flex;
   }
 `;
 
