@@ -12,7 +12,7 @@ const ContentCreation: React.FC = () => {
     
     return (<>
         <StoryboardGenerator />
-        {!imageGeneratorVisible && <StyledButton onClick={() => setOptInButton(true)} margin='100px 10px'>Show Image Generator</StyledButton>}
+        {!imageGeneratorVisible && <StyledButton onClick={() => setOptInButton(true)} margin='50px 10px'>Standalone Image Generator</StyledButton>}
         {imageGeneratorVisible && <ImageGenerator />}
     </>
     );
