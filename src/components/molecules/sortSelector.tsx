@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import FlexDiv from '../atoms/flexDiv';
 import { useRecoilState } from 'recoil';
 import { videosRequestState } from '../../hooks/useAppState';
+import ToggleGroup from '../atoms/toggleGroup';
 
 const SortSelector: React.FC = () => {
     const { fetchVideosAndSetState } = useFetchVideos();
@@ -51,7 +52,7 @@ const SortSelector: React.FC = () => {
         <SortSelectorWrapper>
             <StyledHeading level='h3' marginBottom='0' text="Sort:" />
             <FlexDiv width='3px' />
-            <Dropdown items={sortingOptions} selectedItem={videosRequestParams.sorting} onSelect={(value) => updateVideosParamsState(value)} />
+            <ToggleGroup items={sortingOptions} selectedItem={videosRequestParams.sorting} onSelect={(value) => updateVideosParamsState(value)} />
             {videosRequestParams.sorting === 'top' && (
                 <>
                     <FlexDiv width='10px' />
@@ -66,8 +67,8 @@ const SortSelector: React.FC = () => {
 export default SortSelector;
 
 const SortSelectorWrapper = styled.div`
-    width: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    padding-left: 10px;
 `;

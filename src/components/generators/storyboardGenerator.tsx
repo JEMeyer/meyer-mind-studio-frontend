@@ -10,10 +10,11 @@ import ShareLinks from '../molecules/shareLinks';
 import { executeOnEnter, getVideoURLFromFilename } from '../../utils/helpers';
 import { DynamicVideo } from '../molecules/videoCard';
 import { useLastGeneratedStoryboardUrlState, useLastSubmittedStoryboardPromptState, useTabState } from '../../hooks/useAppState';
+import StyledHeading from '../atoms/heading';
 
 const StoryboardGenerator: React.FC = () => {
-    const { lastGeneratedStoryboardUrl, setLastGeneratedStoryboardUrl } = useLastGeneratedStoryboardUrlState(); 
-    const { lastSubmittedStoryboardPrompt, setLastSubmittedStoryboardPrompt} = useLastSubmittedStoryboardPromptState();
+    const { lastGeneratedStoryboardUrl, setLastGeneratedStoryboardUrl } = useLastGeneratedStoryboardUrlState();
+    const { lastSubmittedStoryboardPrompt, setLastSubmittedStoryboardPrompt } = useLastSubmittedStoryboardPromptState();
     const [inputValue, setInputValue] = useState(lastSubmittedStoryboardPrompt);
     const { setTab } = useTabState();
     const api = useApi();
@@ -32,12 +33,12 @@ const StoryboardGenerator: React.FC = () => {
             });
 
             // Update the toast to success
-            toast.success('Success! Click to view your new storyboard.', 
-            {
-                onClick: () => {
-                    setTab(2);
-                },
-            });
+            toast.success('Success! Click to view your new storyboard.',
+                {
+                    onClick: () => {
+                        setTab(2);
+                    },
+                });
             setLastSubmittedStoryboardPrompt(inputValue);
             setLastGeneratedStoryboardUrl(`${getVideoURLFromFilename(response.data.filePath)}`);
         } catch (error) {
@@ -47,7 +48,9 @@ const StoryboardGenerator: React.FC = () => {
         }
     };
 
-    return (
+    return (<>
+        <StyledHeading text='Storyboard Generator' />
+        <StyledHeading level='h3' text='Provide a prompt. Based on this prompt, a video will be generated purely with AI tools including: GPT, Stable Diffusion, and Coqui.' />
         <FlexDiv flexDirection='column'>
             {lastGeneratedStoryboardUrl ? <DynamicVideo src={lastGeneratedStoryboardUrl} controls playsInline /> : <CentralImage src={placeholderImage2} />}
             {lastGeneratedStoryboardUrl && <ShareLinks file={encodeURI(lastGeneratedStoryboardUrl)} />}
@@ -61,6 +64,7 @@ const StoryboardGenerator: React.FC = () => {
                 <StyledButton onClick={handleButtonClick}>Submit</StyledButton>
             </FlexDiv>
         </FlexDiv>
+    </>
     );
 };
 

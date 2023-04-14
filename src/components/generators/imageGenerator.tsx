@@ -9,6 +9,7 @@ import { placeholderImage1 } from '../../utils/globals';
 import { Spinner, LoadingOverlay } from '../molecules/loadingOverlay';
 import StyledToggle from '../atoms/toggle';
 import { executeOnEnter } from '../../utils/helpers';
+import StyledHeading from '../atoms/heading';
 
 const ImageGenerator: React.FC = () => {
     const [inputValue, setInputValue] = useState('');
@@ -59,7 +60,11 @@ const ImageGenerator: React.FC = () => {
         }
     };
 
-    return (
+    return (<>
+        <StyledHeading text='Image Generator' />
+        <StyledHeading level='h3' text='Provide a prompt. Stable Diffusion will draw an image based on your prompt.' />
+        <StyledHeading level='h4' text='Unlike storyboards, images are not saved server-side. If you like an image, save it to your device.' />
+        <StyledHeading level='h4' text='Prompt enhancement will pre-process your prompt through GPT to try and get more details.' />
         <FlexDiv flexDirection='column'>
             <CentralImage src={imageDataUrl || placeholderImage1} />
             <FlexDiv justifyContent='flex-end' flexWrap='wrap'>
@@ -83,6 +88,7 @@ const ImageGenerator: React.FC = () => {
                 </LoadingOverlay>
             )}
         </FlexDiv>
+        </>
     );
 };
 

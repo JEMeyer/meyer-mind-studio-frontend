@@ -10,8 +10,8 @@ import { useTabState } from '../hooks/useAppState';
 
 export const TabList = [
     { id: 1, name: 'Home' },
-    { id: 2, name: 'Storyboard' },
-    { id: 3, name: 'Image' },
+    { id: 2, name: 'Create Content' },
+    // { id: 3, name: 'My Content' },
 ];
 
 const Header: React.FC = () => {

@@ -18,7 +18,7 @@ const Menu: React.FC<MenuProps> = ({ open, activeTab, isAuthed, onLinkClick, ...
             {TabList.map((({ id, name }) => {
                 return (isAuthed || id === 1) ? <StyledLink key={`tab-${id}`} isActive={id === activeTab} data-tab-id={id} onClick={onLinkClick}>
                     {name}
-                </StyledLink> : <></>
+                </StyledLink> : null
             }))}
         </StyledMenu>
     )
