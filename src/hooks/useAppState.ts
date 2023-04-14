@@ -12,7 +12,7 @@ export const useTabState = () => {
 };
 
 // lastGenerateStoryboardUrlState
-export const lastGenerateStoryboardUrlState = atom<string>({
+const lastGenerateStoryboardUrlState = atom<string>({
   key: 'lastGeneratedStoryboardUrlState',
   default: '',
 })
@@ -23,7 +23,7 @@ export const useLastGeneratedStoryboardUrlState = () => {
 };
 
 // lastSubmittedStoryboardPromptState
-export const lastSubmittedStoryboardPromptState = atom<string>({
+const lastSubmittedStoryboardPromptState = atom<string>({
   key: 'lastSubmittedStoryboardPromptState',
   default: '',
 })
@@ -33,18 +33,31 @@ export const useLastSubmittedStoryboardPromptState = () => {
   return { lastSubmittedStoryboardPrompt, setLastSubmittedStoryboardPrompt };
 };
 
+
+// Video request params
 interface VideosRequestParams {
   sorting: string,
   timeframe: string,
   page: number,
 }
 
-export const videosRequestState = atom<VideosRequestParams>({
+const videosRequestState = atom<VideosRequestParams>({
   key: 'videosRequestState',
   default: {sorting: 'top', timeframe: 'week', page: 1}
 })
 
 export const useVideosRequestState = () => {
-  const [videosRequestParams, setVideosRequesetParams] = useRecoilState(videosRequestState)
-  return { videosRequestParams, setVideosRequesetParams }
+  const [videosRequestParams, setVideosRequestParams] = useRecoilState(videosRequestState)
+  return { videosRequestParams, setVideosRequestParams }
+}
+
+// last generated image
+const lastGeneratedImageState = atom<string>({
+  key: 'lastGeneratedImageState',
+  default: ''
+});
+
+export const useLastGeneratedImageState = () => {
+  const [lastGeneratedImage, setLastGeneratedImage] = useRecoilState(lastGeneratedImageState);
+  return {lastGeneratedImage, setLastGeneratedImage};
 }

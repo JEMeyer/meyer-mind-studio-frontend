@@ -6,16 +6,16 @@ import StyledButton from '../atoms/button';
 import CustomInput from '../atoms/input';
 import FlexDiv from '../atoms/flexDiv';
 import { placeholderImage1 } from '../../utils/globals';
-import { Spinner, LoadingOverlay } from '../molecules/loadingOverlay';
 import StyledToggle from '../atoms/toggle';
 import { executeOnEnter } from '../../utils/helpers';
 import StyledHeading from '../atoms/heading';
+import { useLastGeneratedImageState, useTabState } from '../../hooks/useAppState';
 
 const ImageGenerator: React.FC = () => {
     const [inputValue, setInputValue] = useState('');
-    const [imageDataUrl, setImageDataUrl] = useState('');
+    const { lastGeneratedImage, setLastGeneratedImage } = useLastGeneratedImageState();
     const [upscalePrompt, setUpscalePrompt] = useState(true);
-    const [loading, setLoading] = useState(false);
+    const { setTab } = useTabState();
     const api = useApi();
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,8 +27,8 @@ const ImageGenerator: React.FC = () => {
     };
 
     const handleButtonClick = async () => {
+        toast('Processing your image. Feel free to browse, I will notify you when I\'m done.');
         try {
-            setLoading(true);
             let finalPrompt = inputValue;
             if (upscalePrompt) {
                 finalPrompt = (await api.post('promptToImagePrompt', { prompt: inputValue }, {
@@ -43,19 +43,21 @@ const ImageGenerator: React.FC = () => {
                 },
                 responseType: 'arraybuffer',
             });
-            setLoading(false);
 
             const blob = new Blob([response.data], { type: 'image/png' });
             const reader = new FileReader();
             reader.onload = (event) => {
-                setImageDataUrl(event.target?.result as string);
+                setLastGeneratedImage(event.target?.result as string);
+                toast.success('Image generated! Navigate back to the Creation tab to view.',
+                {
+                    onClick: () => {
+                        setTab(2);
+                    },
+                });
             };
             reader.readAsDataURL(blob);
         } catch (error) {
-            toast.error(`Failed :( ${error}`, {
-                position: "top-center", theme: 'dark'
-            })
-            setLoading(false);
+            toast.error('Error creating image! Please try again.');
             console.error('Failed to call API:', error);
         }
     };
@@ -66,7 +68,7 @@ const ImageGenerator: React.FC = () => {
         <StyledHeading level='h4' text='Unlike storyboards, images are not saved server-side. If you like an image, save it to your device.' />
         <StyledHeading level='h4' text='Prompt enhancement will pre-process your prompt through GPT to try and get more details.' />
         <FlexDiv flexDirection='column'>
-            <CentralImage src={imageDataUrl || placeholderImage1} />
+            <CentralImage src={lastGeneratedImage || placeholderImage1} />
             <FlexDiv justifyContent='flex-end' flexWrap='wrap'>
                 <CustomInput
                     value={inputValue}
@@ -82,13 +84,8 @@ const ImageGenerator: React.FC = () => {
                 <FlexDiv width='100%' />
                 <StyledButton onClick={handleButtonClick}>Submit</StyledButton>
             </FlexDiv>
-            {loading && (
-                <LoadingOverlay>
-                    <Spinner />
-                </LoadingOverlay>
-            )}
         </FlexDiv>
-        </>
+    </>
     );
 };
 

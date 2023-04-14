@@ -33,7 +33,7 @@ const StoryboardGenerator: React.FC = () => {
             });
 
             // Update the toast to success
-            toast.success('Success! Click to view your new storyboard.',
+            toast.success('Storyboard generated! Navigate back to the Creation tab to view.',
                 {
                     onClick: () => {
                         setTab(2);
@@ -43,7 +43,7 @@ const StoryboardGenerator: React.FC = () => {
             setLastGeneratedStoryboardUrl(`${getVideoURLFromFilename(response.data.filePath)}`);
         } catch (error) {
             // Update the toast to error
-            toast.error('Error! Please try again');
+            toast.error('Error creating storyboard! Please try again.');
             console.error('Failed to call API:', error);
         }
     };

@@ -2,20 +2,19 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import VideoCard from './videoCard';
 import useFetchVideos from '../../hooks/useFetchVideos';
-import { useRecoilState } from 'recoil';
-import { videosRequestState } from '../../hooks/useAppState';
 import FlexDiv from '../atoms/flexDiv';
+import { useVideosRequestState } from '../../hooks/useAppState';
 
 const VideoArray: React.FC = () => {
   const { videos, setVideos, fetchVideos } = useFetchVideos();
-  const [videosRequestParams] = useRecoilState(videosRequestState);
+  const { videosRequestParams } = useVideosRequestState();
   const [page, setPage] = useState(1)
 
-  const appendVideosToState = async ()  => {
+  const appendVideosToState = async () => {
     const newPage = page + 1;
     let newVideos = await fetchVideos(videosRequestParams.sorting, videosRequestParams.timeframe, newPage) || [];
     newVideos = newVideos.filter((newVideo) => !videos.some((video) => video.id === newVideo.id));
-    setVideos([...videos,  ...newVideos]);
+    setVideos([...videos, ...newVideos]);
     setPage(newPage);
   };
 

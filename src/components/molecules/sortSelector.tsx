@@ -4,13 +4,12 @@ import useFetchVideos from '../../hooks/useFetchVideos';
 import Dropdown from '../atoms/dropdown';
 import styled from 'styled-components';
 import FlexDiv from '../atoms/flexDiv';
-import { useRecoilState } from 'recoil';
-import { videosRequestState } from '../../hooks/useAppState';
 import ToggleGroup from '../atoms/toggleGroup';
+import { useVideosRequestState } from '../../hooks/useAppState';
 
 const SortSelector: React.FC = () => {
     const { fetchVideosAndSetState } = useFetchVideos();
-    const [videosRequestParams, setVideoRequestParams] = useRecoilState(videosRequestState);
+    const {videosRequestParams, setVideosRequestParams} = useVideosRequestState();
 
     const sortingOptions = [{
         value: 'top',
@@ -42,7 +41,7 @@ const SortSelector: React.FC = () => {
         if (timerange) {
             tempState.timeframe = timerange;
         }
-        setVideoRequestParams(tempState);
+        setVideosRequestParams(tempState);
     }
 
     useEffect(() => {

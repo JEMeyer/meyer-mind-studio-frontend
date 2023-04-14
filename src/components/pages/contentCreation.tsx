@@ -2,14 +2,18 @@ import React, { useState } from 'react';
 import StoryboardGenerator from '../generators/storyboardGenerator';
 import ImageGenerator from '../generators/imageGenerator';
 import StyledButton from '../atoms/button';
+import { useLastGeneratedImageState } from '../../hooks/useAppState';
 
 const ContentCreation: React.FC = () => {
-    const [showImageGen, setShowImageGen] = useState(false);
+    const [optInButton, setOptInButton] = useState(false);
+    const {lastGeneratedImage} = useLastGeneratedImageState();
+
+    const imageGeneratorVisible = optInButton || !!lastGeneratedImage
     
     return (<>
         <StoryboardGenerator />
-        {!showImageGen && <StyledButton onClick={() => setShowImageGen(true)} margin='100px 10px'>Show Image Generator</StyledButton>}
-        {showImageGen && <ImageGenerator />}
+        {!imageGeneratorVisible && <StyledButton onClick={() => setOptInButton(true)} margin='100px 10px'>Show Image Generator</StyledButton>}
+        {imageGeneratorVisible && <ImageGenerator />}
     </>
     );
 }
