@@ -13,7 +13,7 @@ export interface Video {
   user_vote: number | null;
 }
 
-export const videoListState = atom<Video[]>({
+const videoListState = atom<Video[]>({
   key: 'videoListState',
   default: [],
 });
@@ -26,7 +26,7 @@ const useFetchVideos = () => {
     const fetchVideos = useCallback(async (sorting: string, timeframe: string, page: number) => {
       try {
         const response = (await api.get(`/videos?sorting=${sorting}&timeframe=${timeframe}&page=${page}`));
-        const data: Video[] = await response.data;
+        const data: Video[] = response.data;
         return data;
       } catch (error) {
         console.error('Error fetching videos:', error);
@@ -42,8 +42,17 @@ const useFetchVideos = () => {
         console.error('Error fetching videos:', error);
       }
     }, [api, setVideos]);
+
+    const fetchVideo = useCallback(async (videoId: string) => {
+      try {
+        const video = await api.get(`/videos/${videoId}`);
+        return video;
+      } catch (error) {
+        console.error('Error fetching 1 video: ', error);
+      }
+    }, [api]);
   
-    return { videos, setVideos, fetchVideos, fetchVideosAndSetState };
+    return { videos, setVideos, fetchVideos, fetchVideosAndSetState, fetchVideo };
   };
 
 export default useFetchVideos;

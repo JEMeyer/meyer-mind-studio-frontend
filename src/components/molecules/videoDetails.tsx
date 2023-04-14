@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { formatDate, getVideoURLFromFilename } from '../../utils/helpers';
+import { formatDate, getShareURLFromVideoId } from '../../utils/helpers';
 import { Video } from '../../hooks/useFetchVideos';
 import ClipboardCopy from './clipboardCopy';
 
@@ -12,7 +12,7 @@ const VideoDetails = ({ video }: VideoDetailsProps) => {
     <div>
       <MetadataContainer>
         <MetadataItem><BoldText>Prompt:</BoldText> {video.prompt}</MetadataItem>
-        <MetadataItem><BoldText>Link (click to copy):</BoldText> <ClipboardCopy text={encodeURI(getVideoURLFromFilename(video.public_path))} /> </MetadataItem>
+        <MetadataItem><BoldText>Link (click to copy):</BoldText> <ClipboardCopy text={encodeURI(getShareURLFromVideoId(video.id))} /> </MetadataItem>
         <MetadataItem><BoldText>Created On:</BoldText> {formatDate(video.created_at)}</MetadataItem>
       </MetadataContainer>
     </div>

@@ -7,14 +7,15 @@ import FlexDiv from '../atoms/flexDiv';
 import { StyledTextarea } from '../atoms/textarea';
 import { placeholderImage2 } from '../../utils/globals';
 import ShareLinks from '../molecules/shareLinks';
-import { executeOnEnter, getVideoURLFromFilename } from '../../utils/helpers';
+import { executeOnEnter, getShareURLFromVideoId, getVideoURLFromFilename } from '../../utils/helpers';
 import { DynamicVideo } from '../molecules/videoCard';
-import { useLastGeneratedStoryboardUrlState, useLastSubmittedStoryboardPromptState, useTabState } from '../../hooks/useAppState';
+import { useLastGeneratedStoryboardUrlState, useLastGeneratedVideoIdState, useLastSubmittedStoryboardPromptState, useTabState } from '../../hooks/useAppState';
 import StyledHeading from '../atoms/heading';
 
 const StoryboardGenerator: React.FC = () => {
     const { lastGeneratedStoryboardUrl, setLastGeneratedStoryboardUrl } = useLastGeneratedStoryboardUrlState();
     const { lastSubmittedStoryboardPrompt, setLastSubmittedStoryboardPrompt } = useLastSubmittedStoryboardPromptState();
+    const { lastGeneratedVideoId, setLastGeneratedVideoId } = useLastGeneratedVideoIdState();
     const [inputValue, setInputValue] = useState(lastSubmittedStoryboardPrompt);
     const { setTab } = useTabState();
     const api = useApi();
@@ -41,6 +42,7 @@ const StoryboardGenerator: React.FC = () => {
                 });
             setLastSubmittedStoryboardPrompt(inputValue);
             setLastGeneratedStoryboardUrl(`${getVideoURLFromFilename(response.data.filePath)}`);
+            setLastGeneratedVideoId(response.data.videoId);
         } catch (error) {
             // Update the toast to error
             toast.error('Error creating storyboard! Please try again.');
@@ -53,7 +55,7 @@ const StoryboardGenerator: React.FC = () => {
         <StyledHeading level='h3' text='Provide a prompt. Based on this prompt, a video will be generated purely with AI tools including: GPT, Stable Diffusion, and Coqui.' />
         <FlexDiv flexDirection='column'>
             {lastGeneratedStoryboardUrl ? <DynamicVideo src={lastGeneratedStoryboardUrl} controls playsInline /> : <CentralImage src={placeholderImage2} />}
-            {lastGeneratedStoryboardUrl && <ShareLinks file={encodeURI(lastGeneratedStoryboardUrl)} />}
+            {lastGeneratedVideoId && <ShareLinks file={encodeURI(getShareURLFromVideoId(lastGeneratedVideoId))} />}
             <FlexDiv justifyContent='flex-end' flexWrap='wrap' width='100%'>
                 <StyledTextarea
                     value={inputValue}

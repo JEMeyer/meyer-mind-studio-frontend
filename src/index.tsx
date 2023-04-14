@@ -9,6 +9,7 @@ import { RecoilRoot } from 'recoil';
 import './fontawesome';
 import { createGlobalStyle } from 'styled-components';
 import CredentialsProvider from './context/credentialsProviter';
+import { BrowserRouter, Router } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -26,7 +27,9 @@ root.render(
       <RecoilRoot>
         <CredentialsProvider>
           <GlobalStyles />
-          <App />
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
         </CredentialsProvider>
       </RecoilRoot>
     </React.StrictMode>
