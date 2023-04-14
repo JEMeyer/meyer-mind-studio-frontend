@@ -8,12 +8,14 @@ import { StyledTextarea } from '../atoms/textarea';
 import { placeholderImage2 } from '../../utils/globals';
 import ShareLinks from '../molecules/shareLinks';
 import { executeOnEnter, getVideoURLFromFilename } from '../../utils/helpers';
-import useAppState from '../../hooks/useAppState';
 import { DynamicVideo } from '../molecules/videoCard';
+import { useLastGeneratedStoryboardUrlState, useLastSubmittedStoryboardPromptState, useTabState } from '../../hooks/useAppState';
 
 const StoryboardGenerator: React.FC = () => {
-    const [inputValue, setInputValue] = useState('');
-    const {lastGeneratedStoryboardUrl, setLastGeneratedStoryboardUrl, setTab} = useAppState();
+    const { lastGeneratedStoryboardUrl, setLastGeneratedStoryboardUrl } = useLastGeneratedStoryboardUrlState(); 
+    const { lastSubmittedStoryboardPrompt, setLastSubmittedStoryboardPrompt} = useLastSubmittedStoryboardPromptState();
+    const [inputValue, setInputValue] = useState(lastSubmittedStoryboardPrompt);
+    const { setTab } = useTabState();
     const api = useApi();
 
     const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -46,8 +48,8 @@ const StoryboardGenerator: React.FC = () => {
                     setTab(2);
                 },
             });
-
-            setLastGeneratedStoryboardUrl(`${getVideoURLFromFilename(response.data.filePath)}`)
+            setLastSubmittedStoryboardPrompt(inputValue);
+            setLastGeneratedStoryboardUrl(`${getVideoURLFromFilename(response.data.filePath)}`);
         } catch (error) {
             // Update the toast to error
             toast.update(processingToast, {

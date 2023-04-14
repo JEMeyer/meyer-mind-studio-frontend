@@ -4,10 +4,10 @@ import ImageGeneration from './pages/imageGeneration';
 import StoryboardGeneration from './pages/storyboardGeneration';
 import styled from 'styled-components';
 import FlexDiv from './atoms/flexDiv';
-import useAppState from '../hooks/useAppState';
+import { useTabState } from '../hooks/useAppState';
 
 const Page: React.FC = () => {
-    const {tab} = useAppState();
+    const {tab} = useTabState();
 
     switch (tab) {
         case 1:

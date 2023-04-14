@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { useMemo } from 'react';
 import { googleLogout } from '@react-oauth/google';
-import useAppState from '../hooks/useAppState';
 import { useCredentials } from '../hooks/useCredentials';
+import { useTabState } from '../hooks/useAppState';
 
 export const useApi = (withAuth = true) => {
   const [credentials, setCredentials] = useCredentials();
-  const { setTab } = useAppState();
+  const { setTab } = useTabState();
 
   const instance = useMemo(() => {
     const authHeaders = { Authorization: `Bearer ${credentials}` }

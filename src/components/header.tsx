@@ -5,8 +5,8 @@ import Burger from './molecules/burger';
 import Menu from './molecules/menu';
 import NavigationTabs from './molecules/navigationTabs';
 import { useMediaQuery } from 'react-responsive';
-import useAppState from '../hooks/useAppState';
 import { useGetCredentials } from '../hooks/useCredentials';
+import { useTabState } from '../hooks/useAppState';
 
 export const TabList = [
     { id: 1, name: 'Home' },
@@ -16,7 +16,7 @@ export const TabList = [
 
 const Header: React.FC = () => {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
-    const {tab, setTab} = useAppState();
+    const {tab, setTab} = useTabState();
     const credentials = useGetCredentials();
     const [open, setOpen] = useState(false);
 
