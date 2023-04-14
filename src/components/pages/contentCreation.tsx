@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import StoryboardGenerator from '../generators/storyboardGenerator';
-import ImageGenerator from '../generators/imageGenerator';
+import StoryboardGenerator from '../organisms/storyboardGenerator';
+import ImageGenerator from '../organisms/imageGenerator';
 import StyledButton from '../atoms/button';
 import { useLastGeneratedImageState } from '../../hooks/useAppState';
 

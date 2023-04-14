@@ -1,5 +1,5 @@
 import React from 'react';
-import Leaderboard from '../molecules/leaderboard';
+import Leaderboard from '../organisms/leaderboard';
 
 const Home: React.FC = () => {
 
