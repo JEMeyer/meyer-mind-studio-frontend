@@ -27,7 +27,7 @@ const StoryboardGenerator: React.FC = () => {
             position: 'top-right',
             autoClose: false,
             closeOnClick: false,
-            closeButton: false,
+            closeButton: true,
             draggable: false,
         });
         try {

@@ -40,7 +40,7 @@ const UserMenu: React.FC<UserMenuProps> = ({setActiveTab}) => {
             <GoogleContainer><GoogleLogin
                 onSuccess={(credentialResponse: any) => {
                     setCredentials(credentialResponse.credential);
-                    fetchVideos();
+                    fetchVideos('top', 'week');
                 }}
                 onError={() => {
                     toast.error('Login Failed');
