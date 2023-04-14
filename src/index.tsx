@@ -10,6 +10,7 @@ import './fontawesome';
 import { createGlobalStyle } from 'styled-components';
 import CredentialsProvider from './context/credentialsProviter';
 import { BrowserRouter } from 'react-router-dom';
+import GeneratedContentProvider from './context/generatedContentProvider';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -26,10 +27,12 @@ root.render(
     <React.StrictMode>
       <RecoilRoot>
         <CredentialsProvider>
-          <GlobalStyles />
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
+          <GeneratedContentProvider>
+            <GlobalStyles />
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </GeneratedContentProvider>
         </CredentialsProvider>
       </RecoilRoot>
     </React.StrictMode>

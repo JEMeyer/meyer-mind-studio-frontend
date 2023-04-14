@@ -9,16 +9,18 @@ import { placeholderImage2 } from '../../utils/globals';
 import ShareLinks from '../molecules/shareLinks';
 import { executeOnEnter, getShareURLFromVideoId, getVideoURLFromFilename } from '../../utils/helpers';
 import { DynamicVideo } from '../molecules/videoCard';
-import { useLastGeneratedStoryboardUrlState, useLastGeneratedVideoIdState, useLastSubmittedStoryboardPromptState, useTabState } from '../../hooks/useAppState';
+import { useTabState } from '../../hooks/useAppState';
 import StyledHeading from '../atoms/heading';
+import { useHasPendingVideoCall, useLastGeneratedVideoId, useLastGeneratedVideoURL, useLastSubmittedVideoPrompt } from '../../hooks/useGeneratedContent';
 
 const StoryboardGenerator: React.FC = () => {
-    const { lastGeneratedStoryboardUrl, setLastGeneratedStoryboardUrl } = useLastGeneratedStoryboardUrlState();
-    const { lastSubmittedStoryboardPrompt, setLastSubmittedStoryboardPrompt } = useLastSubmittedStoryboardPromptState();
-    const { lastGeneratedVideoId, setLastGeneratedVideoId } = useLastGeneratedVideoIdState();
-    const [inputValue, setInputValue] = useState(lastSubmittedStoryboardPrompt);
+    const [lastGeneratedStoryboardUrl, setLastGeneratedStoryboardUrl ] = useLastGeneratedVideoURL();
+    const [lastSubmittedStoryboardPrompt, setLastSubmittedStoryboardPrompt ] = useLastSubmittedVideoPrompt();
+    const [lastGeneratedVideoId, setLastGeneratedVideoId ] = useLastGeneratedVideoId();
+    const [inputValue, setInputValue] = useState(lastSubmittedStoryboardPrompt || '');
     const { setTab } = useTabState();
     const api = useApi();
+    const [pendingRequest, setPendingRequest] = useHasPendingVideoCall();
 
     const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setInputValue(event.target.value);
@@ -27,6 +29,7 @@ const StoryboardGenerator: React.FC = () => {
     const handleButtonClick = async () => {
         toast('Processing your storyboard. Feel free to browse, I will notify you when I\'m done.');
         try {
+            setPendingRequest(true);
             const response = await api.post('/promptToStoryboard', { prompt: inputValue }, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -40,11 +43,13 @@ const StoryboardGenerator: React.FC = () => {
                         setTab(2);
                     },
                 });
+            setPendingRequest(false);
             setLastSubmittedStoryboardPrompt(inputValue);
             setLastGeneratedStoryboardUrl(`${getVideoURLFromFilename(response.data.filePath)}`);
             setLastGeneratedVideoId(response.data.videoId);
         } catch (error) {
             // Update the toast to error
+            setPendingRequest(false);
             toast.error('Error creating storyboard! Please try again.');
             console.error('Failed to call API:', error);
         }
@@ -63,7 +68,7 @@ const StoryboardGenerator: React.FC = () => {
                     onKeyDown={(event) => executeOnEnter(event, handleButtonClick)}
                 />
                 <FlexDiv height='5px' width='100%' />
-                <StyledButton onClick={handleButtonClick}>Submit</StyledButton>
+                <StyledButton onClick={handleButtonClick} disabled={pendingRequest}>Submit</StyledButton>
             </FlexDiv>
         </FlexDiv>
     </>

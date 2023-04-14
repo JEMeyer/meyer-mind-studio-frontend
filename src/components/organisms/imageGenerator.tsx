@@ -9,14 +9,16 @@ import { placeholderImage1 } from '../../utils/globals';
 import StyledToggle from '../atoms/toggle';
 import { executeOnEnter } from '../../utils/helpers';
 import StyledHeading from '../atoms/heading';
-import { useLastGeneratedImageState, useTabState } from '../../hooks/useAppState';
+import { useTabState } from '../../hooks/useAppState';
+import { useHasPendingImageCall, useLastGeneratedIamge } from '../../hooks/useGeneratedContent';
 
 const ImageGenerator: React.FC = () => {
     const [inputValue, setInputValue] = useState('');
-    const { lastGeneratedImage, setLastGeneratedImage } = useLastGeneratedImageState();
+    const [ lastGeneratedImage, setLastGeneratedImage ] = useLastGeneratedIamge();
     const [upscalePrompt, setUpscalePrompt] = useState(true);
     const { setTab } = useTabState();
     const api = useApi();
+    const [pendingRequest, setPendingRequest] = useHasPendingImageCall()
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.target.value);
@@ -29,6 +31,7 @@ const ImageGenerator: React.FC = () => {
     const handleButtonClick = async () => {
         toast('Processing your image. Feel free to browse, I will notify you when I\'m done.');
         try {
+            setPendingRequest(true);
             let finalPrompt = inputValue;
             if (upscalePrompt) {
                 finalPrompt = (await api.post('promptToImagePrompt', { prompt: inputValue }, {
@@ -48,6 +51,7 @@ const ImageGenerator: React.FC = () => {
             const reader = new FileReader();
             reader.onload = (event) => {
                 setLastGeneratedImage(event.target?.result as string);
+                setPendingRequest(false);
                 toast.success('Image generated! Navigate back to the Creation tab to view.',
                 {
                     onClick: () => {
@@ -57,6 +61,7 @@ const ImageGenerator: React.FC = () => {
             };
             reader.readAsDataURL(blob);
         } catch (error) {
+            setPendingRequest(false);
             toast.error('Error creating image! Please try again.');
             console.error('Failed to call API:', error);
         }
@@ -82,7 +87,7 @@ const ImageGenerator: React.FC = () => {
                     <StyledToggle enabled={upscalePrompt} onChange={handleCheckboxChange} />
                 </FlexDiv>
                 <FlexDiv width='100%' />
-                <StyledButton onClick={handleButtonClick}>Submit</StyledButton>
+                <StyledButton onClick={handleButtonClick} disabled={pendingRequest}>Submit</StyledButton>
             </FlexDiv>
         </FlexDiv>
     </>

@@ -4,12 +4,13 @@ import styled from 'styled-components';
 interface CustomButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   onClick?: () => void;
   children: React.ReactNode;
+  disabled?: boolean;
   small?: boolean;
   margin?: string;
 }
 
-const CustomButton: React.FC<CustomButtonProps> = ({ onClick, children, small, margin, ...props }) => {
-  return <StyledButton onClick={onClick} small={small} margin={margin} {...props}>{children}</StyledButton>;
+const CustomButton: React.FC<CustomButtonProps> = ({ onClick, children, small, margin, disabled, ...props }) => {
+  return <StyledButton onClick={onClick} small={small} margin={margin} disabled={disabled} {...props}>{children}</StyledButton>;
 };
 
 export default CustomButton;
