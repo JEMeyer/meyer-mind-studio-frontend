@@ -25,7 +25,7 @@ const MetadataContainer = styled.div`
   margin-top: 1rem;
 `;
 
-const MetadataItem = styled.p`
+const MetadataItem = styled.div`
   margin: 0.25rem 0;
 `;
 
