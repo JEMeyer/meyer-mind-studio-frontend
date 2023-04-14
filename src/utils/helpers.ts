@@ -20,4 +20,4 @@ export const formatDate = (dateString:string) => {
   });
 };
 
-export  const getVideoURLFromFilename = (filename: string) =>  `${process.env.REACT_APP_MEYER_MIND_BACKEND_URL}${filename}`;
+export  const getVideoURLFromFilename = (filename: string) =>  `${process.env.REACT_APP_MEYER_MIND_BACKEND_URL}${filename}#t=0.001`;
