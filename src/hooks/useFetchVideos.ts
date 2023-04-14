@@ -23,9 +23,9 @@ const useFetchVideos = () => {
     const credentials = useGetCredentials();
     const api = useApi(!!credentials);
   
-    const fetchVideos = useCallback(async () => {
+    const fetchVideos = useCallback(async (sorting: string, timeframe: string) => {
       try {
-        const response = (await api.get('videos'));
+        const response = (await api.get(`/videos?sorting=${sorting}&timeframe=${timeframe}`));
         const data: Video[] = await response.data;
         setVideos(data);
       } catch (error) {
