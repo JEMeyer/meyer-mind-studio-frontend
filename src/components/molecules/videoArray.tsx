@@ -4,16 +4,21 @@ import VideoCard from './videoCard';
 import useFetchVideos from '../../hooks/useFetchVideos';
 import FlexDiv from '../atoms/flexDiv';
 import { useVideosRequestState } from '../../hooks/useAppState';
+import CustomButton from '../atoms/button';
 
 const VideoArray: React.FC = () => {
   const { videos, setVideos, fetchVideos } = useFetchVideos();
   const { videosRequestParams } = useVideosRequestState();
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(1);
+  const [nextDisabled, setNextDisabled] = useState(false);
 
   const appendVideosToState = async () => {
     const newPage = page + 1;
     let newVideos = await fetchVideos(videosRequestParams.sorting, videosRequestParams.timeframe, newPage) || [];
     newVideos = newVideos.filter((newVideo) => !videos.some((video) => video.id === newVideo.id));
+    if (newVideos.length === 0) {
+      setNextDisabled(true);
+    }
     setVideos([...videos, ...newVideos]);
     setPage(newPage);
   };
@@ -32,7 +37,7 @@ const VideoArray: React.FC = () => {
           </GridItem>
         ))}
         <FlexDiv width='100%' >
-          <LoadMoreButton onClick={appendVideosToState}>Load More</LoadMoreButton>
+          <CustomButton onClick={appendVideosToState} disabled={nextDisabled} margin='5px 5px 30px 5px'>Load More</CustomButton>
         </FlexDiv>
       </GridContainer>
     </>
@@ -59,21 +64,5 @@ const GridItem = styled.div`
   // You can customize the responsive breakpoints here
   @media (max-width: 640px) {
     width: 100%;
-  }
-`;
-
-const LoadMoreButton = styled.button`
-  background-color: #4caf50;
-  color: white;
-  font-size: 16px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  margin-bottom: 20px;
-
-  &:hover {
-    background-color: #3e8e41;
   }
 `;
