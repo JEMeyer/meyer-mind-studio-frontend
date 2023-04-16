@@ -59,12 +59,12 @@ const StyledMenu = styled.nav<StyledMenuProps>`
   position: absolute;
   top: 0;
   left: 0;
-  width: 450px;
+  width: 500px;
   transition: transform 0.3s ease-in-out;
   z-index: 1;
-  @media (max-width: mobile: '768px') {
-      width: 100%;
-    }
+  @media (max-width: 640px) {
+    width: 100%;
+  }
   a {
     font-size: 2rem;
     text-transform: uppercase;

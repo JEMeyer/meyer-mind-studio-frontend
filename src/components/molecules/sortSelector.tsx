@@ -7,7 +7,11 @@ import FlexDiv from '../atoms/flexDiv';
 import ToggleGroup from '../atoms/toggleGroup';
 import { useVideosRequestState } from '../../hooks/useAppState';
 
-const SortSelector: React.FC = () => {
+interface SortSelectorProps {
+    onlyUserVideos: boolean
+}
+
+const SortSelector: React.FC<SortSelectorProps> = ({onlyUserVideos}) => {
     const { fetchVideosAndSetState } = useFetchVideos();
     const {videosRequestParams, setVideosRequestParams} = useVideosRequestState();
 
@@ -45,7 +49,7 @@ const SortSelector: React.FC = () => {
     }
 
     useEffect(() => {
-        fetchVideosAndSetState(videosRequestParams.sorting, videosRequestParams.timeframe, 1);
+        fetchVideosAndSetState(videosRequestParams.sorting, videosRequestParams.timeframe, 1, onlyUserVideos);
     }, [fetchVideosAndSetState, videosRequestParams.timeframe, videosRequestParams.sorting]);
     return (
         <SortSelectorWrapper>

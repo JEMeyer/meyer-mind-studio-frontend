@@ -6,6 +6,8 @@ import Page from './components/page';
 import useQuery from './hooks/useQuery';
 import { useEffect } from 'react';
 import useSharedVideo from './hooks/useSharedVideo';
+import Footer from './components/footer';
+import FlexDiv from './components/atoms/flexDiv';
 
 
 function App() {
@@ -25,6 +27,8 @@ function App() {
         <Container>
           <Header />
           <Page />
+          <FlexDiv flexGrow={1} />
+          <Footer />
         </Container>
         <ToastContainer />
     </div>

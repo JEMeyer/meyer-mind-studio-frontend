@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { toast } from 'react-toastify';
 import StyledButton from '../atoms/button';
 import FlexDiv from '../atoms/flexDiv';
-import { StyledTextarea } from '../atoms/textarea';
+import AutoExpandTextarea from '../atoms/textarea';
 import { placeholderImage2 } from '../../utils/globals';
 import ShareLinks from '../molecules/shareLinks';
 import { executeOnEnter, getShareURLFromVideoId, getVideoURLFromFilename } from '../../utils/helpers';
@@ -57,12 +57,11 @@ const StoryboardGenerator: React.FC = () => {
 
     return (<>
         <StyledHeading text='Storyboard Generator' />
-        <StyledHeading level='h3' text='Provide a prompt. Based on this prompt, a video will be generated purely with AI tools including: GPT, Stable Diffusion, and Coqui.' />
+        <StyledHeading level='h3' text='Provide a prompt. A video will be generated using the GenAI tools: GPT, Stable Diffusion, and Coqui.' />
+        <StyledHeading level='h4' text='Generated videos are automatically shared to the leaderboard on the main page.' />
         <FlexDiv flexDirection='column'>
-            {lastGeneratedStoryboardUrl ? <DynamicVideo src={lastGeneratedStoryboardUrl} controls playsInline /> : <CentralImage src={placeholderImage2} />}
-            {lastGeneratedVideoId && <ShareLinks file={encodeURI(getShareURLFromVideoId(lastGeneratedVideoId))} />}
             <FlexDiv justifyContent='flex-end' flexWrap='wrap' width='100%'>
-                <StyledTextarea
+                <AutoExpandTextarea
                     value={inputValue}
                     onChange={handleTextareaChange}
                     onKeyDown={(event) => executeOnEnter(event, handleButtonClick)}
@@ -70,6 +69,8 @@ const StoryboardGenerator: React.FC = () => {
                 <FlexDiv height='5px' width='100%' />
                 <StyledButton onClick={handleButtonClick} disabled={pendingRequest}>Submit</StyledButton>
             </FlexDiv>
+            {lastGeneratedStoryboardUrl ? <DynamicVideo src={lastGeneratedStoryboardUrl} controls playsInline /> : <CentralImage src={placeholderImage2} />}
+            {lastGeneratedVideoId && <ShareLinks file={encodeURI(getShareURLFromVideoId(lastGeneratedVideoId))} />}
         </FlexDiv>
     </>
     );

@@ -23,9 +23,9 @@ const useFetchVideos = () => {
     const credentials = useGetCredentials();
     const api = useApi(!!credentials);
   
-    const fetchVideos = useCallback(async (sorting: string, timeframe: string, page: number) => {
+    const fetchVideos = useCallback(async (sorting: string, timeframe: string, page: number, onlyUserVideos: boolean) => {
       try {
-        const response = (await api.get(`/videos?sorting=${sorting}&timeframe=${timeframe}&page=${page}`));
+        const response = (await api.get(`/videos?sorting=${sorting}&timeframe=${timeframe}&page=${page}&userContentOnly=${onlyUserVideos}`));
         const data: Video[] = response.data;
         return data;
       } catch (error) {
@@ -33,9 +33,9 @@ const useFetchVideos = () => {
       }
     }, [api]);
 
-    const fetchVideosAndSetState = useCallback(async (sorting: string, timeframe: string, page: number) => {
+    const fetchVideosAndSetState = useCallback(async (sorting: string, timeframe: string, page: number, onlyUserVideos: boolean) => {
       try {
-        const response = (await api.get(`/videos?sorting=${sorting}&timeframe=${timeframe}&page=${page}`));
+        const response = (await api.get(`/videos?sorting=${sorting}&timeframe=${timeframe}&page=${page}&userContentOnly=${onlyUserVideos}`));
         const data: Video[] = await response.data;
         setVideos(data);
       } catch (error) {

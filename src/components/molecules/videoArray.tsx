@@ -6,7 +6,11 @@ import FlexDiv from '../atoms/flexDiv';
 import { useVideosRequestState } from '../../hooks/useAppState';
 import CustomButton from '../atoms/button';
 
-const VideoArray: React.FC = () => {
+interface VideoArrayProps {
+  onlyUserVideos: boolean
+}
+
+const VideoArray: React.FC<VideoArrayProps> = ({onlyUserVideos}) => {
   const { videos, setVideos, fetchVideos } = useFetchVideos();
   const { videosRequestParams } = useVideosRequestState();
   const [page, setPage] = useState(1);
@@ -14,7 +18,7 @@ const VideoArray: React.FC = () => {
 
   const appendVideosToState = async () => {
     const newPage = page + 1;
-    let newVideos = await fetchVideos(videosRequestParams.sorting, videosRequestParams.timeframe, newPage) || [];
+    let newVideos = await fetchVideos(videosRequestParams.sorting, videosRequestParams.timeframe, newPage, onlyUserVideos) || [];
     newVideos = newVideos.filter((newVideo) => !videos.some((video) => video.id === newVideo.id));
     if (newVideos.length === 0) {
       setNextDisabled(true);

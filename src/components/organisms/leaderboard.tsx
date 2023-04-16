@@ -5,18 +5,23 @@ import FlexDiv from '../atoms/flexDiv';
 import StyledHeading from '../atoms/heading';
 import styled from 'styled-components';
 
-const Leaderboard: React.FC = () => {
+interface LeaderboardProps {
+  title: string,
+  onlyUserVideos: boolean,
+}
+
+const Leaderboard: React.FC<LeaderboardProps> = ({title, onlyUserVideos}) => {
     return (
         <FlexDiv flexDirection='column' justifyContent='center'>
             <HeaderContainer>
                 <HeadingContainer>
-                    <StyledHeading level='h1' marginBottom='0' text='Leaderboard' />
+                    <StyledHeading level='h1' marginBottom='0' text={title} />
                 </HeadingContainer>
                 <SortSelectorContainer>
-                    <SortSelector />
+                    <SortSelector onlyUserVideos={onlyUserVideos} />
                 </SortSelectorContainer>
             </HeaderContainer>
-            <VideoArray />
+            <VideoArray onlyUserVideos={onlyUserVideos} />
         </FlexDiv>
     );
 }

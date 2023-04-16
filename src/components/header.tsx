@@ -12,12 +12,12 @@ import { toast } from 'react-toastify';
 export const TabList = [
     { id: 1, name: 'Home' },
     { id: 2, name: 'Create Content' },
-    { id: 3, name: 'My Content' },
-    { id: 4, name: 'About' },
+    { id: 3, name: 'Your Content' },
+    // { id: 4, name: 'About' },
 ];
 
 const Header: React.FC = () => {
-    const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+    const isMobile = useMediaQuery({ query: '(max-width: 900px)' });
     const {tab, setTab} = useTabState();
     const credentials = useGetCredentials();
     const [open, setOpen] = useState(false);
@@ -55,15 +55,15 @@ const HeaderWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px;
+  padding: 8px 16px;
   background-color: #1a3b5c;
-  margin: -8px;
+  margin: 0 -8px;
 `;
 
 const AppName = styled.h1`
     color: white;
     font-size: 24px;
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 900px) {
         display: none;
     }
 `;

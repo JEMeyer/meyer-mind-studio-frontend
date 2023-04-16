@@ -14,7 +14,7 @@ import { useHasPendingImageCall, useLastGeneratedIamge } from '../../hooks/useGe
 
 const ImageGenerator: React.FC = () => {
     const [inputValue, setInputValue] = useState('');
-    const [ lastGeneratedImage, setLastGeneratedImage ] = useLastGeneratedIamge();
+    const [lastGeneratedImage, setLastGeneratedImage] = useLastGeneratedIamge();
     const [upscalePrompt, setUpscalePrompt] = useState(true);
     const { setTab } = useTabState();
     const api = useApi();
@@ -53,11 +53,11 @@ const ImageGenerator: React.FC = () => {
                 setLastGeneratedImage(event.target?.result as string);
                 setPendingRequest(false);
                 toast.success('Image generated! Navigate back to the Creation tab to view.',
-                {
-                    onClick: () => {
-                        setTab(2);
-                    },
-                });
+                    {
+                        onClick: () => {
+                            setTab(2);
+                        },
+                    });
             };
             reader.readAsDataURL(blob);
         } catch (error) {
@@ -73,7 +73,6 @@ const ImageGenerator: React.FC = () => {
         <StyledHeading level='h4' text='Unlike storyboards, images are not saved server-side. If you like an image, save it to your device.' />
         <StyledHeading level='h4' text='Prompt enhancement will pre-process your prompt through GPT to try and get more details.' />
         <FlexDiv flexDirection='column'>
-            <CentralImage src={lastGeneratedImage || placeholderImage1} />
             <FlexDiv justifyContent='flex-end' flexWrap='wrap'>
                 <CustomInput
                     value={inputValue}
@@ -86,9 +85,9 @@ const ImageGenerator: React.FC = () => {
                     <FlexDiv width='5px' />
                     <StyledToggle enabled={upscalePrompt} onChange={handleCheckboxChange} />
                 </FlexDiv>
-                <FlexDiv width='100%' />
                 <StyledButton onClick={handleButtonClick} disabled={pendingRequest}>Submit</StyledButton>
             </FlexDiv>
+            <CentralImage src={lastGeneratedImage || placeholderImage1} />
         </FlexDiv>
     </>
     );
