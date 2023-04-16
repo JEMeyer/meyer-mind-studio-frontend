@@ -15,7 +15,7 @@ import { useHasPendingImageCall, useLastGeneratedIamge } from '../../hooks/useGe
 const ImageGenerator: React.FC = () => {
     const [inputValue, setInputValue] = useState('');
     const [lastGeneratedImage, setLastGeneratedImage] = useLastGeneratedIamge();
-    const [upscalePrompt, setUpscalePrompt] = useState(true);
+    const [upscalePrompt, setUpscalePrompt] = useState(false);
     const { setTab } = useTabState();
     const api = useApi();
     const [pendingRequest, setPendingRequest] = useHasPendingImageCall()
