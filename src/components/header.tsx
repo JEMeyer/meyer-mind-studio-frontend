@@ -41,7 +41,7 @@ const Header: React.FC = () => {
     return (
         <HeaderWrapper>
             {isMobile && <Burger open={open} setOpen={setOpen} />}
-            <AppName>genAI Storyboards</AppName>
+            <AppName>AI Storyboards</AppName>
             {isMobile && <Menu open={open} setOpen={setOpen} activeTab={tab} isAuthed={isAuthed} onLinkClick={handleLinkClick}/>}
             {!isMobile && <NavigationTabs activeTab={tab} handleTabClick={handleButtonClick} isAuthed={isAuthed} />}
             <UserMenu />
