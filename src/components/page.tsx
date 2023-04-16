@@ -4,18 +4,31 @@ import styled from 'styled-components';
 import FlexDiv from './atoms/flexDiv';
 import { useTabState } from '../hooks/useAppState';
 import Home from './pages/home';
+import UserContent from './pages/userContent';
+import About from './pages/about';
 
 const Page: React.FC = () => {
     const {tab} = useTabState();
+    let component = <></>;
 
     switch (tab) {
         case 1:
-            return <Main><Home /></Main>
+            component = <Home />;
+            break;
         case 2:
-            return <Main><ContentCreation /></Main>
+            component = <ContentCreation />;
+            break;
+        case 3:
+            component = <UserContent />;
+            break;
+        case 4:
+            component = <About />;
+            break;
         default:
-            return <Main><></></Main>
+            component = <></>;
     }
+
+    return (<Main>{component}</Main>);
 }
 
 export default Page;

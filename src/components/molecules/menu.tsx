@@ -1,6 +1,7 @@
 import React, { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import { TabList } from '../header';
+import { toast } from 'react-toastify';
 
 interface MenuProps extends React.HTMLAttributes<HTMLButtonElement> {
     open: boolean,
@@ -11,33 +12,35 @@ interface MenuProps extends React.HTMLAttributes<HTMLButtonElement> {
 }
 
 const Menu: React.FC<MenuProps> = ({ open, activeTab, isAuthed, onLinkClick, ...props }) => {
-    const isHidden = open ? true : false;
+  const isHidden = open ? true : false;
 
-    return (
-        <StyledMenu open={open} aria-hidden={!isHidden} {...props}>
-            {TabList.map((({ id, name }) => {
-                return (isAuthed || id === 1) ? <StyledLink key={`tab-${id}`} isActive={id === activeTab} data-tab-id={id} onClick={onLinkClick}>
-                    {name}
-                </StyledLink> : null
-            }))}
-        </StyledMenu>
-    )
+  return (
+      <StyledMenu open={open} aria-hidden={!isHidden} {...props}>
+          {TabList.map((({ id, name }) => {
+              const isDisabled = !isAuthed && id !== 1 && id !== 4;
+              return <StyledLink key={`tab-${id}`} isActive={id === activeTab} isDisabled={isDisabled} data-tab-id={id} onClick={!isDisabled ? onLinkClick : () => toast.warn('Please login to use this tab.')}>
+                  {name}
+              </StyledLink>
+          }))}
+      </StyledMenu>
+  )
 }
 
 export default Menu;
 
 interface StyledLinkProps {
-    isActive: boolean,
+  isActive: boolean,
+  isDisabled?: boolean,
 }
 
 const StyledLink = styled.a<StyledLinkProps>`
-    background-color: ${({ isActive }) => (isActive ? 'rgb(210, 240, 230)' : 'rgb(239, 255, 250)')};
-    color: black;
-    cursor: pointer;
+  background-color: ${({ isActive, isDisabled }) => (isDisabled ? '#f0f0f0' : isActive ? 'rgb(210, 240, 230)' : 'rgb(239, 255, 250)')};
+  color: ${({ isDisabled }) => (isDisabled ? '#999' : 'black')};
+  cursor: ${({ isDisabled }) => (isDisabled ? 'not-allowed' : 'pointer')};
 
-    &:hover {
-        background-color: ${({ isActive }) => (isActive ? 'rgb(230, 245, 240)' : 'rgb(255, 245, 247)')};
-      }
+  &:hover {
+      background-color: ${({ isActive, isDisabled }) => (isDisabled ? '#f0f0f0' : isActive ? 'rgb(230, 245, 240)' : 'rgb(255, 245, 247)')};
+  }
 `
 
 interface StyledMenuProps {

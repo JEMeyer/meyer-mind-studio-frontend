@@ -7,11 +7,13 @@ import NavigationTabs from './molecules/navigationTabs';
 import { useMediaQuery } from 'react-responsive';
 import { useGetCredentials } from '../hooks/useCredentials';
 import { useTabState } from '../hooks/useAppState';
+import { toast } from 'react-toastify';
 
 export const TabList = [
     { id: 1, name: 'Home' },
     { id: 2, name: 'Create Content' },
-    // { id: 3, name: 'My Content' },
+    { id: 3, name: 'My Content' },
+    { id: 4, name: 'About' },
 ];
 
 const Header: React.FC = () => {
@@ -19,9 +21,14 @@ const Header: React.FC = () => {
     const {tab, setTab} = useTabState();
     const credentials = useGetCredentials();
     const [open, setOpen] = useState(false);
+    const isAuthed = !!credentials;
 
     const handleButtonClick = (tabId: number) => {
-        setTab(tabId);
+        if (tabId !== 1 && tabId !== 4 && !isAuthed) {
+            toast.warn('Please login to use this tab.')
+        } else {
+            setTab(tabId);
+        }
         setOpen(false);
     };
 
@@ -34,9 +41,9 @@ const Header: React.FC = () => {
     return (
         <HeaderWrapper>
             {isMobile && <Burger open={open} setOpen={setOpen} />}
-            <AppName>Meyer Mind Studio</AppName>
-            {isMobile && <Menu open={open} setOpen={setOpen} activeTab={tab} isAuthed={!!credentials} onLinkClick={handleLinkClick}/>}
-            {!isMobile && <NavigationTabs activeTab={tab} handleTabClick={handleButtonClick} isAuthed={!!credentials} />}
+            <AppName>genAI Storyboards</AppName>
+            {isMobile && <Menu open={open} setOpen={setOpen} activeTab={tab} isAuthed={isAuthed} onLinkClick={handleLinkClick}/>}
+            {!isMobile && <NavigationTabs activeTab={tab} handleTabClick={handleButtonClick} isAuthed={isAuthed} />}
             <UserMenu />
         </HeaderWrapper>
     );

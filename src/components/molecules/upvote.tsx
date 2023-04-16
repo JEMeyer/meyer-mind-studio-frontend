@@ -19,7 +19,7 @@ const Upvote: React.FC<UpvoteProps> = ({ video }) => {
 
     function checkAllowed() {
         if (!credentials) {
-            toast.error('Must be logged in to vote.');
+            toast.warn('Must be logged in to vote.');
         }
 
         return !!credentials;
