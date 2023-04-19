@@ -27,6 +27,10 @@ const StoryboardGenerator: React.FC = () => {
         setInputValue(event.target.value);
     };
 
+    const goHome = () => {
+        setTab(1);
+    }
+
     const handleButtonClick = async () => {
         if (!inputValue) {
             toast.error('Please enter a prompt.');
@@ -81,6 +85,7 @@ const StoryboardGenerator: React.FC = () => {
                     onKeyDown={(event) => executeOnEnter(event, handleButtonClick)}
                 />
                 <FlexDiv height='5px' width='100%' />
+                {pendingRequest && <StyledButton onClick={goHome}>Homepage</StyledButton>}
                 <StyledButton onClick={handleButtonClick} disabled={pendingRequest}>Submit</StyledButton>
             </FlexDiv>
             {lastGeneratedStoryboardUrl ? <DynamicVideo src={lastGeneratedStoryboardUrl} controls playsInline /> : <CentralImage src={placeholderImage2} />}
