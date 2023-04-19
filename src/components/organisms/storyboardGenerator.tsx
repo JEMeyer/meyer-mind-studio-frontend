@@ -71,7 +71,7 @@ const StoryboardGenerator: React.FC = () => {
 
     return (<>
         <StyledHeading text='Storyboard Generator' />
-        <StyledHeading level='h3' text='Provide a prompt. A video will be generated using the GenAI tools: GPT, Stable Diffusion, and Coqui.' />
+        <StyledHeading level='h3' text='Provide a prompt. A storyboard will be generated end-to-end with the AI products: GPT, Coqui, and Stable Diffusion.' />
         <StyledHeading level='h4' text='Generated videos are automatically shared to the leaderboard on the main page.' />
         <FlexDiv flexDirection='column'>
             <FlexDiv justifyContent='flex-end' flexWrap='wrap' width='100%'>
