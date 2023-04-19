@@ -37,7 +37,7 @@ const StoryboardGenerator: React.FC = () => {
         try {
             setPendingRequest(true);
             if (inputValue === defaultPrompt) {
-                await new Promise(resolve => setTimeout(resolve, 20000));
+                await new Promise(resolve => setTimeout(resolve, 5000));
                 setPendingRequest(false);
                 setLastSubmittedStoryboardPrompt(inputValue);
                 setLastGeneratedStoryboardUrl('https://storyboard.meyer.id/static/6a286899-7134-44cd-ae0f-a36455689298-Frogs Debate Anarcho-syndicalism.mp4');
