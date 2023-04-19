@@ -14,10 +14,11 @@ import StyledHeading from '../atoms/heading';
 import { useHasPendingVideoCall, useLastGeneratedVideoId, useLastGeneratedVideoURL, useLastSubmittedVideoPrompt } from '../../hooks/useGeneratedContent';
 
 const StoryboardGenerator: React.FC = () => {
-    const [lastGeneratedStoryboardUrl, setLastGeneratedStoryboardUrl ] = useLastGeneratedVideoURL();
-    const [lastSubmittedStoryboardPrompt, setLastSubmittedStoryboardPrompt ] = useLastSubmittedVideoPrompt();
-    const [lastGeneratedVideoId, setLastGeneratedVideoId ] = useLastGeneratedVideoId();
-    const [inputValue, setInputValue] = useState(lastSubmittedStoryboardPrompt || '');
+    const [lastGeneratedStoryboardUrl, setLastGeneratedStoryboardUrl] = useLastGeneratedVideoURL();
+    const [lastSubmittedStoryboardPrompt, setLastSubmittedStoryboardPrompt] = useLastSubmittedVideoPrompt();
+    const [lastGeneratedVideoId, setLastGeneratedVideoId] = useLastGeneratedVideoId();
+    const defaultPrompt = 'Two Frogs discuss the merits of Anarcho-syndicalism. One frog has the voice of an old british man, but the other frog has the voice of a young american girl.';
+    const [inputValue, setInputValue] = useState(lastSubmittedStoryboardPrompt || defaultPrompt);
     const { setTab } = useTabState();
     const api = useApi();
     const [pendingRequest, setPendingRequest] = useHasPendingVideoCall();
@@ -27,15 +28,32 @@ const StoryboardGenerator: React.FC = () => {
     };
 
     const handleButtonClick = async () => {
+        if (!inputValue) {
+            toast.error('Please enter a prompt.');
+            return;
+        }
+
         toast('Processing your storyboard. Feel free to browse, I will notify you when I\'m done.');
         try {
             setPendingRequest(true);
-            const response = await api.post('/promptToStoryboard', { prompt: inputValue }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
+            if (inputValue === defaultPrompt) {
+                await new Promise(resolve => setTimeout(resolve, 20000));
+                setPendingRequest(false);
+                setLastSubmittedStoryboardPrompt(inputValue);
+                setLastGeneratedStoryboardUrl('https://storyboard.meyer.id/static/6a286899-7134-44cd-ae0f-a36455689298-Frogs Debate Anarcho-syndicalism.mp4');
+                setLastGeneratedVideoId('237');
+                
+            } else {
+                const response = await api.post('/promptToStoryboard', { prompt: inputValue }, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                setPendingRequest(false);
+                setLastSubmittedStoryboardPrompt(inputValue);
+                setLastGeneratedStoryboardUrl(`${getVideoURLFromFilename(response.data.filePath)}`);
+                setLastGeneratedVideoId(response.data.videoId);
+            }
             // Update the toast to success
             toast.success('Storyboard generated! Navigate back to the Creation tab to view.',
                 {
@@ -43,10 +61,6 @@ const StoryboardGenerator: React.FC = () => {
                         setTab(2);
                     },
                 });
-            setPendingRequest(false);
-            setLastSubmittedStoryboardPrompt(inputValue);
-            setLastGeneratedStoryboardUrl(`${getVideoURLFromFilename(response.data.filePath)}`);
-            setLastGeneratedVideoId(response.data.videoId);
         } catch (error) {
             // Update the toast to error
             setPendingRequest(false);
