@@ -7,13 +7,15 @@ import ClipboardCopy from './clipboardCopy';
 interface ShareLinksProps {
     file: string;
     includeSocials?: boolean;
+    width?: string;
+    justifyContent?: string;
 }
-const ShareLinks: React.FC<ShareLinksProps> = ({ file, includeSocials = true }) => {
+const ShareLinks: React.FC<ShareLinksProps> = ({ file, includeSocials = true, width='100%', justifyContent='center' }) => {
     const iconProps = { size: 32, round: true };
     return (
-        <ShareLinksWrapper width='100%' justifyContent='flex-end'>
+        <ShareLinksWrapper width={width} justifyContent={justifyContent}>
             <FlexDiv alignItems='center'>
-                <ShareInstructions>{'Click the share icon to copy link:'}</ShareInstructions>
+                <ShareInstructions>{'Share:'}</ShareInstructions>
                 <ClipboardCopy text={file} />
                 {includeSocials && <>
                     <TwitterShareButton url={file}>
@@ -45,4 +47,5 @@ const ShareLinksWrapper = styled(FlexDiv)`
 
 const ShareInstructions = styled.span`
     margin-bottom: 4px;
+    font-weight: bold;
 `;

@@ -37,7 +37,7 @@ const SortSelector: React.FC<SortSelectorProps> = ({onlyUserVideos}) => {
         label: 'all time'
     }];
 
-    const updateVideosParamsState = (sorting?: string, timerange?: string, page?: number) => {
+    const updateVideosParamsState = (sorting?: string, timerange?: string) => {
         let tempState = {...videosRequestParams};
         if (sorting)  {
             tempState.sorting = sorting;
@@ -50,7 +50,7 @@ const SortSelector: React.FC<SortSelectorProps> = ({onlyUserVideos}) => {
 
     useEffect(() => {
         fetchVideosAndSetState(videosRequestParams.sorting, videosRequestParams.timeframe, 1, onlyUserVideos);
-    }, [fetchVideosAndSetState, videosRequestParams.timeframe, videosRequestParams.sorting]);
+    }, [fetchVideosAndSetState, videosRequestParams.timeframe, videosRequestParams.sorting, onlyUserVideos]);
     return (
         <SortSelectorWrapper>
             <StyledHeading level='h3' marginBottom='0' text="Sort:" />

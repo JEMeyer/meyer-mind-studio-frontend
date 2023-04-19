@@ -8,17 +8,19 @@ import { useMediaQuery } from 'react-responsive';
 import { useGetCredentials } from '../hooks/useCredentials';
 import { useTabState } from '../hooks/useAppState';
 import { toast } from 'react-toastify';
+import useSharedVideo from '../hooks/useSharedVideo';
 
 export const TabList = [
     { id: 1, name: 'Home' },
     { id: 2, name: 'Create Content' },
     { id: 3, name: 'Your Content' },
-    // { id: 4, name: 'About' },
+    { id: 4, name: 'About' },
 ];
 
 const Header: React.FC = () => {
     const isMobile = useMediaQuery({ query: '(max-width: 900px)' });
     const {tab, setTab} = useTabState();
+    const { setSharedVideo } = useSharedVideo()
     const credentials = useGetCredentials();
     const [open, setOpen] = useState(false);
     const isAuthed = !!credentials;
@@ -28,6 +30,7 @@ const Header: React.FC = () => {
             toast.warn('Please login to use this tab.')
         } else {
             setTab(tabId);
+            setSharedVideo(null);
         }
         setOpen(false);
     };

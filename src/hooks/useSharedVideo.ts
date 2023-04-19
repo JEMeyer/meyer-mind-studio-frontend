@@ -23,7 +23,7 @@ const useSharedVideo = () => {
       }
     }, [api, setSharedVideo]);
   
-    return { sharedVideo, fetchSharedVideo };
+    return { sharedVideo, fetchSharedVideo, setSharedVideo };
   };
 
 export default useSharedVideo;
