@@ -14,7 +14,8 @@ export const TabList = [
     { id: 1, name: 'Home' },
     { id: 2, name: 'Create Content' },
     { id: 3, name: 'Your Content' },
-    { id: 4, name: 'About' },
+    { id: 4, name: 'Liked Content'},
+    { id: 5, name: 'About' },
 ];
 
 const Header: React.FC = () => {
@@ -26,7 +27,7 @@ const Header: React.FC = () => {
     const isAuthed = !!credentials;
 
     const handleButtonClick = (tabId: number) => {
-        if (tabId !== 1 && tabId !== 4 && !isAuthed) {
+        if (tabId !== 1 && tabId !== 5 && !isAuthed) {
             toast.warn('Please login to use this tab.')
         } else {
             setTab(tabId);

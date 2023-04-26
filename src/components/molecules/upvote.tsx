@@ -61,7 +61,7 @@ const Upvote: React.FC<UpvoteProps> = ({ video }) => {
         }
     }
 
-    const voteCount = Number(video.total_votes)  + currentVote - Number(video.user_vote);
+    const voteCount = Number(video.total_votes || 0) + currentVote - Number(video.user_vote || 0);
 
     return (
         <FlexDiv justifyContent='flex-start'>

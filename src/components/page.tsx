@@ -6,6 +6,7 @@ import { useTabState } from '../hooks/useAppState';
 import Home from './pages/home';
 import UserContent from './pages/userContent';
 import About from './pages/about';
+import LikedContent from './pages/likedContent';
 
 const Page: React.FC = () => {
     const {tab} = useTabState();
@@ -22,6 +23,9 @@ const Page: React.FC = () => {
             component = <UserContent />;
             break;
         case 4:
+            component = <LikedContent />;
+            break;
+        case 5:
             component = <About />;
             break;
         default:

@@ -15,7 +15,7 @@ const NavigationTabs: React.FC<NavigationTabsProps> = ({ isAuthed, handleTabClic
                     key={tab.id}
                     onClick={() => handleTabClick(tab.id)}
                     isActive={tab.id === activeTab}
-                    isDisabled={tab.id !== 1 && tab.id !== 4 && !isAuthed}
+                    isDisabled={tab.id !== 1 && tab.id !== 5 && !isAuthed}
                 >
                     {tab.name}
                 </Tab>

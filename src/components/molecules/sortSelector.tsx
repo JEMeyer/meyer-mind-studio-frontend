@@ -1,19 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import StyledHeading from '../atoms/heading';
-import useFetchVideos from '../../hooks/useFetchVideos';
 import Dropdown from '../atoms/dropdown';
 import styled from 'styled-components';
 import FlexDiv from '../atoms/flexDiv';
 import ToggleGroup from '../atoms/toggleGroup';
-import { useVideosRequestState } from '../../hooks/useAppState';
+import { VideosRequestParams } from '../organisms/leaderboard';
 
 interface SortSelectorProps {
-    onlyUserVideos: boolean
+    requestParams: VideosRequestParams,
+    setRequestParams: Dispatch<SetStateAction<VideosRequestParams>>,
 }
 
-const SortSelector: React.FC<SortSelectorProps> = ({onlyUserVideos}) => {
-    const { fetchVideosAndSetState } = useFetchVideos();
-    const {videosRequestParams, setVideosRequestParams} = useVideosRequestState();
+const SortSelector: React.FC<SortSelectorProps> = ({requestParams, setRequestParams}) => {
 
     const sortingOptions = [{
         value: 'top',
@@ -38,30 +36,27 @@ const SortSelector: React.FC<SortSelectorProps> = ({onlyUserVideos}) => {
     }];
 
     const updateVideosParamsState = (sorting?: string, timerange?: string) => {
-        let tempState = {...videosRequestParams};
+        let tempState = {...requestParams};
         if (sorting)  {
             tempState.sorting = sorting;
         }
         if (timerange) {
             tempState.timeframe = timerange;
         }
-        setVideosRequestParams(tempState);
+        setRequestParams(tempState);
     }
 
-    useEffect(() => {
-        fetchVideosAndSetState(videosRequestParams.sorting, videosRequestParams.timeframe, 1, onlyUserVideos);
-    }, [fetchVideosAndSetState, videosRequestParams.timeframe, videosRequestParams.sorting, onlyUserVideos]);
     return (
         <SortSelectorWrapper>
             <StyledHeading level='h3' marginBottom='0' text="Sort:" />
             <FlexDiv width='3px' />
-            <ToggleGroup items={sortingOptions} selectedItem={videosRequestParams.sorting} onSelect={(value) => updateVideosParamsState(value)} />
-            {videosRequestParams.sorting === 'top' && (
+            <ToggleGroup items={sortingOptions} selectedItem={requestParams.sorting} onSelect={(value) => updateVideosParamsState(value)} />
+            {requestParams.sorting === 'top' && (
                 <>
                     <FlexDiv width='10px' />
                     <StyledHeading level='h3' marginBottom='0' text="Timespan:" />
                     <FlexDiv width='3px' />
-                    <Dropdown items={timeRangeOptions} selectedItem={videosRequestParams.timeframe} onSelect={(value) => updateVideosParamsState(undefined, value)} />
+                    <Dropdown items={timeRangeOptions} selectedItem={requestParams.timeframe} onSelect={(value) => updateVideosParamsState(undefined, value)} />
                 </>)}
         </SortSelectorWrapper>
     );

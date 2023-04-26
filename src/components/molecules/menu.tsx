@@ -17,7 +17,7 @@ const Menu: React.FC<MenuProps> = ({ open, activeTab, isAuthed, onLinkClick, ...
   return (
       <StyledMenu open={open} aria-hidden={!isHidden} {...props}>
           {TabList.map((({ id, name }) => {
-              const isDisabled = !isAuthed && id !== 1 && id !== 4;
+              const isDisabled = !isAuthed && id !== 1 && id !== 5;
               return <StyledLink key={`tab-${id}`} isActive={id === activeTab} isDisabled={isDisabled} data-tab-id={id} onClick={!isDisabled ? onLinkClick : () => toast.warn('Please login to use this tab.')}>
                   {name}
               </StyledLink>

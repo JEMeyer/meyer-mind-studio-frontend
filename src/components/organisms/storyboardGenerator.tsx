@@ -6,19 +6,16 @@ import StyledButton from '../atoms/button';
 import FlexDiv from '../atoms/flexDiv';
 import AutoExpandTextarea from '../atoms/textarea';
 import { placeholderImage2 } from '../../utils/globals';
-import ShareLinks from '../molecules/shareLinks';
-import { executeOnEnter, getShareURLFromVideoId, getVideoURLFromFilename } from '../../utils/helpers';
-import { DynamicVideo } from '../molecules/videoCard';
+import { executeOnEnter } from '../../utils/helpers';
+import VideoCard from '../molecules/videoCard';
 import { useTabState } from '../../hooks/useAppState';
 import StyledHeading from '../atoms/heading';
-import { useHasPendingVideoCall, useLastGeneratedVideoId, useLastGeneratedVideoURL, useLastSubmittedVideoPrompt } from '../../hooks/useGeneratedContent';
+import { useHasPendingVideoCall, useLastGeneratedVideo } from '../../hooks/useGeneratedContent';
 
 const StoryboardGenerator: React.FC = () => {
-    const [lastGeneratedStoryboardUrl, setLastGeneratedStoryboardUrl] = useLastGeneratedVideoURL();
-    const [lastSubmittedStoryboardPrompt, setLastSubmittedStoryboardPrompt] = useLastSubmittedVideoPrompt();
-    const [lastGeneratedVideoId, setLastGeneratedVideoId] = useLastGeneratedVideoId();
+    const [lastGeneratedVideo, setLastGeneratedVideo] = useLastGeneratedVideo();
     const defaultPrompt = 'Two Frogs discuss the merits of Anarcho-syndicalism. One frog has the voice of an old british man, but the other frog has the voice of a young american girl.';
-    const [inputValue, setInputValue] = useState(lastSubmittedStoryboardPrompt || defaultPrompt);
+    const [inputValue, setInputValue] = useState(lastGeneratedVideo?.prompt || defaultPrompt);
     const { setTab } = useTabState();
     const api = useApi();
     const [pendingRequest, setPendingRequest] = useHasPendingVideoCall();
@@ -42,10 +39,9 @@ const StoryboardGenerator: React.FC = () => {
             setPendingRequest(true);
             if (inputValue === defaultPrompt) {
                 await new Promise(resolve => setTimeout(resolve, 5000));
+                const video = (await api.get('/videos/237')).data;
                 setPendingRequest(false);
-                setLastSubmittedStoryboardPrompt(inputValue);
-                setLastGeneratedStoryboardUrl('https://storyboard.meyer.id/static/6a286899-7134-44cd-ae0f-a36455689298-Frogs Debate Anarcho-syndicalism.mp4');
-                setLastGeneratedVideoId('237');
+                setLastGeneratedVideo(video);
                 
             } else {
                 const response = await api.post('/promptToStoryboard', { prompt: inputValue }, {
@@ -54,9 +50,7 @@ const StoryboardGenerator: React.FC = () => {
                     },
                 });
                 setPendingRequest(false);
-                setLastSubmittedStoryboardPrompt(inputValue);
-                setLastGeneratedStoryboardUrl(`${getVideoURLFromFilename(response.data.filePath)}`);
-                setLastGeneratedVideoId(response.data.videoId);
+                setLastGeneratedVideo(response.data);
             }
             // Update the toast to success
             toast.success('Storyboard generated! Navigate back to the Creation tab to view.',
@@ -88,8 +82,7 @@ const StoryboardGenerator: React.FC = () => {
                 {pendingRequest && <StyledButton onClick={goHome}>Homepage</StyledButton>}
                 <StyledButton onClick={handleButtonClick} disabled={pendingRequest}>Submit</StyledButton>
             </FlexDiv>
-            {lastGeneratedStoryboardUrl ? <DynamicVideo src={lastGeneratedStoryboardUrl} controls playsInline /> : <CentralImage src={placeholderImage2} />}
-            {lastGeneratedVideoId && <ShareLinks file={encodeURI(getShareURLFromVideoId(lastGeneratedVideoId))} />}
+            {lastGeneratedVideo ? <VideoCard video={lastGeneratedVideo} /> : <CentralImage src={placeholderImage2} />}
         </FlexDiv>
     </>
     );

@@ -1,14 +1,11 @@
 import { createContext } from 'react';
+import { Video } from '../hooks/useFetchVideos';
 
 export interface GeneratedContentContextType {
     lastGeneratedImage: string | null;
     setLastGeneratedImage: (image: string | null) => void;
-    lastGeneratedVideoURL: string | null;
-    setLastGeneratedVideoURL: (id: string | null) => void;
-    lastGeneratedVideoId: string | null;
-    setLastGeneratedVideoId: (id: string | null) => void;
-    lastSubmittedVideoPrompt: string | null;
-    setLastSubmittedVideoPrompt: (prompt: string | null) => void;
+    lastGeneratedVideo: Video | null;
+    setLastGeneratedVideo: (video: Video | null) => void;
     hasPendingImageCall: boolean;
     setHasPendingImageCall: (pending: boolean) => void;
     hasPendingVideoCall: boolean;
@@ -18,12 +15,8 @@ export interface GeneratedContentContextType {
   const GeneratedConntentContext = createContext<GeneratedContentContextType>({
     lastGeneratedImage: null,
     setLastGeneratedImage: () => {},
-    lastGeneratedVideoURL: null,
-    setLastGeneratedVideoURL: () => {},
-    lastGeneratedVideoId: null,
-    setLastGeneratedVideoId: () => {},
-    lastSubmittedVideoPrompt: null,
-    setLastSubmittedVideoPrompt: () => {},
+    lastGeneratedVideo: null,
+    setLastGeneratedVideo: () => {},
     hasPendingImageCall: false,
     setHasPendingImageCall: () => {},
     hasPendingVideoCall: false,

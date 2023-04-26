@@ -1,24 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import styled from 'styled-components';
 import VideoCard from './videoCard';
 import useFetchVideos from '../../hooks/useFetchVideos';
 import FlexDiv from '../atoms/flexDiv';
-import { useVideosRequestState } from '../../hooks/useAppState';
 import CustomButton from '../atoms/button';
+import { VideosRequestParams } from '../organisms/leaderboard';
 
 interface VideoArrayProps {
-  onlyUserVideos: boolean
+  requestParams: VideosRequestParams,
 }
 
-const VideoArray: React.FC<VideoArrayProps> = ({onlyUserVideos}) => {
+const VideoArray: React.FC<VideoArrayProps> = ({requestParams}) => {
   const { videos, setVideos, fetchVideos } = useFetchVideos();
-  const { videosRequestParams } = useVideosRequestState();
   const [page, setPage] = useState(1);
-  const [nextDisabled, setNextDisabled] = useState(false);
+  let [nextDisabled, setNextDisabled] = useState(false);
 
   const appendVideosToState = async () => {
     const newPage = page + 1;
-    let newVideos = await fetchVideos(videosRequestParams.sorting, videosRequestParams.timeframe, newPage, onlyUserVideos) || [];
+    let newVideos = await fetchVideos(requestParams.sorting, requestParams.timeframe, newPage, requestParams.onlyUserVideos, requestParams.likedVideos) || [];
     newVideos = newVideos.filter((newVideo) => !videos.some((video) => video.id === newVideo.id));
     if (newVideos.length === 0) {
       setNextDisabled(true);
@@ -26,11 +25,6 @@ const VideoArray: React.FC<VideoArrayProps> = ({onlyUserVideos}) => {
     setVideos([...videos, ...newVideos]);
     setPage(newPage);
   };
-
-  // If someone else changes sorting or timeframe, reset to page 1
-  useEffect(() => {
-    setPage(1);
-  }, [videosRequestParams.sorting, videosRequestParams.timeframe])
 
   return (
     <>

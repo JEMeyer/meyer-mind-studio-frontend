@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import GeneratedContentContext from './generatedContentContext';
+import { Video } from '../hooks/useFetchVideos';
 
 interface GeneratedContentProviderProps {
   children: React.ReactNode;
@@ -7,23 +8,17 @@ interface GeneratedContentProviderProps {
 
 const GeneratedContentProvider: React.FC<GeneratedContentProviderProps> = ({ children }) => {
     const [lastGeneratedImage, setLastGeneratedImage] = useState<string | null>(null);
-    const [lastGeneratedVideoURL, setLastGeneratedVideoURL] = useState<string | null>(null);
-    const [lastGeneratedVideoId, setLastGeneratedVideoId] = useState<string | null>(null);
-    const [lastSubmittedVideoPrompt, setLastSubmittedVideoPrompt] = useState<string | null>(null);
+    const [lastGeneratedVideo, setLastGeneratedVideo] = useState<Video | null>(null);
     const [hasPendingImageCall, setHasPendingImageCall] = useState<boolean>(false);
     const [hasPendingVideoCall, setHasPendingVideoCall] = useState<boolean>(false);
   
     const contextValue = {
       lastGeneratedImage,
-      lastGeneratedVideoURL,
-      lastGeneratedVideoId,
-      lastSubmittedVideoPrompt,
+      lastGeneratedVideo,
       hasPendingImageCall,
       hasPendingVideoCall,
       setLastGeneratedImage,
-      setLastGeneratedVideoURL,
-      setLastGeneratedVideoId,
-      setLastSubmittedVideoPrompt,
+      setLastGeneratedVideo,
       setHasPendingImageCall,
       setHasPendingVideoCall,
     };
