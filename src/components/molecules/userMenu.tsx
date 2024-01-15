@@ -1,6 +1,6 @@
 import React from 'react';
 import { GoogleLogin, googleLogout } from '@react-oauth/google';
-import jwt_decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import StyledButton from '../atoms/button';
 import styled from 'styled-components';
 import { toast } from 'react-toastify';
@@ -18,7 +18,7 @@ interface Profile {
 
 const UserMenu: React.FC = () => {
     const [credentials, setCredentials] = useCredentials();
-    const profile = credentials ? jwt_decode(credentials) as Profile : null;
+    const profile = credentials ? jwtDecode(credentials) as Profile : null;
 
     return profile ?
         (<UserMenuWrapper>
