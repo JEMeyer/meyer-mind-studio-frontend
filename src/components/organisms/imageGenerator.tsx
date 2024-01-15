@@ -32,15 +32,18 @@ const ImageGenerator: React.FC = () => {
         toast('Processing your image. Feel free to browse, I will notify you when I\'m done.');
         try {
             setPendingRequest(true);
-            let finalPrompt = inputValue;
+            let prompt = inputValue;
+            let negPrompt = '';
             if (upscalePrompt) {
-                finalPrompt = (await api.post('promptToImagePrompt', { prompt: inputValue }, {
+                const response: { prompt: string; negPrompt: string } = (await api.post('promptToImagePrompt', { prompt: inputValue }, {
                     headers: {
                         'Content-Type': 'application/json',
                     }
                 })).data;
+                prompt = response.prompt;
+                negPrompt = response.negPrompt;
             }
-            const response = await api.post('/promptToImage', { prompt: finalPrompt }, {
+            const response = await api.post('/promptToImage', { prompt, negPrompt }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -69,7 +72,7 @@ const ImageGenerator: React.FC = () => {
 
     return (<>
         <StyledHeading text='Image Generator' />
-        <StyledHeading level='h3' text='Provide a prompt. Stable Diffusion will draw an image based on your prompt.' />
+        <StyledHeading level='h3' text='Provide a prompt. Stable Diffusion XL will draw an image based on your prompt.' />
         <StyledHeading level='h4' text='Unlike storyboards, images are not saved server-side. If you like an image, save it to your device.' />
         <StyledHeading level='h4' text='Prompt enhancement will pre-process your prompt through GPT to try and get more details.' />
         <FlexDiv flexDirection='column'>
