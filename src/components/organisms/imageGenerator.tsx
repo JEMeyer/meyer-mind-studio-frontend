@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import StyledButton from '../atoms/button';
 import CustomInput from '../atoms/input';
 import FlexDiv from '../atoms/flexDiv';
-import { placeholderImage1 } from '../../utils/globals';
+import { MAX_TIMEOUT, placeholderImage1 } from '../../utils/globals';
 import StyledToggle from '../atoms/toggle';
 import { executeOnEnter } from '../../utils/helpers';
 import StyledHeading from '../atoms/heading';
@@ -48,6 +48,7 @@ const ImageGenerator: React.FC = () => {
                     'Content-Type': 'application/json',
                 },
                 responseType: 'arraybuffer',
+                timeout: MAX_TIMEOUT
             });
 
             const blob = new Blob([response.data], { type: 'image/png' });

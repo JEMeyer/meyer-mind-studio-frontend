@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import StyledButton from '../atoms/button';
 import FlexDiv from '../atoms/flexDiv';
 import AutoExpandTextarea from '../atoms/textarea';
-import { placeholderImage2 } from '../../utils/globals';
+import { MAX_TIMEOUT, placeholderImage2 } from '../../utils/globals';
 import { executeOnEnter } from '../../utils/helpers';
 import VideoCard from '../molecules/videoCard';
 import { useTabState } from '../../hooks/useAppState';
@@ -42,12 +42,13 @@ const StoryboardGenerator: React.FC = () => {
                 const video = (await api.get('/videos/237')).data;
                 setPendingRequest(false);
                 setLastGeneratedVideo(video);
-                
+
             } else {
                 const response = await api.post('/promptToStoryboard', { prompt: inputValue }, {
                     headers: {
                         'Content-Type': 'application/json',
                     },
+                    timeout: MAX_TIMEOUT
                 });
                 setPendingRequest(false);
                 setLastGeneratedVideo(response.data);
