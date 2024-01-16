@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import FlexDiv from '../atoms/flexDiv';
 import { toast } from 'react-toastify';
 import { useApi } from '../../services/backend';
-import { ContentType, Video } from '../../hooks/useFetchVideos';
-import { Image } from '../../hooks/useFetchImages';
+import { ContentType, Video } from '../../hooks/useFetchContent';
+import { Image } from '../../hooks/useFetchContent';
 import { useGetCredentials } from '../../hooks/useCredentials';
 
 interface UpvoteProps {

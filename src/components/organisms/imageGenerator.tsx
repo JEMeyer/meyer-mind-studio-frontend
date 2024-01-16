@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useApi } from '../../services/backend';
-import styled from 'styled-components';
 import { toast } from 'react-toastify';
 import StyledButton from '../atoms/button';
 import CustomInput from '../atoms/input';
@@ -11,6 +10,7 @@ import { executeOnEnter } from '../../utils/helpers';
 import StyledHeading from '../atoms/heading';
 import { useTabState } from '../../hooks/useAppState';
 import { useHasPendingImageCall, useLastGeneratedIamge } from '../../hooks/useGeneratedContent';
+import ImageCard, { DynamicImage } from '../molecules/image/imageCard';
 
 const ImageGenerator: React.FC = () => {
     const [inputValue, setInputValue] = useState('');
@@ -86,21 +86,10 @@ const ImageGenerator: React.FC = () => {
                 </FlexDiv>
                 <StyledButton onClick={handleButtonClick} disabled={pendingRequest}>Submit</StyledButton>
             </FlexDiv>
-            <CentralImage src={lastGeneratedImage || placeholderImage1} />
+            {lastGeneratedImage ? <ImageCard image={lastGeneratedImage} /> : <DynamicImage src={placeholderImage1} />}
         </FlexDiv>
     </>
     );
 };
 
 export default ImageGenerator;
-
-const CentralImage = styled.img`
-    height: auto;
-    margin-bottom: 10px;
-    display: block;
-
-    // You can customize the responsive breakpoints here
-    @media (max-width: 640px) {
-        width: 100%;
-    }
-`;

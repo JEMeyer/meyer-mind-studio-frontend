@@ -4,7 +4,7 @@ import Dropdown from '../atoms/dropdown';
 import styled from 'styled-components';
 import FlexDiv from '../atoms/flexDiv';
 import ToggleGroup from '../atoms/toggleGroup';
-import { ItemsReqeustParams } from '../../hooks/useFetchVideos';
+import { ItemsReqeustParams, contentTypeToString, stringToContentType } from '../../hooks/useFetchContent';
 
 interface SortSelectorProps {
     requestParams: ItemsReqeustParams,
@@ -21,6 +21,17 @@ const SortSelector: React.FC<SortSelectorProps> = ({requestParams, setRequestPar
         label: 'New'
     }];
 
+    const contentOptions = [{
+        value: 'all',
+        label: 'All'
+    }, {
+        value: 'videos',
+        label: 'Videos'
+    }, {
+        value: 'images',
+        label: 'Images'
+    }];
+
     const timeRangeOptions = [{
         value: 'day',
         label: 'day'
@@ -35,7 +46,7 @@ const SortSelector: React.FC<SortSelectorProps> = ({requestParams, setRequestPar
         label: 'all time'
     }];
 
-    const updateVideosParamsState = (sorting?: string, timerange?: string) => {
+    const updateVideosParamsState = (sorting?: string, timerange?: string, contentType?: string) => {
         let tempState = {...requestParams};
         if (sorting)  {
             tempState.sorting = sorting;
@@ -43,11 +54,17 @@ const SortSelector: React.FC<SortSelectorProps> = ({requestParams, setRequestPar
         if (timerange) {
             tempState.timeframe = timerange;
         }
+        if (contentType !== undefined) {
+            tempState.contentType = stringToContentType(contentType) ?? null;
+        }
         setRequestParams(tempState);
     }
 
     return (
         <SortSelectorWrapper>
+            <StyledHeading level='h3' marginBottom='0' text='Filter:' />
+            <FlexDiv width='3px' />
+            <ToggleGroup items={contentOptions} selectedItem={contentTypeToString(requestParams.contentType)} onSelect={(value) => updateVideosParamsState(undefined, undefined, value)} />
             <StyledHeading level='h3' marginBottom='0' text="Sort:" />
             <FlexDiv width='3px' />
             <ToggleGroup items={sortingOptions} selectedItem={requestParams.sorting} onSelect={(value) => updateVideosParamsState(value)} />

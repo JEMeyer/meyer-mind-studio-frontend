@@ -1,32 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import VideoArray from '../molecules/video/videoArray';
+import VideoArray from '../molecules/contentArray';
 import SortSelector from '../molecules/sortSelector';
 import FlexDiv from '../atoms/flexDiv';
 import StyledHeading from '../atoms/heading';
 import styled from 'styled-components';
-import useFetchVideos, { ItemsReqeustParams } from '../../hooks/useFetchVideos';
-import useFetchImages from '../../hooks/useFetchImages';
+import useFetchContent, { ContentType, ItemsReqeustParams } from '../../hooks/useFetchContent';
 
 interface LeaderboardProps {
   title: string,
   userContentOnly: boolean,
   likedItems: boolean,
   allowSort: boolean,
+  contentType: ContentType | null
 }
 
-const Leaderboard: React.FC<LeaderboardProps> = ({ title, userContentOnly, likedItems}) => {
-  const { fetchVideosAndSetState } = useFetchVideos();
-  const { fetchImagesAndSetState } = useFetchImages();
+const Leaderboard: React.FC<LeaderboardProps> = ({ title, userContentOnly, likedItems, contentType}) => {
+  const { fetchContentAndSetState } = useFetchContent();
   const [requestParams, setRequestParams] = useState<ItemsReqeustParams>({
     sorting: 'top',
     timeframe: userContentOnly || likedItems ? 'all-time' : 'week',
     userContentOnly: userContentOnly,
-    likedItems: likedItems
+    likedItems: likedItems,
+    contentType: contentType
   });
 
   useEffect(() => {
-      fetchVideosAndSetState(requestParams.sorting, requestParams.timeframe, 1, userContentOnly, likedItems)
-  }, [fetchVideosAndSetState, requestParams.sorting, requestParams.timeframe, userContentOnly, likedItems])
+    fetchContentAndSetState(requestParams.sorting, requestParams.timeframe, 1, userContentOnly, likedItems, contentType)
+  }, [fetchContentAndSetState, requestParams.sorting, requestParams.timeframe, userContentOnly, likedItems, contentType])
 
   return (
     <FlexDiv flexDirection='column' justifyContent='center'>

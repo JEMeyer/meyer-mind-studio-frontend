@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { formatDate, getShareURLFromVideoId } from '../../../utils/helpers';
-import { Image } from '../../../hooks/useFetchImages';
+import { Image } from '../../../hooks/useFetchContent';
 import ShareLinks from '../shareLinks';
 
 interface ImageDetailsProps {

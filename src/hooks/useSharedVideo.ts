@@ -2,7 +2,7 @@ import { atom, useRecoilState } from 'recoil';
 import { useApi } from '../services/backend';
 import { useCallback } from 'react';
 import { useGetCredentials } from './useCredentials';
-import { Video } from './useFetchVideos';
+import { Video } from './useFetchContent';
 
 export const sharedVideoState = atom<Video | null>({
     key: 'sharedVideoState',
@@ -22,7 +22,7 @@ const useSharedVideo = () => {
         console.error('Error fetching 1 video: ', error);
       }
     }, [api, setSharedVideo]);
-  
+
     return { sharedVideo, fetchSharedVideo, setSharedVideo };
   };
 

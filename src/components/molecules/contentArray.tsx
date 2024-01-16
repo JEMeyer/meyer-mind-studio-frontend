@@ -1,36 +1,38 @@
 import React, {  useState } from 'react';
 import styled from 'styled-components';
-import VideoCard from './videoCard';
-import useFetchVideos, { ItemsReqeustParams } from '../../../hooks/useFetchVideos';
-import FlexDiv from '../../atoms/flexDiv';
-import CustomButton from '../../atoms/button';
+import VideoCard from './video/videoCard';
+import { ItemsReqeustParams, Video, isVideo, Image } from '../../hooks/useFetchContent';
+import FlexDiv from '../atoms/flexDiv';
+import CustomButton from '../atoms/button';
+import useFetchContent from '../../hooks/useFetchContent';
+import ImageCard from './image/imageCard';
 
-interface VideoArrayProps {
+interface ContentArrayProps {
   requestParams: ItemsReqeustParams,
 }
 
-const VideoArray: React.FC<VideoArrayProps> = ({requestParams}) => {
-  const { videos, setVideos, fetchVideos } = useFetchVideos();
+const ContentArray: React.FC<ContentArrayProps> = ({requestParams}) => {
+  const { content, setContent, fetchContent } = useFetchContent();
   const [page, setPage] = useState(1);
   let [nextDisabled, setNextDisabled] = useState(false);
 
   const appendVideosToState = async () => {
     const newPage = page + 1;
-    let newVideos = await fetchVideos(requestParams.sorting, requestParams.timeframe, newPage, requestParams.userContentOnly, requestParams.likedItems) || [];
-    newVideos = newVideos.filter((newVideo) => !videos.some((video) => video.id === newVideo.id));
-    if (newVideos.length === 0) {
+    let newContent = await fetchContent(requestParams.sorting, requestParams.timeframe, newPage, requestParams.userContentOnly, requestParams.likedItems, requestParams.contentType) || [];
+    newContent = newContent.filter((newContent) => !content.some((item) => item.id === newContent.id && isVideo(item) === isVideo(newContent)));
+    if (newContent.length === 0) {
       setNextDisabled(true);
     }
-    setVideos([...videos, ...newVideos]);
+    setContent([...content, ...newContent]);
     setPage(newPage);
   };
 
   return (
     <>
       <GridContainer>
-        {videos.map((item) => (
+        {content.map((item) => (
           <GridItem key={item.id}>
-            <VideoCard video={item} />
+            {isVideo(item) ? <VideoCard video={item as Video} /> : <ImageCard image={item as Image} />}
           </GridItem>
         ))}
         <FlexDiv width='100%' >
@@ -41,7 +43,7 @@ const VideoArray: React.FC<VideoArrayProps> = ({requestParams}) => {
   );
 };
 
-export default VideoArray;
+export default ContentArray;
 
 // Styled-components wrapper for the grid container
 const GridContainer = styled.div`

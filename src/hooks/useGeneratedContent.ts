@@ -1,9 +1,9 @@
 import { useContext } from 'react';
 import GeneratedContentContext, { GeneratedContentContextType } from '../context/generatedContentContext';
-import { Video } from './useFetchVideos';
+import { Video, Image } from './useFetchContent';
 
 // lastGeneratedImage
-export const useLastGeneratedIamge = (): [string | null, GeneratedContentContextType['setLastGeneratedImage']] => {
+export const useLastGeneratedIamge = (): [Image | null, GeneratedContentContextType['setLastGeneratedImage']] => {
     const context = useContext(GeneratedContentContext);
     return [context.lastGeneratedImage, context.setLastGeneratedImage]
 };

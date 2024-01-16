@@ -6,8 +6,8 @@ import FlexDiv from '../../atoms/flexDiv';
 import StyledHeading from '../../atoms/heading';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { ContentType } from '../../../hooks/useFetchVideos';
-import { Image } from '../../../hooks/useFetchImages';
+import { ContentType } from '../../../hooks/useFetchContent';
+import { Image } from '../../../hooks/useFetchContent';
 import { getImageURLFromPath } from '../../../utils/helpers';
 
 interface ImageCardProps {

@@ -6,7 +6,7 @@ import FlexDiv from '../../atoms/flexDiv';
 import StyledHeading from '../../atoms/heading';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { ContentType, Video } from '../../../hooks/useFetchVideos';
+import { ContentType, Video } from '../../../hooks/useFetchContent';
 import { getVideoURLFromPath } from '../../../utils/helpers';
 
 interface VideoCardProps {
