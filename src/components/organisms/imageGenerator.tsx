@@ -69,7 +69,6 @@ const ImageGenerator: React.FC = () => {
     return (<>
         <StyledHeading text='Image Generator' />
         <StyledHeading level='h3' text='Provide a prompt. Stable Diffusion XL will draw an image based on your prompt.' />
-        <StyledHeading level='h4' text='Unlike storyboards, images are not saved server-side. If you like an image, save it to your device.' />
         <StyledHeading level='h4' text='Prompt enhancement will pre-process your prompt through GPT to try and get more details.' />
         <FlexDiv flexDirection='column'>
             <FlexDiv justifyContent='flex-end' flexWrap='wrap'>

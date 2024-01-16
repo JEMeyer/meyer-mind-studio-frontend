@@ -16,7 +16,7 @@ const useSharedVideo = () => {
 
     const fetchSharedVideo = useCallback(async (sharedVideoId: string) => {
       try {
-        const video = (await api.get(`/videos/${sharedVideoId}`)).data as Video;
+        const video = (await api.get(`/video/${sharedVideoId}`)).data as Video;
         setSharedVideo(video);
       } catch (error) {
         console.error('Error fetching 1 video: ', error);

@@ -65,6 +65,7 @@ const SortSelector: React.FC<SortSelectorProps> = ({requestParams, setRequestPar
             <StyledHeading level='h3' marginBottom='0' text='Filter:' />
             <FlexDiv width='3px' />
             <ToggleGroup items={contentOptions} selectedItem={contentTypeToString(requestParams.contentType)} onSelect={(value) => updateVideosParamsState(undefined, undefined, value)} />
+            <FlexDiv width='3px' />
             <StyledHeading level='h3' marginBottom='0' text="Sort:" />
             <FlexDiv width='3px' />
             <ToggleGroup items={sortingOptions} selectedItem={requestParams.sorting} onSelect={(value) => updateVideosParamsState(value)} />

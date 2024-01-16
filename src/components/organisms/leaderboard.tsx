@@ -1,32 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import VideoArray from '../molecules/contentArray';
+import ContentArray from '../molecules/contentArray';
 import SortSelector from '../molecules/sortSelector';
 import FlexDiv from '../atoms/flexDiv';
 import StyledHeading from '../atoms/heading';
 import styled from 'styled-components';
-import useFetchContent, { ContentType, ItemsReqeustParams } from '../../hooks/useFetchContent';
+import useFetchContent, { ItemsReqeustParams } from '../../hooks/useFetchContent';
 
 interface LeaderboardProps {
   title: string,
   userContentOnly: boolean,
   likedItems: boolean,
-  allowSort: boolean,
-  contentType: ContentType | null
+  allowSort: boolean
 }
 
-const Leaderboard: React.FC<LeaderboardProps> = ({ title, userContentOnly, likedItems, contentType}) => {
+const Leaderboard: React.FC<LeaderboardProps> = ({ title, userContentOnly, likedItems}) => {
   const { fetchContentAndSetState } = useFetchContent();
   const [requestParams, setRequestParams] = useState<ItemsReqeustParams>({
     sorting: 'top',
     timeframe: userContentOnly || likedItems ? 'all-time' : 'week',
     userContentOnly: userContentOnly,
     likedItems: likedItems,
-    contentType: contentType
+    contentType: null
   });
 
   useEffect(() => {
-    fetchContentAndSetState(requestParams.sorting, requestParams.timeframe, 1, userContentOnly, likedItems, contentType)
-  }, [fetchContentAndSetState, requestParams.sorting, requestParams.timeframe, userContentOnly, likedItems, contentType])
+    fetchContentAndSetState(requestParams.sorting, requestParams.timeframe, 1, userContentOnly, likedItems, requestParams.contentType)
+  }, [fetchContentAndSetState, requestParams.sorting, requestParams.timeframe, userContentOnly, likedItems, requestParams.contentType])
 
   return (
     <FlexDiv flexDirection='column' justifyContent='center'>
@@ -40,7 +39,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ title, userContentOnly, liked
         </SortSelectorContainer>
         }
       </HeaderContainer>
-      <VideoArray requestParams={requestParams} />
+      <ContentArray requestParams={requestParams} />
     </FlexDiv>
   );
 }

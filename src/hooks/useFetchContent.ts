@@ -11,26 +11,35 @@ export enum ContentType {
 }
 
 export interface Image {
-  id: string;
-  public_path: string;
-  prompt: string;
-  total_votes: number | null;
   created_at: string;
+  id: string;
+  name?: string;
+  prompt: string;
+  public_path: string;
+  total_votes: number | null;
+  type: 'picture';
   user_vote: number | null;
 }
 
 export interface Video {
-    id: string;
-    name: string;
-    public_path: string;
-    prompt: string;
-    total_votes: number | null;
-    created_at: string;
-    user_vote: number | null;
+  created_at: string;
+  id: string;
+  name: string;
+  prompt: string;
+  public_path: string;
+  total_votes: number | null;
+  type: 'video';
+  user_vote: number | null;
+}
+
+export function getContentType(item: Item) {
+  switch (item.type) {
+    case 'picture':
+      return ContentType.PICTURE;
+    case 'video':
+      return ContentType.VIDEO;
   }
 
-export function isVideo(item: Item): item is Video {
-  return (item as Video).name !== undefined;
 }
 
 export function stringToContentType(input: string) {

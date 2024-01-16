@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Footer: React.FC = () => {
   const tools = [
-    { name: 'Coqui Studio', url: 'https://coqui.ai/' },
+    { name: 'Azure AI', url: 'https://azure.microsoft.com/en-us/products/ai-services/' },
     { name: 'GPT', url: 'https://openai.com/' },
     { name: 'Stability AI', url: 'https://stability.ai/' },
     // Add more tools here

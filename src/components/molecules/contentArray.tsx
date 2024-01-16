@@ -1,7 +1,7 @@
 import React, {  useState } from 'react';
 import styled from 'styled-components';
 import VideoCard from './video/videoCard';
-import { ItemsReqeustParams, Video, isVideo, Image } from '../../hooks/useFetchContent';
+import { ItemsReqeustParams, Video, Image, ContentType, getContentType } from '../../hooks/useFetchContent';
 import FlexDiv from '../atoms/flexDiv';
 import CustomButton from '../atoms/button';
 import useFetchContent from '../../hooks/useFetchContent';
@@ -19,7 +19,7 @@ const ContentArray: React.FC<ContentArrayProps> = ({requestParams}) => {
   const appendVideosToState = async () => {
     const newPage = page + 1;
     let newContent = await fetchContent(requestParams.sorting, requestParams.timeframe, newPage, requestParams.userContentOnly, requestParams.likedItems, requestParams.contentType) || [];
-    newContent = newContent.filter((newContent) => !content.some((item) => item.id === newContent.id && isVideo(item) === isVideo(newContent)));
+    newContent = newContent.filter((newContent) => !content.some((item) => item.id === newContent.id && getContentType(item) === getContentType(newContent)));
     if (newContent.length === 0) {
       setNextDisabled(true);
     }
@@ -32,7 +32,7 @@ const ContentArray: React.FC<ContentArrayProps> = ({requestParams}) => {
       <GridContainer>
         {content.map((item) => (
           <GridItem key={item.id}>
-            {isVideo(item) ? <VideoCard video={item as Video} /> : <ImageCard image={item as Image} />}
+            {getContentType(item) === ContentType.VIDEO ? <VideoCard video={item as Video} /> : <ImageCard image={item as Image} />}
           </GridItem>
         ))}
         <FlexDiv width='100%' >

@@ -28,7 +28,7 @@ const ImageCard = ({ image }: ImageCardProps) => {
         <Upvote item={image} contentType={ContentType.PICTURE} />
         <FlexDiv width='15px' />
         <ClickableArea onClick={toggleExpand} >
-          <StyledHeading level='h2' text="Generated Image" marginBottom='0' />
+          <StyledHeading level='h2' text={image.name ?? 'Generated Image'} marginBottom='0' />
           <FlexDiv flexGrow={1} justifyContent='flex-end' height='100%'>
             <StyledIcon
               icon={faChevronDown}

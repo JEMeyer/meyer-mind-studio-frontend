@@ -74,7 +74,7 @@ const StyledMenu = styled.nav<StyledMenuProps>`
     color: '#0D0C1D';
     text-decoration: none;
     transition: color 0.3s linear;
-    @media (max-width: mobile: '768px') {
+    @media (max-width: '768px') {
       font-size: 1.5rem;
       text-align: center;
     }
