@@ -8,7 +8,7 @@ const Home: React.FC = () => {
     return (
         <>
             <SharedVideo />
-            <Leaderboard onlyUserVideos={false} likedVideos={false} allowSort={true}  title='Leaderboard' />
+            <Leaderboard userContentOnly={false} likedItems={false} allowSort={true}  title='Leaderboard' />
         </>);
 }
 

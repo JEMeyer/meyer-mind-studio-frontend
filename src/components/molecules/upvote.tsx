@@ -4,18 +4,20 @@ import React, { useState } from 'react';
 import FlexDiv from '../atoms/flexDiv';
 import { toast } from 'react-toastify';
 import { useApi } from '../../services/backend';
-import { Video } from '../../hooks/useFetchVideos';
+import { ContentType, Video } from '../../hooks/useFetchVideos';
+import { Image } from '../../hooks/useFetchImages';
 import { useGetCredentials } from '../../hooks/useCredentials';
 
 interface UpvoteProps {
-    video: Video
+    item: Video | Image,
+    contentType: ContentType
 }
 
-const Upvote: React.FC<UpvoteProps> = ({ video }) => {
+const Upvote: React.FC<UpvoteProps> = ({ item, contentType }) => {
     const [updating, setUpdating] = useState(false);
     const api = useApi();
     const credentials = useGetCredentials();
-    const [currentVote, setCurrentVote] = useState(video.user_vote || 0);
+    const [currentVote, setCurrentVote] = useState(item.user_vote || 0);
 
     function checkAllowed() {
         if (!credentials) {
@@ -28,7 +30,7 @@ const Upvote: React.FC<UpvoteProps> = ({ video }) => {
     const handleVote = async (vote: number) => {
         try {
             setUpdating(true);
-            await api.put('/vote', { videoId: video.id, value: vote }, {
+            await api.put('/vote', { idValue: item.id, idType: contentType, value: vote }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -61,7 +63,7 @@ const Upvote: React.FC<UpvoteProps> = ({ video }) => {
         }
     }
 
-    const voteCount = Number(video.total_votes || 0) + currentVote - Number(video.user_vote || 0);
+    const voteCount = Number(item.total_votes || 0) + currentVote - Number(item.user_vote || 0);
 
     return (
         <FlexDiv justifyContent='flex-start'>

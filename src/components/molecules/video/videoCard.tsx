@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import VideoDetails from './videoDetails';
-import Upvote from './upvote';
-import FlexDiv from '../atoms/flexDiv';
-import StyledHeading from '../atoms/heading';
+import Upvote from '../upvote';
+import FlexDiv from '../../atoms/flexDiv';
+import StyledHeading from '../../atoms/heading';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { Video } from '../../hooks/useFetchVideos';
-import { getVideoURLFromFilename } from '../../utils/helpers';
+import { ContentType, Video } from '../../../hooks/useFetchVideos';
+import { getVideoURLFromPath } from '../../../utils/helpers';
 
 interface VideoCardProps {
   video: Video
@@ -22,9 +22,9 @@ const VideoCard = ({ video }: VideoCardProps) => {
 
   return (
     <VideoCardContainer>
-      <DynamicVideo src={`${getVideoURLFromFilename(video.public_path)}`} controls playsInline />
+      <DynamicVideo src={getVideoURLFromPath(video.public_path)} controls playsInline />
       <VideoMetadataContainer justifyContent='flex-start' alignItems='center'>
-        <Upvote video={video} />
+        <Upvote item={video} contentType={ContentType.VIDEO} />
         <FlexDiv width='15px' />
         <ClickableArea onClick={toggleExpand} >
           <StyledHeading level='h2' text={video.name} marginBottom='0' />

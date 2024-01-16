@@ -1,13 +1,12 @@
 import React, {  useState } from 'react';
 import styled from 'styled-components';
 import VideoCard from './videoCard';
-import useFetchVideos from '../../hooks/useFetchVideos';
-import FlexDiv from '../atoms/flexDiv';
-import CustomButton from '../atoms/button';
-import { VideosRequestParams } from '../organisms/leaderboard';
+import useFetchVideos, { ItemsReqeustParams } from '../../../hooks/useFetchVideos';
+import FlexDiv from '../../atoms/flexDiv';
+import CustomButton from '../../atoms/button';
 
 interface VideoArrayProps {
-  requestParams: VideosRequestParams,
+  requestParams: ItemsReqeustParams,
 }
 
 const VideoArray: React.FC<VideoArrayProps> = ({requestParams}) => {
@@ -17,7 +16,7 @@ const VideoArray: React.FC<VideoArrayProps> = ({requestParams}) => {
 
   const appendVideosToState = async () => {
     const newPage = page + 1;
-    let newVideos = await fetchVideos(requestParams.sorting, requestParams.timeframe, newPage, requestParams.onlyUserVideos, requestParams.likedVideos) || [];
+    let newVideos = await fetchVideos(requestParams.sorting, requestParams.timeframe, newPage, requestParams.userContentOnly, requestParams.likedItems) || [];
     newVideos = newVideos.filter((newVideo) => !videos.some((video) => video.id === newVideo.id));
     if (newVideos.length === 0) {
       setNextDisabled(true);

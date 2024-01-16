@@ -51,19 +51,14 @@ const ImageGenerator: React.FC = () => {
                 timeout: MAX_TIMEOUT
             });
 
-            const blob = new Blob([response.data], { type: 'image/png' });
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                setLastGeneratedImage(event.target?.result as string);
-                setPendingRequest(false);
-                toast.success('Image generated! Navigate back to the Creation tab to view.',
-                    {
-                        onClick: () => {
-                            setTab(2);
-                        },
-                    });
-            };
-            reader.readAsDataURL(blob);
+            setPendingRequest(false);
+            setLastGeneratedImage(response.data);
+            toast.success('Image generated! Navigate back to the Creation tab to view.',
+            {
+                onClick: () => {
+                    setTab(2);
+                },
+            });
         } catch (error) {
             setPendingRequest(false);
             toast.error('Error creating image! Please try again.');

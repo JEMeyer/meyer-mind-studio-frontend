@@ -3,7 +3,7 @@ export function executeOnEnter(event: React.KeyboardEvent<HTMLElement>, callback
       event.preventDefault();
       event.stopPropagation();
       callback()
-  } 
+  }
 }
 
 export const formatDate = (dateString:string) => {
@@ -20,6 +20,6 @@ export const formatDate = (dateString:string) => {
   });
 };
 
-export const getVideoURLFromFilename = (filename: string) =>  `${process.env.REACT_APP_MEYER_MIND_BACKEND_URL}${filename}#t=0.001`;
-
+export const getVideoURLFromPath = (path: string) =>  `${process.env.REACT_APP_MEYER_MIND_BACKEND_URL}${path}#t=0.001`;
+export const getImageURLFromPath = (path: string) =>  `${process.env.REACT_APP_MEYER_MIND_BACKEND_URL}${path}`;
 export const getShareURLFromVideoId = (videoId: string) => `${window.location.protocol}//${window.location.host}?videoId=${videoId}`

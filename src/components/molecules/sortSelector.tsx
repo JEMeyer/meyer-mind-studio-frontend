@@ -4,11 +4,11 @@ import Dropdown from '../atoms/dropdown';
 import styled from 'styled-components';
 import FlexDiv from '../atoms/flexDiv';
 import ToggleGroup from '../atoms/toggleGroup';
-import { VideosRequestParams } from '../organisms/leaderboard';
+import { ItemsReqeustParams } from '../../hooks/useFetchVideos';
 
 interface SortSelectorProps {
-    requestParams: VideosRequestParams,
-    setRequestParams: Dispatch<SetStateAction<VideosRequestParams>>,
+    requestParams: ItemsReqeustParams,
+    setRequestParams: Dispatch<SetStateAction<ItemsReqeustParams>>,
 }
 
 const SortSelector: React.FC<SortSelectorProps> = ({requestParams, setRequestParams}) => {

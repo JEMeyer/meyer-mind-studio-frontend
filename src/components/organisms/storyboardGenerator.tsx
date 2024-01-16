@@ -7,7 +7,7 @@ import FlexDiv from '../atoms/flexDiv';
 import AutoExpandTextarea from '../atoms/textarea';
 import { MAX_TIMEOUT, placeholderImage2 } from '../../utils/globals';
 import { executeOnEnter } from '../../utils/helpers';
-import VideoCard from '../molecules/videoCard';
+import VideoCard from '../molecules/video/videoCard';
 import { useTabState } from '../../hooks/useAppState';
 import StyledHeading from '../atoms/heading';
 import { useHasPendingVideoCall, useLastGeneratedVideo } from '../../hooks/useGeneratedContent';

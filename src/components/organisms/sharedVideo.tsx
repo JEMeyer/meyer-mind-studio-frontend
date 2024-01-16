@@ -1,7 +1,7 @@
 import React from 'react';
 import StyledHeading from '../atoms/heading';
 import useSharedVideo from '../../hooks/useSharedVideo';
-import VideoCard from '../molecules/videoCard';
+import VideoCard from '../molecules/video/videoCard';
 
 const SharedVideo: React.FC = () => {
     const {sharedVideo} = useSharedVideo();
