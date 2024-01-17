@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
   ItemsReqeustParams,
@@ -18,6 +18,12 @@ const ContentArray: React.FC<ContentArrayProps> = ({ requestParams }) => {
   const { content, setContent, fetchContent } = useFetchContent();
   const [page, setPage] = useState(1);
   let [nextDisabled, setNextDisabled] = useState(false);
+
+  useEffect(() => {
+    if (requestParams) {
+      setNextDisabled(false);
+    }
+  }, [requestParams, requestParams.sorting]);
 
   const appendVideosToState = async () => {
     const newPage = page + 1;
