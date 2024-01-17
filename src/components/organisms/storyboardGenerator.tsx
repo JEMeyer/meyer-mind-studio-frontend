@@ -7,10 +7,10 @@ import FlexDiv from '../atoms/flexDiv';
 import AutoExpandTextarea from '../atoms/textarea';
 import { MAX_TIMEOUT, placeholderImage2 } from '../../utils/globals';
 import { executeOnEnter } from '../../utils/helpers';
-import VideoCard from '../molecules/video/videoCard';
 import { useTabState } from '../../hooks/useAppState';
 import StyledHeading from '../atoms/heading';
 import { useHasPendingVideoCall, useLastGeneratedVideo } from '../../hooks/useGeneratedContent';
+import { ContentPlayerWithInfo } from '../molecules/content/contentPlayer';
 
 const StoryboardGenerator: React.FC = () => {
     const [lastGeneratedVideo, setLastGeneratedVideo] = useLastGeneratedVideo();
@@ -83,7 +83,7 @@ const StoryboardGenerator: React.FC = () => {
                 {pendingRequest && <StyledButton onClick={goHome}>Homepage</StyledButton>}
                 <StyledButton onClick={handleButtonClick} disabled={pendingRequest}>Submit</StyledButton>
             </FlexDiv>
-            {lastGeneratedVideo ? <VideoCard video={lastGeneratedVideo} /> : <CentralImage src={placeholderImage2} />}
+            {lastGeneratedVideo ? <ContentPlayerWithInfo overrideItem={lastGeneratedVideo} /> : <CentralImage src={placeholderImage2} />}
         </FlexDiv>
     </>
     );

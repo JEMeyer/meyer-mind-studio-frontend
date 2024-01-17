@@ -10,8 +10,7 @@ import { executeOnEnter } from '../../utils/helpers';
 import StyledHeading from '../atoms/heading';
 import { useTabState } from '../../hooks/useAppState';
 import { useHasPendingImageCall, useLastGeneratedImage } from '../../hooks/useGeneratedContent';
-import ImageCard from '../molecules/image/imageCard';
-import { DynamicImage } from '../molecules/content/contentModalContent';
+import { ContentPlayerWithInfo, DynamicImage } from '../molecules/content/contentPlayer';
 
 const ImageGenerator: React.FC = () => {
     const [inputValue, setInputValue] = useState('');
@@ -86,7 +85,7 @@ const ImageGenerator: React.FC = () => {
                 </FlexDiv>
                 <StyledButton onClick={handleButtonClick} disabled={pendingRequest}>Submit</StyledButton>
             </FlexDiv>
-            {lastGeneratedImage ? <ImageCard image={lastGeneratedImage} /> : <DynamicImage src={placeholderImage1} />}
+            {lastGeneratedImage ? <ContentPlayerWithInfo overrideItem={lastGeneratedImage} /> : <DynamicImage src={placeholderImage1} />}
         </FlexDiv>
     </>
     );
