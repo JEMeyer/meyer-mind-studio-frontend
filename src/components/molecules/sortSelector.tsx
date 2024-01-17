@@ -57,6 +57,10 @@ const SortSelector: React.FC<SortSelectorProps> = ({requestParams, setRequestPar
         if (contentType !== undefined) {
             tempState.contentType = stringToContentType(contentType) ?? null;
         }
+        if (tempState.sorting === 'new') {
+            tempState.timeframe = 'all-time';
+        }
+
         setRequestParams(tempState);
     }
 
