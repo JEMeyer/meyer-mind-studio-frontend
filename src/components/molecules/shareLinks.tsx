@@ -10,12 +10,12 @@ interface ShareLinksProps {
     width?: string;
     justifyContent?: string;
 }
-const ShareLinks: React.FC<ShareLinksProps> = ({ file, includeSocials = true, width='100%', justifyContent='center' }) => {
+const ShareLinks: React.FC<ShareLinksProps> = ({ file, includeSocials = true, width='100%', justifyContent='flex-start' }) => {
     const iconProps = { size: 32, round: true };
     return (
         <ShareLinksWrapper width={width} justifyContent={justifyContent}>
             <FlexDiv alignItems='center'>
-                <ShareInstructions>{'Share:'}</ShareInstructions>
+                <ShareInstructions>{'Share:'}&nbsp;</ShareInstructions>
                 <ClipboardCopy text={file} />
                 {includeSocials && <>
                     <TwitterShareButton url={file}>

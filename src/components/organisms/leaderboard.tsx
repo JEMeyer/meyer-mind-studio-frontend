@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import ContentArray from '../molecules/contentArray';
+import ContentArray from '../molecules/content/contentArray';
 import SortSelector from '../molecules/sortSelector';
 import FlexDiv from '../atoms/flexDiv';
 import StyledHeading from '../atoms/heading';
 import styled from 'styled-components';
 import useFetchContent, { ItemsReqeustParams } from '../../hooks/useFetchContent';
+import ContentModal from '../molecules/modal';
+import { ContentModalContent } from '../molecules/content/contentModalContent';
 
 interface LeaderboardProps {
   title: string,
@@ -40,6 +42,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ title, userContentOnly, liked
         }
       </HeaderContainer>
       <ContentArray requestParams={requestParams} />
+      <ContentModal><ContentModalContent /></ContentModal>
     </FlexDiv>
   );
 }
