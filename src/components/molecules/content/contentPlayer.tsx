@@ -18,6 +18,8 @@ const ContentPlayerWithInfo = ({ overrideItem }: ContentModalContentProps) => {
 
   const itemToUse = overrideItem ?? item;
 
+  if (!item) return <></>;
+
   const renderMedia = () => {
     if (itemToUse?.type === "picture") {
       return (
@@ -57,19 +59,14 @@ const ContentPlayerWithInfo = ({ overrideItem }: ContentModalContentProps) => {
 export { ContentPlayerWithInfo };
 
 export const StyledBox = styled(Box)`
-  max-width: 560px;
+  max-width: 600px;
 `;
 
 export const DynamicImage = styled.img`
   height: auto;
   margin-bottom: 10px;
   display: block;
-  max-height: 80vh;
-
-  // You can customize the responsive breakpoints here
-  @media (max-width: 640px) {
-    width: 100%;
-  }
+  width: 100%;
 
   &::-webkit-media-controls {
     display: none;
@@ -84,12 +81,7 @@ export const DynamicVideo = styled.video`
   height: auto;
   margin-bottom: 10px;
   display: block;
-  max-height: 80vh;
-
-  // You can customize the responsive breakpoints here
-  @media (max-width: 640px) {
-    width: 100%;
-  }
+  width: 100%;
 
   &::-webkit-media-controls {
     display: none;
