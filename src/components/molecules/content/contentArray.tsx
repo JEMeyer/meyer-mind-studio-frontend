@@ -2,17 +2,13 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import {
   ItemsReqeustParams,
-  ContentType,
   getContentType,
-  Video,
-  Image
 } from "../../../hooks/useFetchContent";
 import FlexDiv from "../../atoms/flexDiv";
 import CustomButton from "../../atoms/button";
 import useFetchContent from "../../../hooks/useFetchContent";
-import ImageDetails from "../image/imageDetails";
-import VideoDetails from "../video/videoDetails";
 import MediaCard from "../mediaCard";
+import ContentDetails from "./contentDetails";
 
 interface ContentArrayProps {
   requestParams: ItemsReqeustParams;
@@ -56,7 +52,7 @@ const ContentArray: React.FC<ContentArrayProps> = ({ requestParams }) => {
           <GridItem key={item.id + item.name}>
             <MediaCard
               item={item}
-              expandedContent={getContentType(item) === ContentType.PICTURE ? <ImageDetails image={item as Image} /> : <VideoDetails video={item as Video} />}
+              expandedContent={<ContentDetails item={item} />}
             />
           </GridItem>
         ))}

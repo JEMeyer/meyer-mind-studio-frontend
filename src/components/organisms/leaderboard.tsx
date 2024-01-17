@@ -6,7 +6,7 @@ import StyledHeading from '../atoms/heading';
 import styled from 'styled-components';
 import useFetchContent, { ItemsReqeustParams } from '../../hooks/useFetchContent';
 import ContentModal from '../molecules/modal';
-import { ContentModalContent } from '../molecules/content/contentModalContent';
+import { ContentPlayerWithInfo } from '../molecules/content/contentPlayer';
 
 interface LeaderboardProps {
   title: string,
@@ -42,7 +42,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ title, userContentOnly, liked
         }
       </HeaderContainer>
       <ContentArray requestParams={requestParams} />
-      <ContentModal><ContentModalContent /></ContentModal>
+      <ContentModal><ContentPlayerWithInfo/></ContentModal>
     </FlexDiv>
   );
 }
