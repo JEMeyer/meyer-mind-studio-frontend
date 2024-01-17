@@ -1,13 +1,13 @@
 import React from 'react';
 import Leaderboard from '../organisms/leaderboard';
-import SharedVideo from '../organisms/sharedVideo';
+import SharedContent from '../organisms/sharedContent';
 
 const Home: React.FC = () => {
 
 
     return (
         <>
-            <SharedVideo />
+            <SharedContent />
             <Leaderboard userContentOnly={false} likedItems={false} allowSort={true} title='Leaderboard' />
         </>);
 }

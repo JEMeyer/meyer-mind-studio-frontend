@@ -2,28 +2,28 @@ import { atom, useRecoilState } from 'recoil';
 import { useApi } from '../services/backend';
 import { useCallback } from 'react';
 import { useGetCredentials } from './useCredentials';
-import { Video } from './useFetchContent';
+import { Item } from './useFetchContent';
 
-export const sharedVideoState = atom<Video | null>({
-    key: 'sharedVideoState',
+export const sharedItemState = atom<Item | null>({
+    key: 'sharedItemState',
     default: null,
   });
 
-const useSharedVideo = () => {
-    const [sharedVideo, setSharedVideo] = useRecoilState(sharedVideoState);
+const useSharedContent = () => {
+    const [sharedItem, setSharedContent] = useRecoilState(sharedItemState);
     const credentials = useGetCredentials();
     const api = useApi(!!credentials);
 
-    const fetchSharedVideo = useCallback(async (sharedVideoId: string) => {
+    const fetchSharedContent = useCallback(async (sharedItemId: string, sharedItemType: string) => {
       try {
-        const video = (await api.get(`/video/${sharedVideoId}`)).data as Video;
-        setSharedVideo(video);
+        const item = (await api.get(`/${sharedItemType}/${sharedItemId}`)).data as Item;
+        setSharedContent(item);
       } catch (error) {
-        console.error('Error fetching 1 video: ', error);
+        console.error('Error fetching 1 item: ', error);
       }
-    }, [api, setSharedVideo]);
+    }, [api, setSharedContent]);
 
-    return { sharedVideo, fetchSharedVideo, setSharedVideo };
+    return { sharedItem, fetchSharedContent, setSharedContent };
   };
 
-export default useSharedVideo;
+export default useSharedContent;
