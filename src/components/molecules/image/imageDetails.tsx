@@ -12,7 +12,7 @@ const ImageDetails = ({ image }: ImageDetailsProps) => {
     <div>
       <MetadataContainer>
         <MetadataItem><BoldText>Prompt:</BoldText> {image.prompt}</MetadataItem>
-        <MetadataItem><ShareLinks file={encodeURI(getShareURLFromVideoId(image.id))} width='300px' justifyContent='flex-start' /> </MetadataItem>
+        <MetadataItem><ShareLinks file={encodeURI(getShareURLFromVideoId(image.id, 'picture'))} width='300px' justifyContent='flex-start' /> </MetadataItem>
         <MetadataItem><BoldText>Created On:</BoldText> {formatDate(image.created_at)}</MetadataItem>
       </MetadataContainer>
     </div>

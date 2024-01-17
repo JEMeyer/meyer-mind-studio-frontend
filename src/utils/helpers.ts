@@ -22,4 +22,4 @@ export const formatDate = (dateString:string) => {
 
 export const getVideoURLFromPath = (path: string) =>  `${process.env.REACT_APP_MEYER_MIND_BACKEND_URL}${path}#t=0.001`;
 export const getImageURLFromPath = (path: string) =>  `${process.env.REACT_APP_MEYER_MIND_BACKEND_URL}${path}`;
-export const getShareURLFromVideoId = (videoId: string) => `${window.location.protocol}//${window.location.host}?videoId=${videoId}`
+export const getShareURLFromVideoId = (itemId: string, itemType: string) => `${window.location.protocol}//${window.location.host}?itemId=${itemId}&itemType=${itemType}`

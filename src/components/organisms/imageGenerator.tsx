@@ -9,12 +9,13 @@ import StyledToggle from '../atoms/toggle';
 import { executeOnEnter } from '../../utils/helpers';
 import StyledHeading from '../atoms/heading';
 import { useTabState } from '../../hooks/useAppState';
-import { useHasPendingImageCall, useLastGeneratedIamge } from '../../hooks/useGeneratedContent';
-import ImageCard, { DynamicImage } from '../molecules/image/imageCard';
+import { useHasPendingImageCall, useLastGeneratedImage } from '../../hooks/useGeneratedContent';
+import ImageCard from '../molecules/image/imageCard';
+import { DynamicImage } from '../molecules/content/contentModalContent';
 
 const ImageGenerator: React.FC = () => {
     const [inputValue, setInputValue] = useState('');
-    const [lastGeneratedImage, setLastGeneratedImage] = useLastGeneratedIamge();
+    const [lastGeneratedImage, setLastGeneratedImage] = useLastGeneratedImage();
     const [upscalePrompt, setUpscalePrompt] = useState(false);
     const { setTab } = useTabState();
     const api = useApi();

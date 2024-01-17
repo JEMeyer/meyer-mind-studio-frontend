@@ -8,7 +8,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { ContentType } from '../../../hooks/useFetchContent';
 import { Image } from '../../../hooks/useFetchContent';
-import { getImageURLFromPath } from '../../../utils/helpers';
 
 interface ImageCardProps {
   image: Image
@@ -23,7 +22,6 @@ const ImageCard = ({ image }: ImageCardProps) => {
 
   return (
     <ImageCardContainer>
-      <DynamicImage src={getImageURLFromPath(image.public_path)} />
       <ImageMetadataContainer justifyContent='flex-start' alignItems='center'>
         <Upvote item={image} contentType={ContentType.PICTURE} />
         <FlexDiv width='15px' />
@@ -73,24 +71,7 @@ const ExpandableContent = styled.div`
   }
 `;
 
-export const DynamicImage = styled.img`
-  height: auto;
-  margin-bottom: 10px;
-  display: block;
 
-  // You can customize the responsive breakpoints here
-  @media (max-width: 640px) {
-    width: 100%;
-  }
-
-  &::-webkit-media-controls {
-    display: none;
-  }
-
-  &:hover::-webkit-media-controls {
-    display: inline-flex;
-  }
-`;
 
 const StyledIcon = styled(FontAwesomeIcon)`
   transition: transform 0.3s ease;

@@ -3,7 +3,7 @@ import GeneratedContentContext, { GeneratedContentContextType } from '../context
 import { Video, Image } from './useFetchContent';
 
 // lastGeneratedImage
-export const useLastGeneratedIamge = (): [Image | null, GeneratedContentContextType['setLastGeneratedImage']] => {
+export const useLastGeneratedImage = (): [Image | null, GeneratedContentContextType['setLastGeneratedImage']] => {
     const context = useContext(GeneratedContentContext);
     return [context.lastGeneratedImage, context.setLastGeneratedImage]
 };
