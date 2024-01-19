@@ -1,8 +1,9 @@
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import styled from "styled-components";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import FlexDiv from "./flexDiv";
+import { Menu, MenuItem } from "@mui/material";
 
 interface DropdownItem {
   value: string;
@@ -16,50 +17,47 @@ interface DropdownProps {
 }
 
 const Dropdown: React.FC<DropdownProps> = ({ items, selectedItem, onSelect }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [shouldCloseOnMouseLeave, setShouldCloseOnMouseLeave] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const selectedItemLabel = items.find(item => item.value === selectedItem)?.label;
 
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleSelect = (value: string) => {
     onSelect(value);
-    setIsOpen(false);
+    handleClose();
   };
-
-  const toggle = () => {
-    setIsOpen(!isOpen);
-    setShouldCloseOnMouseLeave(!isOpen);
-  };
-
-  const handleMouseLeave = () => {
-    if (shouldCloseOnMouseLeave) {
-      setIsOpen(false);
-    }
-  };
-
-  const selectedItemLabel = items.find((item) => item.value === selectedItem)?.label;
 
   return (
-    <DropdownWrapper onMouseLeave={handleMouseLeave}>
-      <DropdownContainer>
-        <DropdownButton onClick={toggle} >
-          {selectedItemLabel}
-          <FlexDiv width='5px' />
+    <DropdownWrapper>
+      <DropdownButton onClick={handleClick}>
+        {selectedItemLabel}
+        <FlexDiv width="5px" />
           <StyledIcon
             icon={faChevronDown}
             style={{
-              transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+              transform: Boolean(anchorEl) ? 'rotate(180deg)' : 'rotate(0deg)',
             }}
-          /></DropdownButton>
-        {isOpen && (
-          <DropdownContent>
-            {items.map((item) => (
-              <button key={item.value} onClick={() => handleSelect(item.value)}>
-                {item.label}
-              </button>
-            ))}
-          </DropdownContent>
-        )}
-      </DropdownContainer>
+          />
+      </DropdownButton>
+      <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        {items.map((item) => (
+          <MenuItem key={item.value} onClick={() => handleSelect(item.value)}>
+            {item.label}
+          </MenuItem>
+        ))}
+      </Menu>
     </DropdownWrapper>
   );
 };
@@ -67,56 +65,24 @@ const Dropdown: React.FC<DropdownProps> = ({ items, selectedItem, onSelect }) =>
 export default Dropdown;
 
 const DropdownWrapper = styled.div`
-  position: relative;
   display: inline-block;
 `;
 
 const DropdownButton = styled.button`
   background-color: white;
-  border
   color: black;
   padding: 5px 10px;
   font-size: 16px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.2s;
   border: 1px solid #ccc;
   border-radius: 5px;
   display: flex;
-  flex-wrap: nowrap;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-  }
-`;
-
-const DropdownContent = styled.div`
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 80px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  & button {
-    color: black;
-    background-color: transparent;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-  }
-  & button:hover {
-    background-color: #f1f1f1;
-  }
-`;
-
-
-const DropdownContainer = styled.div`
-  &:hover ${DropdownContent} {
-    display: block;
+    background-color: #f8f8f8;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
   }
 `;
 

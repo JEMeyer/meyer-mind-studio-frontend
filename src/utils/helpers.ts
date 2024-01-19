@@ -6,7 +6,9 @@ export function executeOnEnter(event: React.KeyboardEvent<HTMLElement>, callback
   }
 }
 
-export const formatDate = (dateString:string) => {
+export const formatDate = (dateString?:string) => {
+  if (!dateString) return '?';
+
   const date = new Date(dateString);
   return date.toLocaleString('en-US', {
     weekday: 'long',

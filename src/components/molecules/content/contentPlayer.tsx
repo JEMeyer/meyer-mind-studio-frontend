@@ -4,8 +4,9 @@ import { styled } from "styled-components";
 import { useMediaState } from "../../../hooks/useMediaState";
 import ShareLinks from "../shareLinks";
 import {
+  formatDate,
   getShareURLFromVideoId,
-  getVideoURLFromPath,
+  getImageURLFromPath,
 } from "../../../utils/helpers";
 import { Item } from "../../../hooks/useFetchContent";
 
@@ -24,15 +25,16 @@ const ContentPlayerWithInfo = ({ overrideItem }: ContentModalContentProps) => {
     if (itemToUse?.type === "picture") {
       return (
         <DynamicImage
-          src={getVideoURLFromPath(itemToUse.public_path)}
+          src={getImageURLFromPath(itemToUse.public_path)}
           alt={itemToUse.prompt}
         />
       );
     } else if (itemToUse?.type === "video") {
       return (
         <DynamicVideo
-          src={getVideoURLFromPath(itemToUse.public_path)}
+          src={getImageURLFromPath(itemToUse.public_path)}
           controls
+          autoPlay
         />
       );
     }
@@ -46,7 +48,7 @@ const ContentPlayerWithInfo = ({ overrideItem }: ContentModalContentProps) => {
         {itemToUse?.prompt}
       </Typography>
       <Typography variant="subtitle1" gutterBottom>
-        Created on: {itemToUse?.created_at}
+        Created on: {formatDate(itemToUse?.created_at)}
       </Typography>
       <ShareLinks
         file={encodeURI(
