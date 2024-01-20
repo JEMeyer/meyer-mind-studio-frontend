@@ -19,7 +19,7 @@ const ContentPlayerWithInfo = ({ overrideItem }: ContentModalContentProps) => {
 
   const itemToUse = overrideItem ?? item;
 
-  if (!item) return <></>;
+  if (!itemToUse) return <></>;
 
   const renderMedia = () => {
     if (itemToUse?.type === "picture") {

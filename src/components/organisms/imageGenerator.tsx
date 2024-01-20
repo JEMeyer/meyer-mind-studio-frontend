@@ -34,16 +34,18 @@ const ImageGenerator: React.FC = () => {
             setPendingRequest(true);
             let prompt = inputValue;
             let negPrompt = '';
+            let name = prompt.substring(0, 16);
             if (upscalePrompt) {
-                const response: { prompt: string; negPrompt: string } = (await api.post('promptToImagePrompt', { prompt: inputValue }, {
+                const response: { prompt: string; negPrompt: string, name: string } = (await api.post('promptToImagePrompt', { prompt: inputValue }, {
                     headers: {
                         'Content-Type': 'application/json',
                     }
                 })).data;
                 prompt = response.prompt;
                 negPrompt = response.negPrompt;
+                name = response.name;
             }
-            const response = await api.post('/promptToImage', { prompt, negPrompt }, {
+            const response = await api.post('/promptToImage', { prompt, negPrompt, name }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
