@@ -16,6 +16,7 @@ import CredentialsProvider from "./context/credentialsProviter";
 import { BrowserRouter } from "react-router-dom";
 import GeneratedContentProvider from "./context/generatedContentProvider";
 import MediaProvider from "./context/mediaProvider";
+import { AuthProvider } from "./context/authProvider";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -28,9 +29,7 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 root.render(
-  <GoogleOAuthProvider
-    clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID as string}
-  >
+  <AuthProvider>
     <React.StrictMode>
       <RecoilRoot>
         <CredentialsProvider>
@@ -45,7 +44,7 @@ root.render(
         </CredentialsProvider>
       </RecoilRoot>
     </React.StrictMode>
-  </GoogleOAuthProvider>
+  </AuthProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

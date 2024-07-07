@@ -1,13 +1,13 @@
-import { atom, useRecoilState } from 'recoil';
-import { useApi } from '../services/backend';
-import { useCallback } from 'react';
-import { useGetCredentials } from './useCredentials';
+import { atom, useRecoilState } from "recoil";
+import { useApi } from "../services/backend";
+import { useCallback } from "react";
+import { useGetCredentials } from "./useAuth";
 
 export type Item = Video | Image;
 
 export enum ContentType {
   VIDEO = 1,
-  PICTURE = 2
+  PICTURE = 2,
 }
 
 export interface Image {
@@ -17,7 +17,7 @@ export interface Image {
   prompt: string;
   public_path: string;
   total_votes: number | null;
-  type: 'picture';
+  type: "picture";
   user_vote: number | null;
 }
 
@@ -28,27 +28,26 @@ export interface Video {
   prompt: string;
   public_path: string;
   total_votes: number | null;
-  type: 'video';
+  type: "video";
   user_vote: number | null;
 }
 
 export function getContentType(item: Item) {
   switch (item.type) {
-    case 'picture':
+    case "picture":
       return ContentType.PICTURE;
-    case 'video':
+    case "video":
       return ContentType.VIDEO;
   }
-
 }
 
 export function stringToContentType(input: string) {
   switch (input) {
-    case 'all':
+    case "all":
       return null;
-    case 'videos':
+    case "videos":
       return ContentType.VIDEO;
-    case 'images':
+    case "images":
       return ContentType.PICTURE;
   }
 }
@@ -56,53 +55,77 @@ export function stringToContentType(input: string) {
 export function contentTypeToString(input: ContentType | null) {
   switch (input) {
     case ContentType.PICTURE:
-      return 'images';
+      return "images";
     case ContentType.VIDEO:
-      return 'videos';
+      return "videos";
     case null:
-      return 'all';
+      return "all";
   }
 }
 
 export interface ItemsReqeustParams {
-  sorting: string,
-  timeframe: string,
-  userContentOnly: boolean,
-  likedItems: boolean,
-  contentType: ContentType | null
+  sorting: string;
+  timeframe: string;
+  userContentOnly: boolean;
+  likedItems: boolean;
+  contentType: ContentType | null;
 }
 
 const contentListState = atom<Item[]>({
-  key: 'contentListState',
+  key: "contentListState",
   default: [],
 });
 
 const useFetchContent = () => {
-    const [content, setContent] = useRecoilState(contentListState);
-    const credentials = useGetCredentials();
-    const api = useApi(!!credentials);
+  const [content, setContent] = useRecoilState(contentListState);
+  const credentials = useGetCredentials();
+  const api = useApi(!!credentials);
 
-    const fetchContent = useCallback(async (sorting: string, timeframe: string, page: number, onlyUserContent: boolean, likedIteme: boolean, contentType: ContentType | null) => {
+  const fetchContent = useCallback(
+    async (
+      sorting: string,
+      timeframe: string,
+      page: number,
+      onlyUserContent: boolean,
+      likedIteme: boolean,
+      contentType: ContentType | null
+    ) => {
       try {
-        const response = (await api.get(`/content?sorting=${sorting}&timeframe=${timeframe}&page=${page}&userContentOnly=${onlyUserContent}&likedItems=${likedIteme}&contentType=${contentType}`));
+        const response = await api.get(
+          `/content?sorting=${sorting}&timeframe=${timeframe}&page=${page}&userContentOnly=${onlyUserContent}&likedItems=${likedIteme}&contentType=${contentType}`
+        );
         const data: Item[] = response.data;
         return data;
       } catch (error) {
-        console.error('Error fetching images:', error);
+        console.error("Error fetching images:", error);
       }
-    }, [api]);
+    },
+    [api]
+  );
 
-    const fetchContentAndSetState = useCallback(async (sorting: string, timeframe: string, page: number, onlyUserContent: boolean, likedIteme: boolean, contentType: ContentType | null) => {
+  const fetchContentAndSetState = useCallback(
+    async (
+      sorting: string,
+      timeframe: string,
+      page: number,
+      onlyUserContent: boolean,
+      likedIteme: boolean,
+      contentType: ContentType | null
+    ) => {
       try {
-        const response = (await api.get(`/content?sorting=${sorting}&timeframe=${timeframe}&page=${page}&userContentOnly=${onlyUserContent}&likedItems=${likedIteme}&contentType=${contentType}`));
+        const response = await api.get(
+          `/content?sorting=${sorting}&timeframe=${timeframe}&page=${page}&userContentOnly=${onlyUserContent}&likedItems=${likedIteme}&contentType=${contentType}`
+        );
         const data: Item[] = await response.data;
         setContent(data);
       } catch (error) {
-        console.error('Error fetching images:', error);
+        console.error("Error fetching images:", error);
       }
-    }, [api, setContent]);
+    },
+    [api, setContent]
+  );
 
-    return { content, setContent, fetchContent, fetchContentAndSetState };
-  };
+  return { content, setContent, fetchContent, fetchContentAndSetState };
+};
 
 export default useFetchContent;

@@ -1,15 +1,15 @@
-import axios from 'axios';
-import { useMemo } from 'react';
-import { googleLogout } from '@react-oauth/google';
-import { useCredentials } from '../hooks/useCredentials';
-import { useTabState } from '../hooks/useAppState';
+import axios from "axios";
+import { useMemo } from "react";
+import { googleLogout } from "@react-oauth/google";
+import { useCredentials } from "../hooks/useAuth";
+import { useTabState } from "../hooks/useAppState";
 
 export const useApi = (withAuth = true) => {
   const [credentials, setCredentials] = useCredentials();
   const { setTab } = useTabState();
 
   const instance = useMemo(() => {
-    const authHeaders = { Authorization: `Bearer ${credentials}` }
+    const authHeaders = { Authorization: `Bearer ${credentials}` };
     const axiosInstance = axios.create({
       baseURL: process.env.REACT_APP_MEYER_MIND_BACKEND_URL,
       headers: withAuth ? authHeaders : {},

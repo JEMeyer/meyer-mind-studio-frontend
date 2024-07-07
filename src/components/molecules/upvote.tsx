@@ -5,7 +5,7 @@ import FlexDiv from "../atoms/flexDiv";
 import { toast } from "react-toastify";
 import { useApi } from "../../services/backend";
 import { ContentType, Item } from "../../hooks/useFetchContent";
-import { useGetCredentials } from "../../hooks/useCredentials";
+import { useGetCredentials } from "../../hooks/useAuth";
 import { css, keyframes, styled } from "styled-components";
 
 interface UpvoteProps {
@@ -103,7 +103,7 @@ const clickAnimation = keyframes`
   100% { transform: scale(1); }
 `;
 
-const UpvoteIcon = styled(FontAwesomeIcon)<{clicked: boolean}>`
+const UpvoteIcon = styled(FontAwesomeIcon)<{ clicked: boolean }>`
   cursor: pointer;
   transition: color 0.2s, transform 0.2s;
 
@@ -111,15 +111,19 @@ const UpvoteIcon = styled(FontAwesomeIcon)<{clicked: boolean}>`
     transform: scale(1.1);
   }
 
-  ${props => props.clicked && css`
-    animation: ${clickAnimation} 0.5s;
-  `}
+  ${(props) =>
+    props.clicked &&
+    css`
+      animation: ${clickAnimation} 0.5s;
+    `}
 `;
 
-const VoteCount = styled.span<{changed: boolean}>`
+const VoteCount = styled.span<{ changed: boolean }>`
   transition: transform 0.2s;
 
-  ${props => props.changed && css`
-    transform: scale(1.2);
-  `}
+  ${(props) =>
+    props.changed &&
+    css`
+      transform: scale(1.2);
+    `}
 `;

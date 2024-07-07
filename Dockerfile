@@ -1,29 +1,38 @@
-# Use an official Node.js runtime as a parent image
-FROM node:bullseye as builder
+# Use a minimal Node.js base image
+FROM node:bullseye AS base
 
-# Set the working directory to /app
+# Enable pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# Builder stage
+FROM base AS builder
+
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the container
-COPY package*.json ./
+# Copy package.json and pnpm-lock.yaml
+COPY package.json pnpm-lock.yaml ./
 
 # Install dependencies
-RUN npm install
+RUN pnpm install --frozen-lockfile
 
-# Copy the entire project to the container
+# Copy the rest of the project files
 COPY . .
 
-# Build the production-ready React app
-RUN npm run build
+# Build the React app
+RUN pnpm run build
 
-# Use nginx as a parent image
-FROM nginx:stable-alpine
+# Final runtime image
+FROM nginx:alpine
 
-# Copy the build output from the previous stage to the nginx image
-COPY --from=builder /app/build /usr/share/nginx/html
+# Copy the built files from the builder image
+COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Copy nginx config to the container
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose port 80
 EXPOSE 80
+
+# Set the entrypoint
+ENTRYPOINT ["nginx -g 'daemon off;'"]
